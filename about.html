@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>О проекте — Inner Horizons</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: radial-gradient(ellipse at 50% 0%, #151e2d, #0a0e14);
+            min-height: 100vh;
+            font-family: 'Georgia', serif;
+            color: #ece3d7;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(2px);
+            border-radius: 56px;
+            padding: 40px 45px 30px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .logo {
+            font-size: 26px;
+            font-weight: 400;
+            color: #f5d7b3;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo span { color: #8f847a; font-weight: 300; }
+        .logo .icon { font-size: 28px; opacity: 0.7; }
+        .nav {
+            display: flex;
+            gap: 28px;
+            flex-wrap: wrap;
+        }
+        .nav a {
+            color: #b3a89c;
+            text-decoration: none;
+            font-size: 15px;
+            transition: 0.25s ease;
+            border-bottom: 1px solid transparent;
+            padding-bottom: 4px;
+        }
+        .nav a:hover, .nav a.active { color: #f5d7b3; border-bottom-color: #f5d7b3; }
+        .content {
+            padding: 40px 10px 30px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .content h1 {
+            font-size: 38px;
+            font-weight: 400;
+            color: #f5d7b3;
+            margin-bottom: 20px;
+        }
+        .content p {
+            font-size: 18px;
+            color: #cdc3b7;
+            line-height: 1.9;
+            margin-bottom: 16px;
+        }
+        .content h2 {
+            font-size: 24px;
+            font-weight: 400;
+            color: #f5d7b3;
+            margin: 30px 0 12px;
+        }
+        .footer {
+            margin-top: 40px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            font-size: 14px;
+            color: #6a6258;
+        }
+        .footer a { color: #b3a89c; text-decoration: none; transition: 0.25s ease; }
+        .footer a:hover { color: #f5d7b3; }
+        .btn-back {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 36px;
+            background: rgba(245, 215, 179, 0.1);
+            color: #f5d7b3;
+            border: 1px solid rgba(245, 215, 179, 0.2);
+            border-radius: 60px;
+            text-decoration: none;
+            transition: 0.3s;
+            font-family: 'Georgia', serif;
+        }
+        .btn-back:hover { background: rgba(245, 215, 179, 0.2); }
+        @media (max-width: 700px) {
+            .container { padding: 24px 18px; }
+            .header { flex-direction: column; align-items: flex-start; }
+            .content h1 { font-size: 28px; }
+        }
+        .fade-in { animation: fadeIn 0.8s ease forwards; }
+        @keyframes fadeIn { 0% { opacity: 0; transform: translateY(18px); } 100% { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+<div class="container fade-in">
+    <header class="header">
+        <div class="logo"><span class="icon">✧</span> Inner<span>Horizons</span></div>
+        <nav class="nav">
+            <a href="index.html">Главная</a>
+            <a href="about.html" class="active">О нас</a>
+            <a href="cabinet.html">Кабинет</a>
+        </nav>
+    </header>
+
+    <section class="content">
+        <h1>✧ О проекте</h1>
+        <p><strong>Inner Horizons</strong> — это пространство, где ты можешь встретиться с собой.</p>
+        <p>Мы создаём инструменты, которые помогают заглянуть внутрь:</p>
+        <ul style="color:#cdc3b7;font-size:18px;line-height:2;list-style:none;padding:0;">
+            <li>✧ <strong>Письмо из будущего</strong> — диалог с собой через 5 лет</li>
+            <li>✦ <strong>Зеркало души</strong> — встреча со своим отражением</li>
+            <li>✧ <strong>Мост между поколениями</strong> — исцеление через память</li>
+        </ul>
+        <h2>✨ Миссия</h2>
+        <p>Помочь каждому человеку услышать свой внутренний голос, принять себя и исцелить прошлое.</p>
+        <h2>📬 Контакты</h2>
+        <p>Email: <a href="mailto:olga696.olga@yandex.ru" style="color:#f5d7b3;">olga696.olga@yandex.ru</a></p>
+        <a href="index.html" class="btn-back">← На главную</a>
+    </section>
+
+    <footer class="footer">
+        <span>© 2026 Inner Horizons</span>
+        <span><a href="mailto:olga696.olga@yandex.ru">olga696.olga@yandex.ru</a></span>
+    </footer>
+</div>
+</body>
+</html>
