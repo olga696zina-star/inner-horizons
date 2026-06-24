@@ -119,36 +119,44 @@
             border: 1px solid rgba(245, 215, 179, 0.2);
             transition: 0.3s;
             text-decoration: none;
-            cursor: pointer;
         }
         .project-card .btn-action:hover {
             background: rgba(245, 215, 179, 0.2);
         }
-        .project-card .btn-action.free {
-            color: #7ddf9a;
-            border-color: rgba(125, 223, 154, 0.2);
+        .history-section {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 28px;
+            padding: 28px 24px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            margin-top: 30px;
         }
-        .project-card .btn-action.free:hover {
-            background: rgba(125, 223, 154, 0.1);
-        }
-        .yoomoney-btn {
-            margin-top: 14px;
-        }
-        .yoomoney-btn a {
-            display: inline-block;
-            padding: 8px 24px;
-            border-radius: 40px;
-            font-size: 14px;
-            font-weight: 600;
-            font-family: 'Georgia', serif;
-            background: rgba(245, 215, 179, 0.1);
+        .history-section h3 {
             color: #f5d7b3;
-            border: 1px solid rgba(245, 215, 179, 0.2);
-            transition: 0.3s;
-            text-decoration: none;
+            font-weight: 400;
+            font-size: 20px;
+            margin-bottom: 16px;
         }
-        .yoomoney-btn a:hover {
-            background: rgba(245, 215, 179, 0.2);
+        .history-item {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            color: #cdc3b7;
+            font-size: 15px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .history-item:last-child {
+            border-bottom: none;
+        }
+        .history-item .date {
+            color: #6a6258;
+            font-size: 13px;
+        }
+        .history-empty {
+            color: #6a6258;
+            font-size: 15px;
+            text-align: center;
+            padding: 20px 0;
         }
         .footer {
             margin-top: 40px;
@@ -193,54 +201,83 @@
                 <a href="about.html">О нас</a>
                 <a href="cabinet.html" class="active">Кабинет</a>
             </nav>
-            <div class="user-info">Добро пожаловать, <strong>Ольга</strong></div>
+            <div class="user-info">Добро пожаловать, <strong id="userNameDisplay">Ольга</strong></div>
             <button class="logout" onclick="if(confirm('Выйти?')){window.location.href='index.html'}">🚪 Выйти</button>
         </div>
     </header>
 
     <section class="welcome">
-        <h2>✧ Твоё пространство</h2>
-        <p>Выбери проект, чтобы начать свой внутренний путь</p>
+        <h2>✧ Твой кабинет</h2>
+        <p>Выбери проект, чтобы продолжить свой внутренний путь</p>
     </section>
 
     <section class="projects">
-        <!-- ПИСЬМО ИЗ БУДУЩЕГО (БЕСПЛАТНО) -->
         <a href="letter.html" class="project-card">
             <span class="icon">✧</span>
             <h3>Письмо из будущего</h3>
             <p>Ты отвечаешь на вопросы — и нейросеть пишет письмо от тебя через 5 лет.</p>
-            <span class="btn-action free">Начать диалог</span>
+            <span class="btn-action">Начать диалог</span>
         </a>
-
-        <!-- ЗЕРКАЛО ДУШИ (500 ₽) -->
-        <div class="project-card">
+        <a href="mirror.html" class="project-card">
             <span class="icon">✦</span>
             <h3>Зеркало души</h3>
             <p>Пространство тишины. Встреча с собой через фото и отражение.</p>
-            <div class="yoomoney-btn">
-                <a href="https://yoomoney.ru/transfer?to=4100119529447832&amount=500&label=mirror" target="_blank">
-                    💳 Оплатить 500 ₽
-                </a>
-            </div>
-        </div>
-
-        <!-- МОСТ МЕЖДУ ПОКОЛЕНИЯМИ (1500 ₽) -->
-        <div class="project-card">
+            <span class="btn-action">Встретиться с собой</span>
+        </a>
+        <a href="bridge.html" class="project-card">
             <span class="icon">✧</span>
             <h3>Мост между поколениями</h3>
             <p>Разговор с прошлым. Исцеление через память.</p>
-            <div class="yoomoney-btn">
-                <a href="https://yoomoney.ru/transfer?to=4100119529447832&amount=1500&label=bridge" target="_blank">
-                    💳 Оплатить 1500 ₽
-                </a>
-            </div>
+            <span class="btn-action">Пройти по мосту</span>
+        </a>
+    </section>
+
+    <section class="history-section">
+        <h3>📂 История писем и ответов</h3>
+        <div id="historyList">
+            <div class="history-empty">У вас пока нет сохранённых писем.</div>
         </div>
     </section>
 
     <footer class="footer">
         <span>© 2026 Inner Horizons</span>
-        <span><a href="mailto:olga696.olga@yandex.ru">olga696.olga@yandex.ru</a></span>
+        <span>
+            <a href="offer.html">Публичная оферта</a> |
+            <a href="mailto:olga696.olga@yandex.ru">olga696.olga@yandex.ru</a>
+        </span>
     </footer>
 </div>
+
+<script>
+    window.onload = function() {
+        const savedName = localStorage.getItem('userName');
+        if (savedName) {
+            document.getElementById('userNameDisplay').textContent = savedName;
+        }
+        loadHistory();
+    };
+
+    function loadHistory() {
+        const history = JSON.parse(localStorage.getItem('letterHistory')) || [];
+        const container = document.getElementById('historyList');
+
+        if (history.length === 0) {
+            container.innerHTML = '<div class="history-empty">У вас пока нет сохранённых писем.</div>';
+            return;
+        }
+
+        let html = '';
+        history.reverse().forEach(item => {
+            const preview = item.text.length > 100 ? item.text.substring(0, 100) + '...' : item.text;
+            html += `
+                <div class="history-item">
+                    <span><strong>${item.project}</strong> — ${preview}</span>
+                    <span class="date">${item.date}</span>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    }
+</script>
 </body>
 </html>
