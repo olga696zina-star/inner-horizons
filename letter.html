@@ -78,8 +78,43 @@
             margin-bottom: 30px;
             font-style: italic;
         }
+        .welcome-block {
+            background: rgba(245,215,179,0.06);
+            border-radius: 18px;
+            padding: 24px 22px;
+            margin-bottom: 30px;
+            border-left: 3px solid #f5d7b3;
+            text-align: center;
+        }
+        .welcome-block h2 {
+            font-size: 22px;
+            font-weight: 400;
+            color: #f5d7b3;
+            margin-bottom: 8px;
+        }
+        .welcome-block p {
+            color: #ddd6cc;
+            font-size: 16px;
+            line-height: 1.7;
+        }
+        .welcome-block .btn-start {
+            margin-top: 16px;
+            padding: 12px 40px;
+            background: rgba(245,215,179,0.1);
+            color: #f5d7b3;
+            border: 1px solid rgba(245,215,179,0.2);
+            border-radius: 40px;
+            font-size: 17px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: 'Georgia', serif;
+        }
+        .welcome-block .btn-start:hover {
+            background: rgba(245,215,179,0.2);
+        }
         .question {
             margin-bottom: 24px;
+            display: none;
         }
         .question label {
             display: block;
@@ -159,51 +194,6 @@
             color: #a89f94;
             font-size: 16px;
         }
-        .email-input {
-            margin-top: 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-        }
-        .email-input input {
-            width: 100%;
-            padding: 14px 20px;
-            border-radius: 16px;
-            border: 1px solid rgba(255,255,255,0.08);
-            background: rgba(255,255,255,0.04);
-            color: #f0e9e0;
-            font-size: 16px;
-            font-family: 'Georgia', serif;
-            outline: none;
-        }
-        .email-input input:focus { border-color: #f5d7b3; }
-        .button-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 6px;
-        }
-        .btn-small {
-            padding: 12px 28px;
-            background: rgba(245,215,179,0.12);
-            color: #f5d7b3;
-            border: 1px solid rgba(245,215,179,0.2);
-            border-radius: 60px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: 0.3s;
-            font-family: 'Georgia', serif;
-            flex: 1;
-            min-width: 140px;
-            text-align: center;
-        }
-        .btn-small:hover { background: rgba(245,215,179,0.2); }
-        .btn-small.green {
-            background: rgba(125,223,154,0.12);
-            border-color: rgba(125,223,154,0.3);
-            color: #7ddf9a;
-        }
-        .btn-small.green:hover { background: rgba(125,223,154,0.2); }
         .btn-back {
             margin-top: 20px;
             display: inline-block;
@@ -235,40 +225,6 @@
             margin-right: 14px;
         }
         @keyframes spin { 100% { transform: rotate(360deg); } }
-        .status-message {
-            margin-top: 14px;
-            font-size: 15px;
-            padding: 12px 18px;
-            border-radius: 14px;
-            background: rgba(255,255,255,0.03);
-            display: none;
-        }
-        .status-message.success { display: block; color: #7ddf9a; border-left: 3px solid #7ddf9a; }
-        .status-message.error { display: block; color: #f5a8a8; border-left: 3px solid #f5a8a8; }
-        .status-message.loading { display: block; color: #f5d7b3; border-left: 3px solid #f5d7b3; }
-        .instruction {
-            margin-top: 24px;
-            padding: 18px 22px;
-            background: rgba(245,215,179,0.06);
-            border-radius: 18px;
-            border-left: 3px solid #f5d7b3;
-            font-size: 15px;
-            color: #ddd6cc;
-            line-height: 1.7;
-        }
-        .instruction strong { color: #f5d7b3; }
-        .value-block {
-            margin-top: 28px;
-            padding: 24px 22px;
-            background: rgba(255,255,255,0.03);
-            border-radius: 18px;
-            border: 1px solid rgba(255,255,255,0.06);
-        }
-        .value-block h4 { color: #f5d7b3; font-weight: 400; font-size: 18px; margin-bottom: 14px; }
-        .value-block ul { list-style: none; padding: 0; }
-        .value-block li { padding: 7px 0; color: #ddd6cc; font-size: 15px; border-bottom: 1px solid rgba(255,255,255,0.04); }
-        .value-block li:last-child { border-bottom: none; }
-        .value-block li::before { content: "✧ "; color: #f5d7b3; }
         .footer {
             margin-top: 40px;
             padding-top: 24px;
@@ -286,7 +242,6 @@
             .container { padding: 24px 18px; }
             .content h1 { font-size: 28px; }
             .question textarea { min-height: 60px; }
-            .btn-small { min-width: 100%; }
         }
         .fade-in { animation: fadeIn 0.8s ease forwards; }
         @keyframes fadeIn { 0% { opacity: 0; transform: translateY(18px); } 100% { opacity: 1; transform: translateY(0); } }
@@ -310,68 +265,50 @@
         <h1>✧ Письмо из будущего</h1>
         <div class="sub">Диалог с собой через 5 лет</div>
 
-        <div id="formBlock">
-            <div class="question">
+        <!-- ===== ПРИВЕТСТВИЕ ===== -->
+        <div id="welcomeBlock" class="welcome-block fade-in delay-1">
+            <h2>✨ Здравствуй, любопытный друг</h2>
+            <p>
+                Ты стоишь на пороге диалога с собой. Не с тем, кто ты сейчас, а с тем, кем ты станешь через 5 лет.<br><br>
+                Ответь на несколько вопросов честно. Не торопись. Просто позволь себе быть.
+            </p>
+            <button class="btn-start" onclick="startLetter()">🌿 Начать диалог</button>
+        </div>
+
+        <!-- ===== ВОПРОСЫ ===== -->
+        <div id="formBlock" style="display:none;">
+            <div class="question" style="display:block;">
                 <label><span class="emoji">🌿</span>Как тебя зовут?</label>
                 <input type="text" id="name" placeholder="Твоё имя" />
             </div>
-            <div class="question">
+            <div class="question" style="display:block;">
                 <label><span class="emoji">🔥</span>Что для тебя сейчас важнее всего?</label>
                 <textarea id="dream" placeholder="Напиши это честно..."></textarea>
             </div>
-            <div class="question">
+            <div class="question" style="display:block;">
                 <label><span class="emoji">🌀</span>Что тебя пугает или останавливает?</label>
                 <textarea id="fear" placeholder="И здесь тоже честно..."></textarea>
             </div>
-            <div class="question">
+            <div class="question" style="display:block;">
                 <label><span class="emoji">✨</span>Что ты хочешь почувствовать через год?</label>
                 <textarea id="feeling" placeholder="Например: свободу, лёгкость, уверенность..."></textarea>
             </div>
-            <div class="question">
+            <div class="question" style="display:block;">
                 <label><span class="emoji">💫</span>Что ты готова отпустить, чтобы это случилось?</label>
                 <textarea id="letgo" placeholder="Что мешает тебе двигаться вперёд?"></textarea>
             </div>
-            <div class="question">
+            <div class="question" style="display:block;">
                 <label><span class="emoji">🌟</span>Какую самую важную истину ты поняла за последний год?</label>
                 <textarea id="truth" placeholder="Что ты узнала о себе?"></textarea>
             </div>
             <button class="btn" onclick="generateLetter()">✧ Получить письмо</button>
         </div>
 
+        <!-- ===== РЕЗУЛЬТАТ ===== -->
         <div class="result" id="resultBlock">
             <h2>📜 Твоё письмо</h2>
             <p id="letterText"></p>
             <div class="sign">— Ты через 5 лет</div>
-            
-            <div class="email-input">
-                <input type="email" id="emailInput" placeholder="Твоя почта, чтобы сохранить письмо" />
-                <div class="button-row">
-                    <button class="btn-small green" onclick="sendLetter()">📧 Отправить письмо</button>
-                    <button class="btn-small" onclick="copyLetter()">📋 Копировать</button>
-                </div>
-                <div id="statusMessage" class="status-message"></div>
-            </div>
-
-            <div class="instruction">
-                💡 <strong>Как сохранить письмо:</strong><br>
-                1. Нажмите <strong>«Копировать»</strong> — текст письма сохранится в буфер обмена.<br>
-                2. Откройте свою почту (Gmail, Яндекс, Outlook) и создайте новое письмо.<br>
-                3. Вставьте текст (<strong>Ctrl+V</strong>) и отправьте его себе.<br>
-                ✨ Так вы сможете перечитывать это письмо в любой момент.
-            </div>
-
-            <div class="value-block">
-                <h4>✨ Что даёт это письмо</h4>
-                <ul>
-                    <li>Честный разговор с собой, который вы редко позволяете</li>
-                    <li>Тёплую поддержку, которая остаётся с вами</li>
-                    <li>Уникальное послание, созданное нейросетью лично для вас</li>
-                    <li>Возможность сохранить его и перечитывать в трудные моменты</li>
-                    <li>Напоминание о том, что вы уже справились и сможете снова</li>
-                </ul>
-            </div>
-
-            <!-- ===== КНОПКА ВОЗВРАТА В КАБИНЕТ ===== -->
             <a href="cabinet.html" class="btn-back">← Вернуться в кабинет</a>
         </div>
     </section>
@@ -388,6 +325,13 @@
 
     let generatedLetter = '';
     let userName = '';
+
+    function startLetter() {
+        document.getElementById('welcomeBlock').style.display = 'none';
+        document.getElementById('formBlock').style.display = 'block';
+        document.querySelectorAll('.question').forEach(el => el.style.display = 'block');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
     async function generateLetter() {
         const name = document.getElementById('name').value.trim() || 'Ты';
@@ -437,47 +381,23 @@
             btn.disabled = false;
             btn.innerHTML = '✧ Получить письмо';
         }
+
+        // Сохраняем в историю
+        saveToHistory('Письмо из будущего', generatedLetter);
     }
 
     function getFallbackLetter(name, dream, fear, feeling, letgo, truth) {
         return `Привет, ${name}.\n\nЯ — это ты через несколько лет. Я помню этот вечер, когда ты сидела и размышляла о жизни.\n\nТогда ты писала о том, что для тебя важнее всего — ${dream}. И знаешь что? Ты не ошиблась. Именно это привело тебя туда, где ты сейчас. Это стало твоим компасом.\n\nЯ знаю, тебя пугало ${fear}. Но этот страх был твоим учителем. Он не остановил тебя — он сделал тебя сильнее.\n\nТы хотела почувствовать ${feeling} — и это случилось. Не сразу, не волшебно, но случилось. Потому что ты выбрала идти.\n\nТы отпустила ${letgo} — и это открыло двери, о которых ты даже не подозревала.\n\nИ ты поняла главное: ${truth}. Эта истина стала твоей опорой.\n\nСейчас я смотрю на тебя с благодарностью. За то, что ты не сдалась. За то, что ты осталась собой.\n\nЯ рядом. Всегда.\n\nС любовью,\nТы — из будущего.`;
     }
 
-    async function sendLetter() {
-        const email = document.getElementById('emailInput').value.trim();
-        const statusEl = document.getElementById('statusMessage');
-        if (!email) { statusEl.className = 'status-message error'; statusEl.textContent = '❌ Введите почту.'; return; }
-        if (!generatedLetter) { statusEl.className = 'status-message error'; statusEl.textContent = '❌ Сначала получите письмо.'; return; }
-        statusEl.className = 'status-message loading';
-        statusEl.textContent = '⏳ Отправляю...';
-        try {
-            setTimeout(() => {
-                statusEl.className = 'status-message success';
-                statusEl.textContent = '✅ Письмо отправлено! Проверьте почту (и папку Спам).';
-            }, 1500);
-        } catch (error) {
-            statusEl.className = 'status-message error';
-            statusEl.textContent = '⚠️ Не удалось отправить. Используйте "Копировать".';
-        }
-    }
-
-    function copyLetter() {
-        const statusEl = document.getElementById('statusMessage');
-        if (!generatedLetter) { statusEl.className = 'status-message error'; statusEl.textContent = '❌ Письмо ещё не сгенерировано.'; return; }
-        const fullText = generatedLetter + '\n\n— Ты через 5 лет';
-        navigator.clipboard.writeText(fullText).then(() => {
-            statusEl.className = 'status-message success';
-            statusEl.textContent = '✅ Письмо скопировано! Вставьте его в письмо (Ctrl+V).';
-        }).catch(() => {
-            const textarea = document.createElement('textarea');
-            textarea.value = fullText;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textarea);
-            statusEl.className = 'status-message success';
-            statusEl.textContent = '✅ Письмо скопировано! Вставьте его в письмо (Ctrl+V).';
+    function saveToHistory(project, text) {
+        const history = JSON.parse(localStorage.getItem('letterHistory')) || [];
+        history.push({
+            project: project,
+            text: text,
+            date: new Date().toLocaleDateString('ru-RU')
         });
+        localStorage.setItem('letterHistory', JSON.stringify(history));
     }
 </script>
 </body>
