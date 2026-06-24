@@ -315,29 +315,26 @@
 
     <h2 class="projects-title fade-in delay-2">Наши проекты</h2>
     <section class="projects" id="projects">
-        <!-- Письмо из будущего -->
-        <a href="letter.html" class="project-card fade-in delay-2">
+        <div class="project-card fade-in delay-2" onclick="checkAccess('letter.html')">
             <span class="icon">✧</span>
             <h3>Письмо из будущего</h3>
             <p>Ты отвечаешь на вопросы — и нейросеть пишет письмо от тебя через 5 лет.</p>
             <span class="price free">● Бесплатно</span>
-        </a>
+        </div>
 
-        <!-- Зеркало души -->
-        <a href="mirror.html" class="project-card fade-in delay-3">
+        <div class="project-card fade-in delay-3" onclick="checkAccess('mirror.html')">
             <span class="icon">✦</span>
             <h3>Зеркало души</h3>
             <p>Пространство тишины. Встреча с собой через фото и отражение.</p>
             <span class="price paid">● 500 ₽</span>
-        </a>
+        </div>
 
-        <!-- Мост между поколениями -->
-        <a href="bridge.html" class="project-card fade-in delay-3">
+        <div class="project-card fade-in delay-3" onclick="checkAccess('bridge.html')">
             <span class="icon">✧</span>
             <h3>Мост между поколениями</h3>
             <p>Разговор с прошлым. Исцеление через память.</p>
             <span class="price paid">● 1500 ₽</span>
-        </a>
+        </div>
     </section>
 
     <section class="testimonials fade-in delay-3">
@@ -376,6 +373,17 @@
 <script>
     function toggleTheme() {
         document.body.classList.toggle('light');
+    }
+
+    function checkAccess(page) {
+        const isRegistered = localStorage.getItem('userRegistered') === 'true';
+        
+        if (!isRegistered) {
+            alert('🔒 Чтобы открыть этот проект, нужно зарегистрироваться.\n\nНажмите «ОК», чтобы перейти к регистрации.');
+            window.location.href = 'register.html';
+        } else {
+            window.location.href = page;
+        }
     }
 </script>
 </body>
