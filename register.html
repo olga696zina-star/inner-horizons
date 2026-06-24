@@ -163,13 +163,13 @@
         <span style="color: #a89f94; font-size: 14px;">Вы перенаправлены в личный кабинет через 3 секунды...</span>
     </div>
 
-    <!-- ===== КНОПКА ВОЗВРАТА НА ГЛАВНУЮ ===== -->
     <a href="index.html" class="btn-back">← На главную</a>
 </div>
 
 <script>
     function handleRegister(event) {
         event.preventDefault();
+
         const name = document.getElementById('userName').value.trim();
         const email = document.getElementById('userEmail').value.trim();
         const password = document.getElementById('userPassword').value.trim();
@@ -178,6 +178,11 @@
             alert('❌ Пожалуйста, заполните все поля.');
             return;
         }
+
+        // === СОХРАНЯЕМ РЕГИСТРАЦИЮ ===
+        localStorage.setItem('userRegistered', 'true');
+        localStorage.setItem('userName', name);
+        localStorage.setItem('userEmail', email);
 
         const thankYouBlock = document.getElementById('thankYouBlock');
         const emailDisplay = document.getElementById('userEmailDisplay');
