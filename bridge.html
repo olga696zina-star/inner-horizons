@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8" />
@@ -116,8 +116,45 @@
             background: rgba(245,215,179,0.2);
         }
 
-        /* ===== БЛОК ДЕЙСТВИЙ ===== */
-        .action-block {
+        /* ===== ПРЕДУПРЕЖДЕНИЕ ===== */
+        .disclaimer-block {
+            display: none;
+            background: rgba(200, 100, 100, 0.08);
+            border: 1px solid rgba(200, 100, 100, 0.2);
+            border-radius: 18px;
+            padding: 30px 24px;
+            margin: 20px 0 30px;
+            text-align: left;
+        }
+        .disclaimer-block strong {
+            color: #f5a8a8;
+            font-size: 18px;
+            display: block;
+            margin-bottom: 12px;
+        }
+        .disclaimer-block p {
+            color: #ddd6cc;
+            font-size: 16px;
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+        .disclaimer-block .btn-accept {
+            padding: 12px 40px;
+            background: rgba(245,215,179,0.1);
+            color: #f5d7b3;
+            border: 1px solid rgba(245,215,179,0.2);
+            border-radius: 40px;
+            font-size: 17px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: 'Georgia', serif;
+        }
+        .disclaimer-block .btn-accept:hover {
+            background: rgba(245,215,179,0.2);
+        }
+
+        /* ===== ОСНОВНОЙ БЛОК ===== */
+        .main-block {
             display: none;
         }
         .instruction {
@@ -133,43 +170,6 @@
         }
         .instruction strong { color: #f5d7b3; }
 
-        /* ===== ПРЕДУПРЕЖДЕНИЕ ===== */
-        .disclaimer {
-            background: rgba(200, 100, 100, 0.08);
-            border: 1px solid rgba(200, 100, 100, 0.2);
-            border-radius: 18px;
-            padding: 24px 22px;
-            margin: 20px 0 30px;
-            text-align: left;
-        }
-        .disclaimer strong {
-            color: #f5a8a8;
-            font-size: 18px;
-            display: block;
-            margin-bottom: 8px;
-        }
-        .disclaimer p {
-            color: #ddd6cc;
-            font-size: 15px;
-            line-height: 1.7;
-            margin-bottom: 12px;
-        }
-        .disclaimer .btn-accept {
-            padding: 10px 32px;
-            background: rgba(245,215,179,0.1);
-            color: #f5d7b3;
-            border: 1px solid rgba(245,215,179,0.2);
-            border-radius: 40px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: 0.3s;
-            font-family: 'Georgia', serif;
-        }
-        .disclaimer .btn-accept:hover {
-            background: rgba(245,215,179,0.2);
-        }
-
-        /* ===== ЗАГРУЗКА ФАЙЛОВ ===== */
         .upload-area {
             border: 2px dashed rgba(245, 215, 179, 0.2);
             border-radius: 32px;
@@ -212,7 +212,6 @@
             border: 2px solid rgba(245, 215, 179, 0.2);
         }
 
-        /* ===== ПОЛЕ ДЛЯ ВОПРОСА ===== */
         .question-input {
             margin: 20px auto 30px;
             max-width: 500px;
@@ -254,7 +253,6 @@
             margin-top: 4px;
         }
 
-        /* ===== КНОПКИ ===== */
         .btn {
             padding: 16px 56px;
             background: #f5d7b3;
@@ -289,7 +287,6 @@
             background: rgba(245,215,179,0.25);
         }
 
-        /* ===== РЕЗУЛЬТАТ ===== */
         .result {
             margin-top: 30px;
             padding: 30px;
@@ -369,67 +366,63 @@
 
         <!-- ===== ПРИВЕТСТВИЕ ===== -->
         <div id="welcomeBlock" class="welcome-block fade-in delay-1">
-            <h2>✨ Здравствуй, любопытный друг</h2>
+            <h2>✨ Здравствуй, ищущий</h2>
             <p>
                 Ты стоишь на мосту между прошлым и настоящим.<br><br>
                 Здесь ты можешь обратиться к памяти, которая ждала, чтобы её услышали.<br>
                 Загрузи фото, письмо или напиши имя близкого человека — и мост ответит тебе теплом.
             </p>
-            <button class="btn-start" onclick="startBridge()">🌿 Продолжить</button>
+            <button class="btn-start" onclick="showDisclaimer()">🌿 Продолжить</button>
         </div>
 
-        <!-- ===== ДЕЙСТВИЯ ===== -->
-        <div id="actionBlock" class="action-block">
-            <!-- ===== ПРЕДУПРЕЖДЕНИЕ ===== -->
-            <div id="disclaimerBlock" class="disclaimer">
-                <strong>⚠️ Важное предупреждение</strong>
-                <p>
-                    Этот проект использует искусственный интеллект для создания диалога с «отражением» памяти.<br>
-                    Он не заменяет профессиональную психологическую помощь.<br>
-                    Если вы чувствуете, что не готовы к этой встрече — отложите её.<br>
-                    <strong>Вы имеете право остановиться в любой момент.</strong>
-                </p>
-                <button class="btn-accept" onclick="acceptDisclaimer()">Я понимаю и хочу продолжить</button>
+        <!-- ===== ПРЕДУПРЕЖДЕНИЕ ===== -->
+        <div id="disclaimerBlock" class="disclaimer-block">
+            <strong>⚠️ Важное предупреждение</strong>
+            <p>
+                Этот проект использует искусственный интеллект для создания диалога с «отражением» памяти.<br><br>
+                Он <strong>не заменяет</strong> профессиональную психологическую помощь.<br>
+                Если вы чувствуете, что не готовы к этой встрече — отложите её.<br><br>
+                <strong style="color: #f5d7b3;">Вы имеете право остановиться в любой момент.</strong>
+            </p>
+            <button class="btn-accept" onclick="acceptDisclaimer()">Я понимаю и хочу продолжить</button>
+        </div>
+
+        <!-- ===== ОСНОВНОЙ БЛОК ===== -->
+        <div id="mainBlock" class="main-block">
+            <div class="instruction">
+                <strong>🌉 Как это работает:</strong><br>
+                1. Загрузи фото, письмо или просто напиши имя близкого человека.<br>
+                2. Напиши вопрос или слово, которое хочешь передать.<br>
+                3. Нажми «Пройти по мосту» — и получи отклик от памяти.
             </div>
 
-            <!-- ===== ИНСТРУКЦИЯ (СКРЫТА ДО ПРИНЯТИЯ) ===== -->
-            <div id="mainContent" style="display: none;">
-                <div class="instruction">
-                    <strong>🌉 Как это работает:</strong><br>
-                    1. Загрузи фото, письмо или просто напиши имя близкого человека.<br>
-                    2. Напиши вопрос или слово, которое хочешь передать.<br>
-                    3. Нажми «Пройти по мосту» — и получи отклик от памяти.
+            <div id="lockedArea">
+                <div class="upload-area" id="uploadArea">
+                    <span class="icon">🕊️</span>
+                    <p>Нажми, чтобы загрузить фото или письмо</p>
+                    <span class="hint">или перетащи сюда</span>
+                    <input type="file" id="fileInput" accept="image/*, .txt, .pdf" />
+                    <div class="preview" id="preview" style="display:none; font-size:14px; color:#b3a89c;">Файл загружен</div>
                 </div>
 
-                <!-- ЗАБЛОКИРОВАННАЯ ОБЛАСТЬ -->
-                <div id="lockedArea">
-                    <div class="upload-area" id="uploadArea">
-                        <span class="icon">🕊️</span>
-                        <p>Нажми, чтобы загрузить фото или письмо</p>
-                        <span class="hint">или перетащи сюда</span>
-                        <input type="file" id="fileInput" accept="image/*, .txt, .pdf" />
-                        <div class="preview" id="preview" style="display:none; font-size:14px; color:#b3a89c;">Файл загружен</div>
-                    </div>
-
-                    <div class="question-input" id="questionInputBlock">
-                        <label for="questionInput">🌿 Что ты хочешь сказать или спросить у прошлого?</label>
-                        <textarea id="questionInput" placeholder="Например: «Мама, я хочу сказать тебе спасибо» или «Что бы ты посоветовала мне сейчас?»"></textarea>
-                        <div class="hint">Или просто напиши имя близкого человека</div>
-                    </div>
-
-                    <button class="btn" id="analyzeBtn" disabled>Пройти по мосту</button>
-                    <br>
-                    <a href="https://yoomoney.ru/transfer?to=4100119529447832&amount=1500&label=bridge" target="_blank" class="btn-pay" id="payBtn">
-                        💳 Оплатить 1500 ₽
-                    </a>
+                <div class="question-input" id="questionInputBlock">
+                    <label for="questionInput">🌿 Что ты хочешь сказать или спросить у прошлого?</label>
+                    <textarea id="questionInput" placeholder="Например: «Мама, я хочу сказать тебе спасибо» или «Что бы ты посоветовала мне сейчас?»"></textarea>
+                    <div class="hint">Или просто напиши имя близкого человека</div>
                 </div>
 
-                <div class="result" id="resultBlock">
-                    <h2>✧ Отклик памяти</h2>
-                    <p id="resultText"></p>
-                    <div class="reflection" id="reflectionBlock">
-                        <strong>🕊️ Отражение:</strong> <span id="reflectionText">Здесь будет ответ от прошлого.</span>
-                    </div>
+                <button class="btn" id="analyzeBtn" disabled>Пройти по мосту</button>
+                <br>
+                <a href="https://yoomoney.ru/transfer?to=4100119529447832&amount=1500&label=bridge" target="_blank" class="btn-pay" id="payBtn">
+                    💳 Оплатить 1500 ₽
+                </a>
+            </div>
+
+            <div class="result" id="resultBlock">
+                <h2>✧ Отклик памяти</h2>
+                <p id="resultText"></p>
+                <div class="reflection" id="reflectionBlock">
+                    <strong>🕊️ Отражение:</strong> <span id="reflectionText">Здесь будет ответ от прошлого.</span>
                 </div>
             </div>
         </div>
@@ -444,21 +437,21 @@
 </div>
 
 <script>
-    // ===== ОТОБРАЖЕНИЕ БЛОКА =====
-    function startBridge() {
+    // ===== ПОКАЗАТЬ ПРЕДУПРЕЖДЕНИЕ =====
+    function showDisclaimer() {
         document.getElementById('welcomeBlock').style.display = 'none';
-        document.getElementById('actionBlock').style.display = 'block';
+        document.getElementById('disclaimerBlock').style.display = 'block';
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // ===== ПРИНЯТИЕ ПРЕДУПРЕЖДЕНИЯ =====
+    // ===== ПРИНЯТЬ ПРЕДУПРЕЖДЕНИЕ =====
     function acceptDisclaimer() {
         document.getElementById('disclaimerBlock').style.display = 'none';
-        document.getElementById('mainContent').style.display = 'block';
+        document.getElementById('mainBlock').style.display = 'block';
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // ===== ЛОГИКА ОПЛАТЫ (ИМИТАЦИЯ) =====
+    // ===== ЛОГИКА ОПЛАТЫ =====
     document.getElementById('payBtn').addEventListener('click', function(e) {
         setTimeout(function() {
             document.getElementById('uploadArea').classList.add('active');
