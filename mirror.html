@@ -132,8 +132,8 @@
         .instruction strong { color: #f5d7b3; }
 
         .upload-area {
-            border: 2px dashed rgba(245, 215, 179, 0.2);
-            border-radius: 32px;
+            border: 2px solid rgba(245, 215, 179, 0.2);
+            border-radius: 60px;
             padding: 40px 20px;
             margin: 10px auto 30px;
             max-width: 400px;
@@ -141,10 +141,12 @@
             transition: 0.3s ease;
             cursor: pointer;
             position: relative;
+            box-shadow: 0 0 40px rgba(245, 215, 179, 0.03);
         }
         .upload-area:hover {
-            border-color: rgba(245, 215, 179, 0.4);
-            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(245, 215, 179, 0.5);
+            background: rgba(255, 255, 255, 0.06);
+            box-shadow: 0 0 60px rgba(245, 215, 179, 0.06);
         }
         .upload-area .icon { font-size: 40px; display: block; margin-bottom: 10px; opacity: 0.6; }
         .upload-area p { color: #b3a89c; font-size: 16px; }
@@ -598,15 +600,20 @@
     async function generateResponse(emotions, question) {
         const emotionText = emotions.emotion || 'спокойствие';
         const ageText = emotions.age || 'неизвестен';
-        const genderText = emotions.gender || 'человек';
+        const genderText = emotions.gender === 'male' ? 'мужчина' : 'женщина';
 
         const prompt = `
-            Ты — голос, который говорит из зеркала. Ты видишь человека, который загрузил своё фото.
+            Ты — голос из зеркала. Ты видишь человека, который загрузил своё фото.
             Его состояние: ${emotionText}. Возраст примерно ${ageText}, пол: ${genderText}.
             Он спросил: "${question || 'просто увидеть себя'}".
 
-            Напиши тёплое, поддерживающее послание от лица зеркала. Обращайся на "ты". Говори мягко, глубоко, с поэтичностью.
-            Ответ должен быть объёмом 5-8 предложений. Не используй слова "анализ", "алгоритм", "нейросеть". Говори как живой голос.
+            Напиши тёплое, глубокое послание от лица зеркала.
+            Обращайся на "ты".
+            Говори мягко, с поэтичностью.
+            Ответ должен быть объёмом 8–12 предложений.
+            Не используй слова "анализ", "алгоритм", "нейросеть".
+            Используй возраст и пол, чтобы сделать ответ более личным.
+            Говори не о внешности, а о состоянии, которое видишь.
         `;
 
         try {
@@ -618,7 +625,7 @@
                 },
                 body: JSON.stringify({
                     modelUri: `gpt://${FOLDER_ID}/yandexgpt/latest`,
-                    completionOptions: { temperature: 0.8, maxTokens: 400 },
+                    completionOptions: { temperature: 0.85, maxTokens: 600 },
                     messages: [
                         { role: 'system', text: prompt },
                         { role: 'user', text: 'Напиши послание.' }
