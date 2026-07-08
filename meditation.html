@@ -114,7 +114,9 @@
             background: rgba(245,215,179,0.2);
         }
 
-        /* ===== ВЫБОР ЭМОЦИИ ===== */
+        .action-block {
+            display: none;
+        }
         .emotion-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -143,7 +145,6 @@
             color: #f5d7b3;
         }
 
-        /* ===== ВЫБОР ГОЛОСА ===== */
         .voice-selector {
             display: flex;
             justify-content: center;
@@ -164,7 +165,6 @@
             height: 18px;
         }
 
-        /* ===== ПЛЕЕР ===== */
         .player-area {
             margin: 30px 0;
             padding: 30px;
@@ -387,7 +387,7 @@
 </div>
 
 <script>
-    const YANDEX_API_KEY = 'AQVN3WvVUx8AajJMu5JPnhcCdDNXSrM8uaKKHS31';
+    const YANDEX_API_KEY = 'AQVN3WVUX8AaJJMu5JPNhcCDNXsrm8uakKHS31';
     const FOLDER_ID = 'b1g179a07epjjubem8gm';
 
     let selectedEmotion = null;
@@ -454,10 +454,32 @@
     });
 
     async function generateVoice(text, voiceType) {
-        // Здесь будет запрос к Яндекс SpeechKit
-        // Пока — заглушка
-        console.log('Голос:', voiceType, 'Текст:', text);
-        return 'https://example.com/audio.mp3'; // заглушка
+        const voice = voiceType === 'female' ? 'oksana' : 'zahar';
+        const url = 'https://tts.api.cloud.yandex.net/speech/v1/tts:synthesize';
+        const headers = {
+            'Authorization': `Api-Key ${YANDEX_API_KEY}`,
+            'Content-Type': 'application/x-www-form-urlencoded'
+        };
+        const body = new URLSearchParams({
+            text: text,
+            lang: 'ru-RU',
+            voice: voice,
+            speed: 1.0,
+            format: 'mp3'
+        });
+
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: headers,
+            body: body
+        });
+
+        if (!response.ok) {
+            throw new Error('Ошибка SpeechKit: ' + response.statusText);
+        }
+
+        const audioBlob = await response.blob();
+        return URL.createObjectURL(audioBlob);
     }
 </script>
 
