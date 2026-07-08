@@ -387,20 +387,17 @@
 </div>
 
 <script>
-    const YANDEX_API_KEY = 'AQVN3WVUX8AaJJMu5JPNhcCDNXsrm8uakKHS31';
-    const FOLDER_ID = 'b1g179a07epjjubem8gm';
+    const AUDIO_PATH = 'audio/';
+
+    // Список доступных аудиофайлов
+    const audioFiles = {
+        fear: { female: 'fear_female.mp3', male: 'fear_male.mp3' },
+        resentment: { female: 'resentment_female.mp3', male: 'resentment_male.mp3' }
+        // Другие эмоции будут добавлены позже
+    };
 
     let selectedEmotion = null;
-    const emotionTexts = {
-        fear: {
-            name: 'Страх',
-            text: 'Сядь удобно. Закрой глаза. Сделай три спокойных вдоха и выдоха. Теперь направь внимание внутрь себя. Не ищи страх головой. Просто почувствуй — есть ли в теле место, где живёт напряжение? Это может быть грудь, горло, живот или плечи. Просто отметь его. Не пытайся изменить. Не борись с ним. Просто побудь рядом. Скажи мысленно: «Я вижу тебя, страх. Ты здесь. Я не убегаю». Представь, что с каждым выдохом ты позволяешь этому напряжению чуть-чуть ослабнуть. Не избавляешься — просто даёшь ему пространство. Почувствуй, как оно начинает дышать вместе с тобой. А теперь спроси себя: «Чего на самом деле хочет этот страх? Что он пытается защитить?» Позволь себе услышать ответ — не мыслью, а чувством. Поблагодари страх за то, что он был твоей защитой. И скажи ему: «Теперь я могу сам о себе позаботиться. Ты можешь быть спокоен». Посиди в этой тишине ещё полминуты. Почувствуй, как тело становится легче. Когда будешь готова — открой глаза и возвращайся в пространство.'
-        },
-        resentment: {
-            name: 'Обида',
-            text: 'Прими удобное положение. Закрой глаза. Сделай несколько спокойных вдохов. Теперь обрати внимание на область груди или живота. Есть ли там тяжесть, сжатие, комок? Это место, где живёт твоя обида. Просто признай её присутствие. Не оценивай. Не осуждай. Скажи: «Да, я чувствую обиду. Она здесь». Представь, что твоё дыхание начинает мягко касаться этого места. Как тёплая вода. С каждым вдохом — тепло приходит. С каждым выдохом — напряжение по чуть-чуть уходит. Не торопись. Дай себе время. Просто будь рядом с этим чувством. А теперь представь, что ты можешь отделить саму обиду от человека, на которого она направлена. Обида — это не он. Это твоя реакция. Позволь ей быть — но не позволяй ей определять тебя. Скажи мысленно: «Я имею право на эту обиду. И я имею право отпустить её, когда буду готова». Не заставляй себя прощать. Просто дай себе разрешение чувствовать. И заметь, как с каждым выдохом тело становится чуть более свободным. Когда почувствуешь, что готова — открой глаза и побудь в тишине ещё несколько мгновений.'
-        }
-    };
+    let currentAudio = null;
 
     function startMeditation() {
         document.getElementById('welcomeBlock').style.display = 'none';
@@ -414,73 +411,55 @@
             this.classList.add('selected');
             selectedEmotion = this.dataset.emotion;
             document.getElementById('playerArea').style.display = 'block';
-            document.getElementById('statusText').textContent = `Готово: ${emotionTexts[selectedEmotion].name}`;
+            document.getElementById('statusText').textContent = `Готово: ${this.textContent.trim()}`;
         });
     });
 
-    document.getElementById('playBtn').addEventListener('click', async function() {
+    document.getElementById('playBtn').addEventListener('click', function() {
         if (!selectedEmotion) {
             alert('Выбери эмоцию');
             return;
         }
 
         const voiceType = document.querySelector('input[name="voice"]:checked').value;
-        const text = emotionTexts[selectedEmotion].text;
+        const emotionData = audioFiles[selectedEmotion];
 
-        this.disabled = true;
-        this.textContent = '⏳ Подготовка голоса...';
-        document.getElementById('statusText').textContent = 'Голос генерируется...';
-
-        try {
-            const audioUrl = await generateVoice(text, voiceType);
-            const audio = new Audio(audioUrl);
-            this.textContent = '🔊 Слушать';
-            this.disabled = false;
-
-            audio.play();
-            document.getElementById('statusText').textContent = '▶ Идёт медитация...';
-
-            audio.onended = function() {
-                document.getElementById('statusText').textContent = '✅ Медитация завершена.';
-                document.getElementById('resultArea').style.display = 'block';
-            };
-
-        } catch (error) {
-            console.error('Ошибка:', error);
-            this.textContent = '▶ Начать медитацию';
-            this.disabled = false;
-            document.getElementById('statusText').textContent = '❌ Не удалось загрузить голос. Попробуй позже.';
+        if (!emotionData) {
+            document.getElementById('statusText').textContent = '❌ Аудио для этой эмоции пока не готово.';
+            return;
         }
-    });
 
-    async function generateVoice(text, voiceType) {
-        const voice = voiceType === 'female' ? 'oksana' : 'zahar';
-        const url = 'https://tts.api.cloud.yandex.net/speech/v1/tts:synthesize';
-        const headers = {
-            'Authorization': `Api-Key ${YANDEX_API_KEY}`,
-            'Content-Type': 'application/x-www-form-urlencoded'
+        const audioFile = emotionData[voiceType];
+        if (!audioFile) {
+            document.getElementById('statusText').textContent = '❌ Аудио для этого голоса пока не готово.';
+            return;
+        }
+
+        const audioUrl = AUDIO_PATH + audioFile;
+
+        // Останавливаем предыдущее аудио, если оно играет
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio.currentTime = 0;
+        }
+
+        currentAudio = new Audio(audioUrl);
+        currentAudio.play();
+
+        this.textContent = '🔊 Играет...';
+        document.getElementById('statusText').textContent = '▶ Идёт медитация...';
+
+        currentAudio.onended = function() {
+            document.getElementById('playBtn').textContent = '▶ Начать медитацию';
+            document.getElementById('statusText').textContent = '✅ Медитация завершена.';
+            document.getElementById('resultArea').style.display = 'block';
         };
-        const body = new URLSearchParams({
-            text: text,
-            lang: 'ru-RU',
-            voice: voice,
-            speed: 1.0,
-            format: 'mp3'
-        });
 
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: headers,
-            body: body
-        });
-
-        if (!response.ok) {
-            throw new Error('Ошибка SpeechKit: ' + response.statusText);
-        }
-
-        const audioBlob = await response.blob();
-        return URL.createObjectURL(audioBlob);
-    }
+        currentAudio.onerror = function() {
+            document.getElementById('playBtn').textContent = '▶ Начать медитацию';
+            document.getElementById('statusText').textContent = '❌ Не удалось загрузить аудио. Проверьте, что файлы загружены в папку audio/.';
+        };
+    });
 </script>
 
 <script>
