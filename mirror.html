@@ -78,7 +78,6 @@
             margin-bottom: 10px;
         }
 
-        /* ===== ПРИВЕТСТВИЕ ===== */
         .welcome-block {
             background: rgba(245,215,179,0.06);
             border-radius: 18px;
@@ -116,7 +115,6 @@
             background: rgba(245,215,179,0.2);
         }
 
-        /* ===== ОСНОВНОЙ БЛОК ===== */
         .action-block {
             display: none;
         }
@@ -143,12 +141,6 @@
             transition: 0.3s ease;
             cursor: pointer;
             position: relative;
-            opacity: 0.4;
-            pointer-events: none;
-        }
-        .upload-area.active {
-            opacity: 1;
-            pointer-events: all;
         }
         .upload-area:hover {
             border-color: rgba(245, 215, 179, 0.4);
@@ -290,7 +282,6 @@
         }
         .btn-back:hover { background: rgba(255, 255, 255, 0.08); color: #f5d7b3; }
 
-        /* ===== ПОДВАЛ ===== */
         .footer {
             margin-top: 50px;
             padding-top: 24px;
@@ -496,11 +487,9 @@
 </div>
 
 <script>
-    // ===================== НАСТРОЙКИ =====================
     const YANDEX_API_KEY = 'AQVN3MRt7XhYFf6sph-MF0w6FM6gZ9nC7-F6D2u4';
     const FOLDER_ID = 'b1g179a07epjjubem8gm';
 
-    // ===================== ЭЛЕМЕНТЫ =====================
     const uploadArea = document.getElementById('uploadArea');
     const photoInput = document.getElementById('photoInput');
     const preview = document.getElementById('preview');
@@ -511,14 +500,12 @@
     const questionInput = document.getElementById('questionInput');
     const reflectionText = document.getElementById('reflectionText');
 
-    // ===================== ПЕРЕХОД К ДЕЙСТВИЯМ =====================
     function startMirror() {
         document.getElementById('welcomeBlock').style.display = 'none';
         document.getElementById('actionBlock').style.display = 'block';
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // ===================== ЗАГРУЗКА ФОТО =====================
     photoInput.addEventListener('change', function(e) {
         const file = e.target.files[0];
         if (file) {
@@ -531,10 +518,7 @@
         }
     });
 
-    // ===================== ГЛАВНАЯ ФУНКЦИЯ: АНАЛИЗ ЧЕРЕЗ YANDEX VISION + GPT =====================
     analyzeBtn.addEventListener('click', async function() {
-        if (analyzeBtn.disabled) return;
-
         const file = photoInput.files[0];
         if (!file) {
             alert('Пожалуйста, загрузите фото.');
@@ -546,10 +530,8 @@
         resultBlock.style.display = 'none';
 
         try {
-            // 1. Конвертируем фото в Base64
             const base64Image = await toBase64(file);
 
-            // 2. Отправляем запрос в Яндекс Vision
             const visionResponse = await fetch('https://vision.api.cloud.yandex.net/vision/v1/batchAnalyze', {
                 method: 'POST',
                 headers: {
@@ -566,25 +548,18 @@
             });
 
             const visionData = await visionResponse.json();
+            if (!visionResponse.ok) throw new Error(visionData.message || 'Ошибка Vision');
 
-            if (!visionResponse.ok) {
-                throw new Error(visionData.message || 'Ошибка Vision');
-            }
-
-            // 3. Извлекаем эмоции
             const emotions = extractEmotions(visionData);
             console.log('Vision анализ:', emotions);
 
-            // 4. Генерируем ответ через GPT
             const gptResponse = await generateResponse(emotions, questionInput.value.trim());
             console.log('GPT ответ:', gptResponse);
 
-            // 5. Показываем результат
             displayResult(gptResponse, emotions);
 
         } catch (error) {
             console.error('Ошибка:', error);
-            // Запасной вариант: если Vision не работает, используем fallback
             const fallbackResponse = getFallbackResponse(questionInput.value.trim());
             displayResult(fallbackResponse, {});
         } finally {
@@ -593,9 +568,6 @@
         }
     });
 
-    // ===================== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====================
-
-    // Конвертация файла в Base64
     function toBase64(file) {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -605,7 +577,6 @@
         });
     }
 
-    // Извлечение эмоций из ответа Vision
     function extractEmotions(data) {
         try {
             const faces = data.results?.[0]?.results?.[0]?.faceDetection?.faces;
@@ -624,7 +595,6 @@
         }
     }
 
-    // Генерация ответа через GPT
     async function generateResponse(emotions, question) {
         const emotionText = emotions.emotion || 'спокойствие';
         const ageText = emotions.age || 'неизвестен';
@@ -665,7 +635,6 @@
         }
     }
 
-    // Запасной ответ (если что-то пошло не так)
     function getFallbackResponse(question) {
         const fallbacks = [
             'Ты смотришь на себя и видишь не просто лицо. Ты видишь историю, которую носишь в себе. Усталость в глазах говорит о том, как много ты прошла. Но в улыбке — надежда, которую ты не отпускаешь. Ты сильнее, чем кажется.',
@@ -676,7 +645,6 @@
         return fallbacks[Math.floor(Math.random() * fallbacks.length)];
     }
 
-    // Отображение результата
     function displayResult(text, emotions) {
         const colors = [
             'radial-gradient(circle, #f5d7b3, #8f847a)',
@@ -690,7 +658,6 @@
         resultText.textContent = text;
         colorVisual.style.background = randomColor;
 
-        const reflectionText = document.getElementById('reflectionText');
         const emotion = emotions.emotion || 'спокойствие';
         reflectionText.textContent = `Зеркало видит в тебе ${emotion}. Это отражение твоего состояния.`;
 
@@ -698,7 +665,6 @@
         resultBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
-    // ===================== ПЕРЕТАСКИВАНИЕ ФАЙЛА =====================
     uploadArea.addEventListener('dragover', function(e) {
         e.preventDefault();
         this.style.borderColor = 'rgba(245, 215, 179, 0.6)';
@@ -721,7 +687,6 @@
     });
 </script>
 
-<!-- ===================== ЗАЩИТА ОТ КОПИРОВАНИЯ ===================== -->
 <script>
     document.addEventListener('selectstart', function(e) {
         e.preventDefault();
