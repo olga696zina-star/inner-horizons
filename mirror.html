@@ -179,12 +179,6 @@
             margin: 20px auto 30px;
             max-width: 500px;
             text-align: left;
-            opacity: 0.4;
-            pointer-events: none;
-        }
-        .question-input.active {
-            opacity: 1;
-            pointer-events: all;
         }
         .question-input label {
             display: block;
@@ -403,7 +397,6 @@
         <h1>🪞 Зеркало души</h1>
         <div class="sub">Пространство тишины, где ты можешь встретиться с собой</div>
 
-        <!-- ===== ПРИВЕТСТВИЕ ===== -->
         <div id="welcomeBlock" class="welcome-block fade-in delay-1">
             <h2>✨ Здравствуй, ищущий</h2>
             <p>
@@ -414,9 +407,7 @@
             <button class="btn-start" onclick="startMirror()">🌿 Продолжить</button>
         </div>
 
-        <!-- ===== ОСНОВНОЙ БЛОК ===== -->
         <div id="actionBlock" class="action-block">
-            <!-- ===== ИНФОРМАЦИОННО-РАЗВЛЕКАТЕЛЬНОЕ ПРЕДУПРЕЖДЕНИЕ ===== -->
             <div class="disclaimer-info">
                 <strong>✦ Обратите внимание</strong><br>
                 Сервис носит информационно-развлекательный характер и не является научным методом.<br>
@@ -445,7 +436,7 @@
                     <div class="hint">Этот вопрос поможет зеркалу показать тебе то, что важно именно сейчас</div>
                 </div>
 
-                <button class="btn" id="analyzeBtn" disabled>Заглянуть в зеркало</button>
+                <button class="btn" id="analyzeBtn">Заглянуть в зеркало</button>
                 <br>
                 <a href="https://yoomoney.ru/quickpay/fundraise/button?billNumber=1IK…" target="_blank" class="btn-pay" id="payBtn">
                     💳 Оплатить 999 ₽
@@ -465,7 +456,6 @@
         <a href="cabinet.html" class="btn-back">← Вернуться в кабинет</a>
     </section>
 
-    <!-- ===== ПОДВАЛ ===== -->
     <footer class="footer">
         <div class="footer-grid">
             <div class="footer-col">
@@ -536,7 +526,6 @@
             reader.onload = function(event) {
                 preview.src = event.target.result;
                 preview.style.display = 'block';
-                analyzeBtn.disabled = false;
             };
             reader.readAsDataURL(file);
         }
@@ -734,18 +723,13 @@
 
 <!-- ===================== ЗАЩИТА ОТ КОПИРОВАНИЯ ===================== -->
 <script>
-    // Запрет выделения текста
     document.addEventListener('selectstart', function(e) {
         e.preventDefault();
     });
-
-    // Запрет контекстного меню
     document.addEventListener('contextmenu', function(e) {
         e.preventDefault();
         alert('🔒 Копирование и сохранение контента запрещено.');
     });
-
-    // Запрет горячих клавиш
     document.addEventListener('keydown', function(e) {
         if (e.ctrlKey && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
             e.preventDefault();
