@@ -289,3 +289,103 @@
             <h3>Медитации</h3>
             <p>Пространство для встречи с собой через тело и дыхание.</p>
             <span class="btn-action">Начать практику</span>
+        </a>
+    </section>
+
+    <section class="history-section">
+        <h3>📂 История писем и ответов</h3>
+        <div id="historyList">
+            <div class="history-empty">У вас пока нет сохранённых писем.</div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Информация</h4>
+                <ul>
+                    <li><a href="offer.html">Публичная оферта</a></li>
+                    <li><a href="privacy.html">Политика конфиденциальности</a></li>
+                    <li><a href="consent.html">Согласие на обработку данных</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>О нас</h4>
+                <ul>
+                    <li><a href="about.html">О проекте</a></li>
+                    <li><a href="mailto:olga696.olga@yandex.ru">Связаться</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Поддержка</h4>
+                <ul>
+                    <li><a href="mailto:olga696.olga@yandex.ru">olga696.olga@yandex.ru</a></li>
+                    <li><a href="https://t.me/InnerHorizonsBot" target="_blank">Telegram-бот</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Будьте на связи</h4>
+                <a href="https://t.me/InnerHorizonsBot" target="_blank" class="footer-telegram-btn">
+                    💬 Telegram
+                </a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2026 Inner Horizons</span>
+            <span>18+</span>
+            <span>Все права защищены</span>
+        </div>
+    </footer>
+</div>
+
+<script>
+    window.onload = function() {
+        const savedName = localStorage.getItem('userName');
+        if (savedName) {
+            document.getElementById('userNameDisplay').textContent = savedName;
+        }
+        loadHistory();
+    };
+
+    function loadHistory() {
+        const history = JSON.parse(localStorage.getItem('letterHistory')) || [];
+        const container = document.getElementById('historyList');
+
+        if (history.length === 0) {
+            container.innerHTML = '<div class="history-empty">У вас пока нет сохранённых писем.</div>';
+            return;
+        }
+
+        let html = '';
+        history.reverse().forEach(item => {
+            const preview = item.text.length > 100 ? item.text.substring(0, 100) + '...' : item.text;
+            html += `
+                <div class="history-item">
+                    <span><strong>${item.project}</strong> — ${preview}</span>
+                    <span class="date">${item.date}</span>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    }
+</script>
+
+<!-- ===== ЗАЩИТА ОТ КОПИРОВАНИЯ ===== -->
+<script>
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('🔒 Копирование и сохранение контента запрещено.');
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('🔒 Данное действие запрещено.');
+        }
+    });
+</script>
+
+</body>
+</html>
