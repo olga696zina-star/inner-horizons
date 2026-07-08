@@ -190,7 +190,7 @@
         }
         .projects {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 28px;
             margin: 20px 0 30px;
         }
@@ -203,7 +203,6 @@
             text-decoration: none;
             color: #ece3d7;
             display: block;
-            cursor: pointer;
         }
         .project-card:hover {
             background: rgba(255, 255, 255, 0.06);
@@ -266,18 +265,67 @@
         .about strong { color: #f5d7b3; font-weight: 400; }
         .about .muted { color: #8f847a; }
         .footer {
-            margin-top: 40px;
+            margin-top: 50px;
             padding-top: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 20px;
+            padding-bottom: 16px;
+        }
+        .footer-col h4 {
+            font-size: 12px;
+            font-weight: 400;
+            color: #8f847a;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .footer-col ul {
+            list-style: none;
+            padding: 0;
+        }
+        .footer-col ul li {
+            margin-bottom: 4px;
+        }
+        .footer-col ul li a {
+            color: #6a6258;
+            text-decoration: none;
+            font-size: 11px;
+            transition: 0.3s;
+        }
+        .footer-col ul li a:hover {
+            color: #f5d7b3;
+        }
+        .footer-telegram-btn {
+            display: inline-block;
+            padding: 6px 18px;
+            background: rgba(0, 136, 204, 0.15);
+            color: #b3a89c;
+            border: 1px solid rgba(0, 136, 204, 0.2);
+            border-radius: 40px;
+            font-size: 11px;
+            font-family: 'Georgia', serif;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .footer-telegram-btn:hover {
+            background: rgba(0, 136, 204, 0.25);
+            color: #f5d7b3;
+        }
+        .footer-bottom {
+            margin-top: 16px;
+            padding-top: 12px;
             border-top: 1px solid rgba(255, 255, 255, 0.04);
             display: flex;
             justify-content: space-between;
             flex-wrap: wrap;
-            gap: 16px;
-            font-size: 14px;
-            color: #6a6258;
+            gap: 8px;
+            font-size: 10px;
+            color: #4a4238;
         }
-        .footer a { color: #b3a89c; text-decoration: none; transition: 0.25s ease; }
-        .footer a:hover { color: #f5d7b3; }
         @media (max-width: 700px) {
             .container { padding: 24px 18px; }
             .header { flex-direction: column; align-items: flex-start; }
@@ -287,6 +335,8 @@
             .projects { grid-template-columns: 1fr; }
             .testimonials { grid-template-columns: 1fr; }
             .about { padding: 24px 18px; }
+            .footer-grid { grid-template-columns: 1fr 1fr; text-align: center; gap: 16px; }
+            .footer-bottom { flex-direction: column; text-align: center; }
         }
         .fade-in { animation: fadeIn 0.8s ease forwards; }
         @keyframes fadeIn { 0% { opacity: 0; transform: translateY(18px); } 100% { opacity: 1; transform: translateY(0); } }
@@ -315,26 +365,33 @@
 
     <h2 class="projects-title fade-in delay-2">Наши проекты</h2>
     <section class="projects" id="projects">
-        <div class="project-card fade-in delay-2" onclick="checkAccess('letter.html')">
+        <a href="letter.html" class="project-card fade-in delay-2">
             <span class="icon">✧</span>
             <h3>Письмо из будущего</h3>
             <p>Ты отвечаешь на вопросы — и нейросеть пишет письмо от тебя через 5 лет.</p>
             <span class="price free">● Бесплатно</span>
-        </div>
+        </a>
 
-        <div class="project-card fade-in delay-3" onclick="checkAccess('mirror.html')">
+        <a href="mirror.html" class="project-card fade-in delay-3">
             <span class="icon">✦</span>
             <h3>Зеркало души</h3>
             <p>Пространство тишины. Встреча с собой через фото и отражение.</p>
             <span class="price paid">● 999 ₽</span>
-        </div>
+        </a>
 
-        <div class="project-card fade-in delay-3" onclick="checkAccess('bridge.html')">
+        <a href="bridge.html" class="project-card fade-in delay-3">
             <span class="icon">✧</span>
             <h3>Мост между поколениями</h3>
             <p>Разговор с прошлым. Исцеление через память.</p>
-            <span class="price paid">● 14999 ₽</span>
-        </div>
+            <span class="price paid">● 14 999 ₽</span>
+        </a>
+
+        <a href="meditation.html" class="project-card fade-in delay-3">
+            <span class="icon">🧘</span>
+            <h3>Медитации</h3>
+            <p>Пространство для встречи с собой через тело и дыхание.</p>
+            <span class="price paid">● 500 ₽</span>
+        </a>
     </section>
 
     <section class="testimonials fade-in delay-3">
@@ -356,17 +413,47 @@
         <h2>✨ О чём этот проект</h2>
         <p>
             Inner Horizons — это пространство, где ты можешь <strong>услышать себя</strong>.<br><br>
-            Мы создаём инструменты, которые помогают заглянуть внутрь: через письма из будущего, через отражения зеркал, через разговор с прошлым.<br><br>
+            Мы создаём инструменты, которые помогают заглянуть внутрь: через письма из будущего, через отражения зеркал, через разговор с прошлым, через тишину медитаций.<br><br>
             <span class="muted">Это не гадание. Это встреча с собой.</span>
         </p>
     </section>
 
     <footer class="footer">
-        <span>© 2026 Inner Horizons</span>
-        <span>
-            <a href="offer.html">Публичная оферта</a> |
-            <a href="mailto:olga696.olga@yandex.ru">olga696.olga@yandex.ru</a>
-        </span>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Информация</h4>
+                <ul>
+                    <li><a href="offer.html">Публичная оферта</a></li>
+                    <li><a href="privacy.html">Политика конфиденциальности</a></li>
+                    <li><a href="consent.html">Согласие на обработку данных</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>О нас</h4>
+                <ul>
+                    <li><a href="about.html">О проекте</a></li>
+                    <li><a href="mailto:olga696.olga@yandex.ru">Связаться</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Поддержка</h4>
+                <ul>
+                    <li><a href="mailto:olga696.olga@yandex.ru">olga696.olga@yandex.ru</a></li>
+                    <li><a href="https://t.me/InnerHorizonsBot" target="_blank">Telegram-бот</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Будьте на связи</h4>
+                <a href="https://t.me/InnerHorizonsBot" target="_blank" class="footer-telegram-btn">
+                    💬 Telegram
+                </a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2026 Inner Horizons</span>
+            <span>18+</span>
+            <span>Все права защищены</span>
+        </div>
     </footer>
 </div>
 
@@ -374,17 +461,24 @@
     function toggleTheme() {
         document.body.classList.toggle('light');
     }
-
-    function checkAccess(page) {
-        const isRegistered = localStorage.getItem('userRegistered') === 'true';
-        
-        if (!isRegistered) {
-            alert('🔒 Чтобы открыть этот проект, нужно зарегистрироваться.\n\nНажмите «ОК», чтобы перейти к регистрации.');
-            window.location.href = 'register.html';
-        } else {
-            window.location.href = page;
-        }
-    }
 </script>
+
+<!-- ===== ЗАЩИТА ОТ КОПИРОВАНИЯ ===== -->
+<script>
+    document.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    });
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        alert('🔒 Копирование и сохранение контента запрещено.');
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+            e.preventDefault();
+            alert('🔒 Данное действие запрещено.');
+        }
+    });
+</script>
+
 </body>
 </html>
