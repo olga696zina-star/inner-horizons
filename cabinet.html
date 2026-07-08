@@ -83,7 +83,7 @@
         }
         .projects {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 28px;
             margin: 30px 0 20px;
         }
@@ -159,23 +159,74 @@
             padding: 20px 0;
         }
         .footer {
-            margin-top: 40px;
+            margin-top: 50px;
             padding-top: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 20px;
+            padding-bottom: 16px;
+        }
+        .footer-col h4 {
+            font-size: 12px;
+            font-weight: 400;
+            color: #8f847a;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .footer-col ul {
+            list-style: none;
+            padding: 0;
+        }
+        .footer-col ul li {
+            margin-bottom: 4px;
+        }
+        .footer-col ul li a {
+            color: #6a6258;
+            text-decoration: none;
+            font-size: 11px;
+            transition: 0.3s;
+        }
+        .footer-col ul li a:hover {
+            color: #f5d7b3;
+        }
+        .footer-telegram-btn {
+            display: inline-block;
+            padding: 6px 18px;
+            background: rgba(0, 136, 204, 0.15);
+            color: #b3a89c;
+            border: 1px solid rgba(0, 136, 204, 0.2);
+            border-radius: 40px;
+            font-size: 11px;
+            font-family: 'Georgia', serif;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .footer-telegram-btn:hover {
+            background: rgba(0, 136, 204, 0.25);
+            color: #f5d7b3;
+        }
+        .footer-bottom {
+            margin-top: 16px;
+            padding-top: 12px;
             border-top: 1px solid rgba(255, 255, 255, 0.04);
             display: flex;
             justify-content: space-between;
             flex-wrap: wrap;
-            gap: 16px;
-            font-size: 14px;
-            color: #6a6258;
+            gap: 8px;
+            font-size: 10px;
+            color: #4a4238;
         }
-        .footer a { color: #b3a89c; text-decoration: none; transition: 0.25s ease; }
-        .footer a:hover { color: #f5d7b3; }
         @media (max-width: 700px) {
             .container { padding: 24px 18px; }
             .header { flex-direction: column; align-items: flex-start; }
             .welcome h2 { font-size: 26px; }
             .projects { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr 1fr; text-align: center; gap: 16px; }
+            .footer-bottom { flex-direction: column; text-align: center; }
         }
         .logout {
             background: none;
@@ -218,66 +269,23 @@
             <p>Ты отвечаешь на вопросы — и нейросеть пишет письмо от тебя через 5 лет.</p>
             <span class="btn-action">Начать диалог</span>
         </a>
+
         <a href="mirror.html" class="project-card">
             <span class="icon">✦</span>
             <h3>Зеркало души</h3>
             <p>Пространство тишины. Встреча с собой через фото и отражение.</p>
             <span class="btn-action">Встретиться с собой</span>
         </a>
+
         <a href="bridge.html" class="project-card">
             <span class="icon">✧</span>
             <h3>Мост между поколениями</h3>
             <p>Разговор с прошлым. Исцеление через память.</p>
             <span class="btn-action">Пройти по мосту</span>
         </a>
-    </section>
 
-    <section class="history-section">
-        <h3>📂 История писем и ответов</h3>
-        <div id="historyList">
-            <div class="history-empty">У вас пока нет сохранённых писем.</div>
-        </div>
-    </section>
-
-    <footer class="footer">
-        <span>© 2026 Inner Horizons</span>
-        <span>
-            <a href="offer.html">Публичная оферта</a> |
-            <a href="mailto:olga696.olga@yandex.ru">olga696.olga@yandex.ru</a>
-        </span>
-    </footer>
-</div>
-
-<script>
-    window.onload = function() {
-        const savedName = localStorage.getItem('userName');
-        if (savedName) {
-            document.getElementById('userNameDisplay').textContent = savedName;
-        }
-        loadHistory();
-    };
-
-    function loadHistory() {
-        const history = JSON.parse(localStorage.getItem('letterHistory')) || [];
-        const container = document.getElementById('historyList');
-
-        if (history.length === 0) {
-            container.innerHTML = '<div class="history-empty">У вас пока нет сохранённых писем.</div>';
-            return;
-        }
-
-        let html = '';
-        history.reverse().forEach(item => {
-            const preview = item.text.length > 100 ? item.text.substring(0, 100) + '...' : item.text;
-            html += `
-                <div class="history-item">
-                    <span><strong>${item.project}</strong> — ${preview}</span>
-                    <span class="date">${item.date}</span>
-                </div>
-            `;
-        });
-        container.innerHTML = html;
-    }
-</script>
-</body>
-</html>
+        <a href="meditation.html" class="project-card">
+            <span class="icon">🧘</span>
+            <h3>Медитации</h3>
+            <p>Пространство для встречи с собой через тело и дыхание.</p>
+            <span class="btn-action">Начать практику</span>
