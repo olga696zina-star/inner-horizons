@@ -388,9 +388,8 @@
 
 <script>
     // ===== НАСТРОЙКИ =====
-    const VOICE_API_URL = 'https://ваш-шлюз.apigw.yandexcloud.net/'; // ЗАМЕНИТЕ НА ВАШ URL
+    const VOICE_API_URL = 'https://d5dh9js7h97a6r3fc6n6.p8361f8z.apigw.yandexcloud.net/';
 
-    // ===== ТЕКСТЫ МЕДИТАЦИЙ =====
     const emotionTexts = {
         fear: {
             name: 'Страх',
@@ -436,7 +435,6 @@
         document.getElementById('statusText').textContent = 'Отправка запроса...';
 
         try {
-            // Отправляем запрос к вашей функции
             const response = await fetch(VOICE_API_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -449,11 +447,9 @@
                 throw new Error(data.error || 'Ошибка генерации голоса');
             }
 
-            // Преобразуем base64 в аудио
             const audioBlob = await fetch(`data:audio/mpeg;base64,${data.audio}`).then(r => r.blob());
             const audioUrl = URL.createObjectURL(audioBlob);
 
-            // Останавливаем предыдущее аудио
             if (currentAudio) {
                 currentAudio.pause();
                 currentAudio.currentTime = 0;
