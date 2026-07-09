@@ -30,7 +30,7 @@
             box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
         }
         .greeting {
-            font-size: 14px;
+            font-size: 12px;
             letter-spacing: 4px;
             text-transform: uppercase;
             color: #7a7268;
@@ -41,46 +41,58 @@
             font-weight: 400;
             color: #f5d7b3;
             line-height: 1.3;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
         .intro {
-            font-size: 18px;
+            font-size: 17px;
             color: #b3a89c;
             line-height: 1.8;
             margin-bottom: 30px;
             font-style: italic;
         }
-        .question {
-            font-size: 22px;
-            color: #ddd6cc;
-            font-style: italic;
+        .section {
+            margin: 24px 0;
+            text-align: left;
+            border-left: 2px solid rgba(245, 215, 179, 0.1);
+            padding-left: 20px;
+        }
+        .section h3 {
+            font-size: 17px;
+            color: #f5d7b3;
+            font-weight: 400;
+            margin-bottom: 4px;
+        }
+        .section p {
+            font-size: 15px;
+            color: #cdc3b7;
             line-height: 1.6;
-            margin-bottom: 30px;
+            margin-bottom: 4px;
         }
-        .field {
-            background: rgba(255, 255, 255, 0.03);
-            border: none;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            width: 100%;
-            padding: 16px 10px;
-            font-size: 18px;
-            font-family: 'Georgia', serif;
-            color: #f0e9e0;
-            outline: none;
-            transition: 0.3s;
-            resize: none;
-            min-height: 100px;
-            text-align: center;
+        .section ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 4px;
         }
-        .field:focus {
-            border-bottom-color: #f5d7b3;
+        .section ul li {
+            font-size: 14px;
+            color: #b3a89c;
+            line-height: 1.6;
+            padding: 3px 0;
+            padding-left: 16px;
+            position: relative;
         }
-        .field::placeholder {
-            color: #5a5248;
+        .section ul li::before {
+            content: "✧ ";
+            color: #f5d7b3;
+            position: absolute;
+            left: 0;
+        }
+        .highlight {
+            color: #f5d7b3;
             font-style: italic;
         }
         .btn {
-            margin-top: 30px;
+            margin-top: 36px;
             padding: 14px 48px;
             background: transparent;
             color: #f5d7b3;
@@ -90,24 +102,12 @@
             font-family: 'Georgia', serif;
             cursor: pointer;
             transition: 0.3s;
-            display: none;
+            text-decoration: none;
+            display: inline-block;
         }
         .btn:hover {
             background: rgba(245, 215, 179, 0.06);
             border-color: rgba(245, 215, 179, 0.4);
-        }
-        .btn.visible {
-            display: inline-block;
-        }
-        .hint {
-            font-size: 13px;
-            color: #4a4238;
-            margin-top: 16px;
-            opacity: 0;
-            transition: 0.3s;
-        }
-        .hint.visible {
-            opacity: 1;
         }
         .footer {
             margin-top: 30px;
@@ -118,9 +118,10 @@
         @media (max-width: 600px) {
             .inner { padding: 40px 20px; }
             h1 { font-size: 26px; }
-            .question { font-size: 18px; }
-            .field { font-size: 16px; }
-            .intro { font-size: 16px; }
+            .intro { font-size: 15px; }
+            .section p { font-size: 14px; }
+            .section ul li { font-size: 13px; }
+            .btn { padding: 12px 32px; font-size: 15px; }
         }
     </style>
 </head>
@@ -130,55 +131,64 @@
         <div class="greeting">✧ inner horizons ✧</div>
         <h1>Пространство остановки</h1>
         <p class="intro">
-            Прежде чем войти в мир проектов, остановись на мгновение.<br>
-            Здесь нет задач, нет ожиданий, нет правильных или неправильных ответов.<br>
-            Здесь есть только ты и твоё дыхание.
+            Здесь нет задач, нет ожиданий, нет правильных ответов.<br />
+            Только ты и то, что ты чувствуешь прямо сейчас.
         </p>
-        <div class="question">
-            Где сегодня ты была настоящей,<br />
-            а где надела маску?
+
+        <div class="section">
+            <h3>🌀 Тело</h3>
+            <p>Не пытайся исправить — просто заметь:</p>
+            <ul>
+                <li>Как ты дышишь, когда грустно или тревожно?</li>
+                <li>Где живёт напряжение — в плечах, челюсти, животе?</li>
+            </ul>
         </div>
 
-        <textarea class="field" id="answer" rows="3" placeholder="Напиши что-то… или просто побудь здесь"></textarea>
-        <button class="btn" id="continueBtn">✧ Я услышал(а) себя</button>
-        <div class="hint" id="hint">Ты ничего не должна. Просто будь.</div>
+        <div class="section">
+            <h3>🌿 Территория</h3>
+            <p>Определи пространство, где ты никому ничего не должна:</p>
+            <ul>
+                <li>Не физическое — внутреннее.</li>
+                <li>Где тебе не надо спасать, объяснять, доказывать.</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h3>🎙️ Голос</h3>
+            <p>Начни говорить о себе в настоящем времени:</p>
+            <ul>
+                <li>Вместо «мне надо быть сильной» → «я хочу быть мягкой, когда это безопасно».</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h3>💬 Диалог</h3>
+            <p>Выбери одного человека, перед которым не надо играть роль:</p>
+            <ul>
+                <li>Говори не о деле, а о том, что чувствуешь.</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h3>✨ Смысл</h3>
+            <p>Напиши не цели, а то, <span class="highlight">как ты хочешь себя чувствовать</span> через год:</p>
+            <ul>
+                <li>Не «запустить проект», а «чувствовать лёгкость утром».</li>
+            </ul>
+        </div>
+
+        <div style="margin: 30px 0 20px; padding: 20px; background: rgba(245,215,179,0.03); border-radius: 16px; border: 1px solid rgba(245,215,179,0.06);">
+            <p style="color: #b3a89c; font-size: 16px; line-height: 1.8; font-style: italic;">
+                «Где сегодня я была настоящей? А где надела маску?»
+            </p>
+            <p style="color: #6a6258; font-size: 14px; margin-top: 8px;">
+                Каждый вечер, перед сном. Без оценок. Просто замечать.
+            </p>
+        </div>
+
+        <a href="main.html" class="btn">✧ Я услышал(а) себя</a>
     </div>
-    <div class="footer">✧ встреча с собой начинается здесь ✧</div>
+    <div class="footer">✧ встреча с собой — это путь, а не пункт назначения ✧</div>
 </div>
-
-<script>
-    const answerField = document.getElementById('answer');
-    const continueBtn = document.getElementById('continueBtn');
-    const hint = document.getElementById('hint');
-
-    answerField.addEventListener('input', function() {
-        const hasText = this.value.trim().length > 0;
-        continueBtn.classList.toggle('visible', hasText);
-        hint.classList.toggle('visible', !hasText);
-        if (hasText) {
-            hint.textContent = 'Ты сделала шаг. Это много.';
-        } else {
-            hint.textContent = 'Ты ничего не должна. Просто будь.';
-        }
-    });
-
-    continueBtn.addEventListener('click', function() {
-        const answer = answerField.value.trim();
-        if (answer) {
-            localStorage.setItem('lastPauseAnswer', answer);
-            localStorage.setItem('pauseDate', new Date().toISOString());
-        }
-        window.location.href = 'main.html';
-    });
-
-    const savedAnswer = localStorage.getItem('lastPauseAnswer');
-    if (savedAnswer) {
-        answerField.value = savedAnswer;
-        continueBtn.classList.add('visible');
-        hint.textContent = 'Ты уже была здесь. Снова?';
-        hint.classList.add('visible');
-    }
-</script>
-
 </body>
 </html>
