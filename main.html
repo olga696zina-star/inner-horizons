@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inner Horizons — пространство остановки</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: radial-gradient(ellipse at 50% 0%, #0b0f1a, #04060b);
+            min-height: 100vh;
+            font-family: 'Georgia', serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #f0e9e0;
+        }
+        .container {
+            max-width: 720px;
+            width: 100%;
+            text-align: center;
+        }
+        .inner {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(8px);
+            border-radius: 48px;
+            padding: 60px 40px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+        }
+        .greeting {
+            font-size: 14px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #7a7268;
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: 34px;
+            font-weight: 400;
+            color: #f5d7b3;
+            line-height: 1.3;
+            margin-bottom: 20px;
+        }
+        .question {
+            font-size: 22px;
+            color: #ddd6cc;
+            font-style: italic;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        .field {
+            background: rgba(255, 255, 255, 0.03);
+            border: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            width: 100%;
+            padding: 16px 10px;
+            font-size: 18px;
+            font-family: 'Georgia', serif;
+            color: #f0e9e0;
+            outline: none;
+            transition: 0.3s;
+            resize: none;
+            min-height: 80px;
+            text-align: center;
+        }
+        .field:focus {
+            border-bottom-color: #f5d7b3;
+        }
+        .field::placeholder {
+            color: #5a5248;
+            font-style: italic;
+        }
+        .btn {
+            margin-top: 30px;
+            padding: 14px 48px;
+            background: transparent;
+            color: #f5d7b3;
+            border: 1px solid rgba(245, 215, 179, 0.2);
+            border-radius: 60px;
+            font-size: 16px;
+            font-family: 'Georgia', serif;
+            cursor: pointer;
+            transition: 0.3s;
+            display: none;
+        }
+        .btn:hover {
+            background: rgba(245, 215, 179, 0.06);
+            border-color: rgba(245, 215, 179, 0.4);
+        }
+        .btn.visible {
+            display: inline-block;
+        }
+        .hint {
+            font-size: 13px;
+            color: #4a4238;
+            margin-top: 16px;
+            opacity: 0;
+            transition: 0.3s;
+        }
+        .hint.visible {
+            opacity: 1;
+        }
+        .footer {
+            margin-top: 30px;
+            font-size: 12px;
+            color: #3a342c;
+            letter-spacing: 1px;
+        }
+        @media (max-width: 600px) {
+            .inner { padding: 40px 20px; }
+            h1 { font-size: 26px; }
+            .question { font-size: 18px; }
+            .field { font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="inner">
+        <div class="greeting">✧ inner horizons ✧</div>
+        <h1>Пространство остановки</h1>
+        <div class="question">
+            Где сегодня ты была настоящей,<br />
+            а где надела маску?
+        </div>
+
+        <textarea class="field" id="answer" rows="2" placeholder="Напиши что-то… или просто побудь здесь"></textarea>
+        <button class="btn" id="continueBtn">✧ Я услышал(а) себя</button>
+        <div class="hint" id="hint">Ты ничего не должна. Просто будь.</div>
+    </div>
+    <div class="footer">✧ встреча с собой начинается здесь ✧</div>
+</div>
+
+<script>
+    const answerField = document.getElementById('answer');
+    const continueBtn = document.getElementById('continueBtn');
+    const hint = document.getElementById('hint');
+
+    answerField.addEventListener('input', function() {
+        const hasText = this.value.trim().length > 0;
+        continueBtn.classList.toggle('visible', hasText);
+        hint.classList.toggle('visible', !hasText);
+        if (hasText) {
+            hint.textContent = 'Ты сделала шаг. Это много.';
+        } else {
+            hint.textContent = 'Ты ничего не должна. Просто будь.';
+        }
+    });
+
+    continueBtn.addEventListener('click', function() {
+        const answer = answerField.value.trim();
+        if (answer) {
+            localStorage.setItem('lastPauseAnswer', answer);
+            localStorage.setItem('pauseDate', new Date().toISOString());
+        }
+        window.location.href = 'main.html';
+    });
+
+    const savedAnswer = localStorage.getItem('lastPauseAnswer');
+    if (savedAnswer) {
+        answerField.value = savedAnswer;
+        continueBtn.classList.add('visible');
+        hint.textContent = 'Ты уже была здесь. Снова?';
+        hint.classList.add('visible');
+    }
+</script>
+
+</body>
+</html>
