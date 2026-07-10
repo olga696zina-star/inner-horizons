@@ -36,63 +36,21 @@
             color: #7a7268;
             margin-bottom: 20px;
         }
-        h1 {
-            font-size: 34px;
-            font-weight: 400;
-            color: #f5d7b3;
-            line-height: 1.3;
+        .letter {
+            text-align: left;
+            font-size: 17px;
+            color: #ddd6cc;
+            line-height: 2;
+            margin-bottom: 30px;
+        }
+        .letter p {
             margin-bottom: 16px;
         }
-        .intro {
-            font-size: 17px;
-            color: #b3a89c;
-            line-height: 1.8;
-            margin-bottom: 30px;
-            font-style: italic;
-        }
-        .section {
-            margin: 24px 0;
-            text-align: left;
-            border-left: 2px solid rgba(245, 215, 179, 0.1);
-            padding-left: 20px;
-        }
-        .section h3 {
-            font-size: 17px;
+        .letter .highlight {
             color: #f5d7b3;
-            font-weight: 400;
-            margin-bottom: 4px;
-        }
-        .section p {
-            font-size: 15px;
-            color: #cdc3b7;
-            line-height: 1.6;
-            margin-bottom: 4px;
-        }
-        .section ul {
-            list-style: none;
-            padding: 0;
-            margin-top: 4px;
-        }
-        .section ul li {
-            font-size: 14px;
-            color: #b3a89c;
-            line-height: 1.6;
-            padding: 3px 0;
-            padding-left: 16px;
-            position: relative;
-        }
-        .section ul li::before {
-            content: "✧ ";
-            color: #f5d7b3;
-            position: absolute;
-            left: 0;
-        }
-        .highlight {
-            color: #f5d7b3;
-            font-style: italic;
         }
         .btn {
-            margin-top: 36px;
+            margin-top: 20px;
             padding: 14px 48px;
             background: transparent;
             color: #f5d7b3;
@@ -117,10 +75,7 @@
         }
         @media (max-width: 600px) {
             .inner { padding: 40px 20px; }
-            h1 { font-size: 26px; }
-            .intro { font-size: 15px; }
-            .section p { font-size: 14px; }
-            .section ul li { font-size: 13px; }
+            .letter { font-size: 15px; }
             .btn { padding: 12px 32px; font-size: 15px; }
         }
     </style>
@@ -129,66 +84,27 @@
 <div class="container">
     <div class="inner">
         <div class="greeting">✧ inner horizons ✧</div>
-        <h1>Пространство остановки</h1>
-        <p class="intro">
-            Здесь нет задач, нет ожиданий, нет правильных ответов.<br />
-            Только ты и то, что ты чувствуешь прямо сейчас.
-        </p>
-
-        <div class="section">
-            <h3>🌀 Тело</h3>
-            <p>Не пытайся исправить — просто заметь:</p>
-            <ul>
-                <li>Как ты дышишь, когда грустно или тревожно?</li>
-                <li>Где живёт напряжение — в плечах, челюсти, животе?</li>
-            </ul>
-        </div>
-
-        <div class="section">
-            <h3>🌿 Территория</h3>
-            <p>Определи пространство, где ты никому ничего не должна:</p>
-            <ul>
-                <li>Не физическое — внутреннее.</li>
-                <li>Где тебе не надо спасать, объяснять, доказывать.</li>
-            </ul>
-        </div>
-
-        <div class="section">
-            <h3>🎙️ Голос</h3>
-            <p>Начни говорить о себе:</p>
-            <ul>
-                <li>Вместо «мне надо быть сильной» → «я хочу быть мягкой, когда это безопасно».</li>
-            </ul>
-        </div>
-
-        <div class="section">
-            <h3>💬 Диалог</h3>
-            <p>Выбери одного человека, перед которым не надо играть роль:</p>
-            <ul>
-                <li>Говори не о деле, а о том, что чувствуешь.</li>
-            </ul>
-        </div>
-
-        <div class="section">
-            <h3>✨ Смысл</h3>
-            <p>Напиши не цели, а то, <span class="highlight">как ты хочешь себя чувствовать</span> через год:</p>
-            <ul>
-                <li>Не «запустить проект», а «чувствовать лёгкость утром».</li>
-            </ul>
-        </div>
-
-        <div style="margin: 30px 0 20px; padding: 20px; background: rgba(245,215,179,0.03); border-radius: 16px; border: 1px solid rgba(245,215,179,0.06);">
-            <p style="color: #b3a89c; font-size: 16px; line-height: 1.8; font-style: italic;">
-                «Где сегодня я была настоящей? А где надела маску?»
+        <div class="letter">
+            <p>Здравствуй.</p>
+            <p>
+                Эта территория создана для тебя таким образом,<br />
+                чтобы ты мог <span class="highlight">остановиться</span> и заглянуть в себя.
             </p>
-            <p style="color: #6a6258; font-size: 14px; margin-top: 8px;">
-                Каждый вечер, перед сном. Без оценок. Просто замечать.
+            <p>
+                Здесь нет задач. Ты никому и ничего не должен.<br />
+                Здесь нет правильных ответов. Нет напряжения.<br />
+                Всё создано для твоего комфорта, уюта<br />
+                и желания <span class="highlight">просто быть</span>.
+            </p>
+            <p>
+                Ты можешь остаться здесь столько, сколько нужно.<br />
+                Или уйти, когда почувствуешь, что готов.<br />
+                Это пространство — для тебя.
             </p>
         </div>
-
-        <a href="main.html" class="btn">✧ Я услышал(а) себя</a>
+        <a href="main.html" class="btn">✧ Войти в пространство</a>
     </div>
-    <div class="footer">✧ встреча с собой — это путь, а не пункт назначения ✧</div>
+    <div class="footer">✧ встреча с собой начинается здесь ✧</div>
 </div>
 </body>
 </html>
