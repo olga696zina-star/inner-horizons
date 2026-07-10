@@ -387,8 +387,6 @@
 </div>
 
 <script>
-    const VOICE_API_URL = 'https://d5dh9js7h97a6r3fc6n6.p8361f8z.apigw.yandexcloud.net/';
-
     const emotionTexts = {
         fear: {
             name: 'Страх',
@@ -413,7 +411,8 @@
     };
 
     let selectedEmotion = null;
-    let currentAudio = null;
+    let currentUtterance = null;
+    let isPlaying = false;
 
     function startMeditation() {
         document.getElementById('welcomeBlock').style.display = 'none';
@@ -431,66 +430,71 @@
         });
     });
 
-    document.getElementById('playBtn').addEventListener('click', async function() {
+    document.getElementById('playBtn').addEventListener('click', function() {
         if (!selectedEmotion) {
             alert('Выбери эмоцию');
             return;
         }
 
+        if (isPlaying) {
+            // Останавливаем текущую речь
+            if (window.speechSynthesis.speaking) {
+                window.speechSynthesis.cancel();
+            }
+            isPlaying = false;
+            this.textContent = '▶ Начать медитацию';
+            document.getElementById('statusText').textContent = '⏸️ Остановлено';
+            return;
+        }
+
         const voiceType = document.querySelector('input[name="voice"]:checked').value;
-        const voice = voiceType === 'female' ? 'oksana' : 'zahar';
         const text = emotionTexts[selectedEmotion].text;
 
-        this.disabled = true;
-        this.textContent = '⏳ Голос генерируется...';
-        document.getElementById('statusText').textContent = 'Отправка запроса...';
-
-        try {
-            const response = await fetch(VOICE_API_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ text, voice, speed: 1.0 })
-            });
-
-            const data = await response.json();
-
-            if (!response.ok || data.error) {
-                throw new Error(data.error || 'Ошибка генерации голоса');
-            }
-
-            const audioBlob = await fetch(`data:audio/mpeg;base64,${data.audio}`).then(r => r.blob());
-            const audioUrl = URL.createObjectURL(audioBlob);
-
-            if (currentAudio) {
-                currentAudio.pause();
-                currentAudio.currentTime = 0;
-            }
-
-            currentAudio = new Audio(audioUrl);
-            currentAudio.play();
-
-            this.textContent = '🔊 Играет...';
-            document.getElementById('statusText').textContent = '▶ Идёт медитация...';
-
-            currentAudio.onended = function() {
-                document.getElementById('playBtn').textContent = '▶ Начать медитацию';
-                document.getElementById('statusText').textContent = '✅ Медитация завершена.';
-                document.getElementById('resultArea').style.display = 'block';
-            };
-
-            currentAudio.onerror = function() {
-                document.getElementById('playBtn').textContent = '▶ Начать медитацию';
-                document.getElementById('statusText').textContent = '❌ Ошибка воспроизведения.';
-            };
-
-        } catch (error) {
-            console.error('Ошибка:', error);
-            this.textContent = '▶ Начать медитацию';
-            this.disabled = false;
-            document.getElementById('statusText').textContent = '❌ ' + (error.message || 'Не удалось загрузить голос.');
-        } finally {
-            this.disabled = false;
+        if (!text) {
+            document.getElementById('statusText').textContent = '❌ Текст для этой эмоции не найден.';
+            return;
         }
+
+        this.textContent = '⏹️ Остановить';
+        document.getElementById('statusText').textContent = '🗣️ Голос генерируется...';
+
+        // Используем Web Speech API
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'ru-RU';
+        utterance.rate = 0.9;
+        utterance.pitch = voiceType === 'female' ? 1.0 : 0.8;
+
+        // Выбор голоса
+        const voices = window.speechSynthesis.getVoices();
+        const preferredVoice = voices.find(v => 
+            v.lang.startsWith('ru') && 
+            (voiceType === 'female' ? v.name.includes('Female') || v.name.includes('Google') : v.name.includes('Male'))
+        );
+        if (preferredVoice) {
+            utterance.voice = preferredVoice;
+        }
+
+        utterance.onstart = function() {
+            isPlaying = true;
+            document.getElementById('statusText').textContent = '▶ Идёт медитация...';
+        };
+
+        utterance.onend = function() {
+            isPlaying = false;
+            document.getElementById('playBtn').textContent = '▶ Начать медитацию';
+            document.getElementById('statusText').textContent = '✅ Медитация завершена.';
+            document.getElementById('resultArea').style.display = 'block';
+        };
+
+        utterance.onerror = function(event) {
+            console.error('Ошибка синтеза:', event);
+            isPlaying = false;
+            document.getElementById('playBtn').textContent = '▶ Начать медитацию';
+            document.getElementById('statusText').textContent = '❌ Ошибка воспроизведения. Попробуйте позже.';
+        };
+
+        window.speechSynthesis.speak(utterance);
+        currentUtterance = utterance;
     });
 </script>
 
@@ -508,6 +512,12 @@
             alert('🔒 Данное действие запрещено.');
         }
     });
+
+    // Загрузка голосов для Speech Synthesis
+    window.speechSynthesis.getVoices();
+    window.speechSynthesis.onvoiceschanged = function() {
+        window.speechSynthesis.getVoices();
+    };
 </script>
 
 </body>
