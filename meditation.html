@@ -145,26 +145,6 @@
             color: #f5d7b3;
         }
 
-        .voice-selector {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin: 20px 0;
-        }
-        .voice-selector label {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 16px;
-            color: #b3a89c;
-            cursor: pointer;
-        }
-        .voice-selector input[type="radio"] {
-            accent-color: #f5d7b3;
-            width: 18px;
-            height: 18px;
-        }
-
         .player-area {
             margin: 30px 0;
             padding: 30px;
@@ -281,7 +261,6 @@
             .container { padding: 24px 18px; }
             .content h1 { font-size: 28px; }
             .emotion-grid { grid-template-columns: 1fr 1fr; }
-            .voice-selector { flex-direction: column; align-items: center; gap: 10px; }
             .footer-grid { grid-template-columns: 1fr 1fr; text-align: center; gap: 16px; }
             .footer-bottom { flex-direction: column; text-align: center; }
         }
@@ -320,15 +299,7 @@
 
             <div class="emotion-grid" id="emotionGrid">
                 <div class="emotion-card" data-emotion="fear">🌀 Страх</div>
-                <div class="emotion-card" data-emotion="resentment">💧 Обида</div>
                 <div class="emotion-card" data-emotion="guilt">⚖️ Вина</div>
-                <div class="emotion-card" data-emotion="anger">🔥 Злость</div>
-                <div class="emotion-card" data-emotion="selfpity">🕊️ Жалость к себе</div>
-            </div>
-
-            <div class="voice-selector">
-                <label><input type="radio" name="voice" value="female" checked /> 🎙️ Женский голос</label>
-                <label><input type="radio" name="voice" value="male" /> 🎙️ Мужской голос</label>
             </div>
 
             <div class="player-area" id="playerArea">
@@ -387,32 +358,14 @@
 </div>
 
 <script>
-    const emotionTexts = {
-        fear: {
-            name: 'Страх',
-            text: 'Сядь удобно. Закрой глаза. Сделай три спокойных вдоха и выдоха. Теперь направь внимание внутрь себя. Не ищи страх головой. Просто почувствуй — есть ли в теле место, где живёт напряжение? Это может быть грудь, горло, живот или плечи. Просто отметь его. Не пытайся изменить. Не борись с ним. Просто побудь рядом. Скажи мысленно: «Я вижу тебя, страх. Ты здесь. Я не убегаю». Представь, что с каждым выдохом ты позволяешь этому напряжению чуть-чуть ослабнуть. Не избавляешься — просто даёшь ему пространство. Почувствуй, как оно начинает дышать вместе с тобой. А теперь спроси себя: «Чего на самом деле хочет этот страх? Что он пытается защитить?» Позволь себе услышать ответ — не мыслью, а чувством. Поблагодари страх за то, что он был твоей защитой. И скажи ему: «Теперь я могу сам о себе позаботиться. Ты можешь быть спокоен». Посиди в этой тишине ещё полминуты. Почувствуй, как тело становится легче. Когда будешь готова — открой глаза и возвращайся в пространство.'
-        },
-        resentment: {
-            name: 'Обида',
-            text: 'Прими удобное положение. Закрой глаза. Сделай несколько спокойных вдохов. Теперь обрати внимание на область груди или живота. Есть ли там тяжесть, сжатие, комок? Это место, где живёт твоя обида. Просто признай её присутствие. Не оценивай. Не осуждай. Скажи: «Да, я чувствую обиду. Она здесь». Представь, что твоё дыхание начинает мягко касаться этого места. Как тёплая вода. С каждым вдохом — тепло приходит. С каждым выдохом — напряжение по чуть-чуть уходит. Не торопись. Дай себе время. Просто будь рядом с этим чувством. А теперь представь, что ты можешь отделить саму обиду от человека, на которого она направлена. Обида — это не он. Это твоя реакция. Позволь ей быть — но не позволяй ей определять тебя. Скажи мысленно: «Я имею право на эту обиду. И я имею право отпустить её, когда буду готова». Не заставляй себя прощать. Просто дай себе разрешение чувствовать. И заметь, как с каждым выдохом тело становится чуть более свободным. Когда почувствуешь, что готова — открой глаза и побудь в тишине ещё несколько мгновений.'
-        },
-        guilt: {
-            name: 'Вина',
-            text: 'Сядь удобно, закрой глаза. Сделай глубокий вдох и медленный выдох. А теперь направь внимание в область груди — туда, где живёт чувство вины. Не пытайся избавиться от него. Просто признай: «Да, я чувствую вину. Она здесь». Позволь себе почувствовать её тяжесть. А теперь спроси себя: «Что я сделала из того, что действительно было в моей власти? А что было не в моей власти?» Раздели эти два. Отпусти то, что было не в твоей власти. Ты не обязана нести ответственность за всё. Позволь себе сказать: «Я несу ответственность только за свои намерения. За результат — не всегда». Почувствуй, как тяжесть начинает уходить с каждым выдохом. Ты не плохая. Ты — человек, который учится. Позволь себе быть несовершенной.'
-        },
-        anger: {
-            name: 'Злость',
-            text: 'Займи устойчивое положение. Закрой глаза. Сделай несколько глубоких вдохов и выдохов. Почувствуй, где в теле живёт твоя злость. Это может быть челюсть, кулаки, грудь. Не подавляй это чувство. Позволь ему быть. Скажи себе: «Да, я злюсь. Это нормально». Теперь представь, что ты можешь направить эту энергию не на разрушение, а на движение. Сделай глубокий вдох. На выдохе — слегка сожми кулаки, а на вдохе — разожми. Пусть злость станет топливом, а не ядом. Ты имеешь право на это чувство. Ты имеешь право защищать свои границы. Когда будешь готова — открой глаза и замечай, как изменилось тело.'
-        },
-        selfpity: {
-            name: 'Жалость к себе',
-            text: 'Сядь мягко. Закрой глаза. Направь внимание в центр груди — туда, где может жить жалость к себе. Это чувство, которое приходит, когда мы устаём. Не отталкивай его. Просто прими его. Скажи себе: «Я устала. Я имею право на усталость. Я имею право на отдых». Позволь себе побыть в этом состоянии. А теперь представь, что ты можешь отделить жалость к себе от чувства беспомощности. Ты не беспомощна. Ты просто устала. Это разные вещи. Скажи себе: «Я забочусь о себе. Я позволяю себе быть слабой, чтобы набраться сил». С каждым выдохом отпускай напряжение. С каждым вдохом — впускай тепло. Ты не обязана быть сильной всегда. Ты имеешь право на мягкость.'
-        }
+    const AUDIO_BASE = 'audio/';
+    const audioFiles = {
+        fear: 'fear.mp3',
+        guilt: 'guilt.mp3'
     };
 
     let selectedEmotion = null;
-    let currentUtterance = null;
-    let isPlaying = false;
+    let currentAudio = null;
 
     function startMeditation() {
         document.getElementById('welcomeBlock').style.display = 'none';
@@ -436,65 +389,35 @@
             return;
         }
 
-        if (isPlaying) {
-            // Останавливаем текущую речь
-            if (window.speechSynthesis.speaking) {
-                window.speechSynthesis.cancel();
-            }
-            isPlaying = false;
-            this.textContent = '▶ Начать медитацию';
-            document.getElementById('statusText').textContent = '⏸️ Остановлено';
+        const fileName = audioFiles[selectedEmotion];
+        if (!fileName) {
+            document.getElementById('statusText').textContent = '❌ Аудио не найдено.';
             return;
         }
 
-        const voiceType = document.querySelector('input[name="voice"]:checked').value;
-        const text = emotionTexts[selectedEmotion].text;
+        const audioUrl = AUDIO_BASE + fileName;
 
-        if (!text) {
-            document.getElementById('statusText').textContent = '❌ Текст для этой эмоции не найден.';
-            return;
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio.currentTime = 0;
         }
 
-        this.textContent = '⏹️ Остановить';
-        document.getElementById('statusText').textContent = '🗣️ Голос генерируется...';
+        currentAudio = new Audio(audioUrl);
+        currentAudio.play();
 
-        // Используем Web Speech API
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'ru-RU';
-        utterance.rate = 0.9;
-        utterance.pitch = voiceType === 'female' ? 1.0 : 0.8;
+        document.getElementById('playBtn').textContent = '🔊 Играет...';
+        document.getElementById('statusText').textContent = '▶ Идёт медитация...';
 
-        // Выбор голоса
-        const voices = window.speechSynthesis.getVoices();
-        const preferredVoice = voices.find(v => 
-            v.lang.startsWith('ru') && 
-            (voiceType === 'female' ? v.name.includes('Female') || v.name.includes('Google') : v.name.includes('Male'))
-        );
-        if (preferredVoice) {
-            utterance.voice = preferredVoice;
-        }
-
-        utterance.onstart = function() {
-            isPlaying = true;
-            document.getElementById('statusText').textContent = '▶ Идёт медитация...';
-        };
-
-        utterance.onend = function() {
-            isPlaying = false;
+        currentAudio.onended = function() {
             document.getElementById('playBtn').textContent = '▶ Начать медитацию';
             document.getElementById('statusText').textContent = '✅ Медитация завершена.';
             document.getElementById('resultArea').style.display = 'block';
         };
 
-        utterance.onerror = function(event) {
-            console.error('Ошибка синтеза:', event);
-            isPlaying = false;
+        currentAudio.onerror = function() {
             document.getElementById('playBtn').textContent = '▶ Начать медитацию';
-            document.getElementById('statusText').textContent = '❌ Ошибка воспроизведения. Попробуйте позже.';
+            document.getElementById('statusText').textContent = '❌ Ошибка воспроизведения. Проверьте, что файлы загружены в папку audio/.';
         };
-
-        window.speechSynthesis.speak(utterance);
-        currentUtterance = utterance;
     });
 </script>
 
@@ -512,12 +435,6 @@
             alert('🔒 Данное действие запрещено.');
         }
     });
-
-    // Загрузка голосов для Speech Synthesis
-    window.speechSynthesis.getVoices();
-    window.speechSynthesis.onvoiceschanged = function() {
-        window.speechSynthesis.getVoices();
-    };
 </script>
 
 </body>
