@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Тест голоса</title>
+</head>
+<body style="background:#0b0f1a;color:#f0e9e0;font-family:Georgia,serif;padding:40px;">
+    <h1>🧪 Тест голоса</h1>
+    <button onclick="testVoice()" style="padding:14px 40px;background:#f5d7b3;border:none;border-radius:40px;font-size:18px;cursor:pointer;">▶ Отправить запрос</button>
+    <div id="result" style="margin-top:30px;white-space:pre-wrap;background:rgba(255,255,255,0.05);padding:20px;border-radius:16px;"></div>
+
+    <script>
+        const VOICE_API_URL = 'https://d5dh9js7h97a6r3fc6n6.p8361f8z.apigw.yandexcloud.net/';
+
+        async function testVoice() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '⏳ Отправка запроса...';
+
+            try {
+                const response = await fetch(VOICE_API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        text: 'Привет, это тестовый голос',
+                        voice: 'oksana',
+                        speed: 1.0
+                    })
+                });
+
+                const data = await response.json();
+                resultDiv.innerHTML = '✅ Ответ от шлюза:\n' + JSON.stringify(data, null, 2);
+
+                if (data.audio) {
+                    const audioBlob = await fetch(`data:audio/mpeg;base64,${data.audio}`).then(r => r.blob());
+                    const audioUrl = URL.createObjectURL(audioBlob);
+                    const audio = new Audio(audioUrl);
+                    audio.play();
+                    resultDiv.innerHTML += '\n\n🔊 Воспроизведение начато!';
+                }
+            } catch (error) {
+                resultDiv.innerHTML = '❌ Ошибка:\n' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>
