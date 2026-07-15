@@ -171,6 +171,13 @@
             border-radius: 32px;
             border: 1px solid rgba(255, 255, 255, 0.04);
             display: none;
+            text-align: center;
+        }
+        .player-area .now-playing {
+            font-size: 15px;
+            color: #8f847a;
+            margin-bottom: 18px;
+            min-height: 20px;
         }
         .player-area .btn {
             padding: 14px 48px;
@@ -239,4 +246,159 @@
             margin-bottom: 4px;
         }
         .footer-col ul li a {
-            color: #6
+            color: #6d6459;
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.25s ease;
+        }
+        .footer-col ul li a:hover {
+            color: #f5d7b3;
+        }
+        .footer-bottom {
+            text-align: center;
+            color: #5c554c;
+            font-size: 13px;
+            padding-top: 14px;
+        }
+        @media (max-width: 600px) {
+            .container { padding: 28px 20px 24px; border-radius: 32px; }
+            .content h1 { font-size: 30px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo"><span class="icon">✧</span>Inner<span>Horizons</span></div>
+            <div class="nav">
+                <a href="main.html">Главная</a>
+                <a href="about.html">О нас</a>
+                <a href="cabinet.html">Кабинет</a>
+            </div>
+        </div>
+
+        <div class="content">
+            <h1>🧘 Медитации</h1>
+            <p class="sub">Пространство для встречи с собой через тело и дыхание</p>
+
+            <div class="disclaimer">
+                <strong>Важно:</strong> эти медитации — практика для рефлексии и расслабления, а не медицинская или психотерапевтическая услуга и не замена работе со специалистом. Если вам сейчас тяжело и это не проходит — пожалуйста, обратитесь к психологу или на линию поддержки.
+                <a href="about.html">Подробнее о проекте</a>
+            </div>
+
+            <div class="welcome-block" id="welcomeBlock">
+                <h2>Прежде чем начать</h2>
+                <p>Выбери состояние, которое ближе всего тебе сейчас — и мы подберём практику под него.</p>
+                <button class="btn-start" onclick="startPractice()">✧ Начать</button>
+            </div>
+
+            <div class="action-block" id="actionBlock">
+                <div class="emotion-grid" id="emotionGrid">
+                    <div class="emotion-card" data-emotion="calm">Спокойствие</div>
+                    <div class="emotion-card" data-emotion="anxiety">Тревога</div>
+                    <div class="emotion-card" data-emotion="tiredness">Усталость</div>
+                    <div class="emotion-card" data-emotion="sadness">Грусть</div>
+                    <div class="emotion-card" data-emotion="focus">Рассеянность</div>
+                    <div class="emotion-card" data-emotion="gratitude">Благодарность</div>
+                </div>
+
+                <div class="player-area" id="playerArea">
+                    <div class="now-playing" id="nowPlaying">Выбери состояние выше, чтобы продолжить</div>
+                    <button class="btn" id="playBtn" onclick="togglePlay()" disabled>▶ Начать практику</button>
+                    <div class="status" id="statusText"></div>
+                </div>
+            </div>
+
+            <a href="main.html" class="btn-back">← Назад к проектам</a>
+        </div>
+
+        <div class="footer">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="offer.html">Публичная оферта</a></li>
+                        <li><a href="privacy.html">Политика конфиденциальности</a></li>
+                        <li><a href="consent.html">Согласие на обработку данных</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>О нас</h4>
+                    <ul>
+                        <li><a href="about.html">О проекте</a></li>
+                        <li><a href="mailto:olga696.olga@yandex.ru">Связаться</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Поддержка</h4>
+                    <ul>
+                        <li><a href="mailto:olga696.olga@yandex.ru">olga696.olga@yandex.ru</a></li>
+                        <li><a href="https://t.me/InnerHorizonsBot">Telegram-бот</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Будьте на связи</h4>
+                    <ul>
+                        <li><a href="https://t.me/InnerHorizonsBot">💬 Telegram</a></li>
+                    </ul>
+                </div>
+            </div>
+            <p class="footer-bottom">© 2026 Inner Horizons 18+ Все права защищены</p>
+        </div>
+    </div>
+
+    <script>
+        const emotionLabels = {
+            calm: 'Спокойствие',
+            anxiety: 'Тревога',
+            tiredness: 'Усталость',
+            sadness: 'Грусть',
+            focus: 'Рассеянность',
+            gratitude: 'Благодарность'
+        };
+
+        let selectedEmotion = null;
+        let isPlaying = false;
+
+        function startPractice() {
+            document.getElementById('welcomeBlock').style.display = 'none';
+            document.getElementById('actionBlock').style.display = 'block';
+            document.getElementById('playerArea').style.display = 'block';
+        }
+
+        document.querySelectorAll('.emotion-card').forEach((card) => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.emotion-card').forEach((c) => c.classList.remove('selected'));
+                card.classList.add('selected');
+                selectedEmotion = card.dataset.emotion;
+
+                document.getElementById('nowPlaying').textContent =
+                    'Практика для состояния «' + emotionLabels[selectedEmotion] + '»';
+                document.getElementById('playBtn').disabled = false;
+                document.getElementById('statusText').textContent = '';
+
+                // Сброс, если состояние сменили во время паузы/проигрывания
+                isPlaying = false;
+                document.getElementById('playBtn').textContent = '▶ Начать практику';
+            });
+        });
+
+        function togglePlay() {
+            const btn = document.getElementById('playBtn');
+            const status = document.getElementById('statusText');
+            isPlaying = !isPlaying;
+
+            if (isPlaying) {
+                btn.textContent = '⏸ Пауза';
+                status.textContent = 'Практика идёт... дыши спокойно.';
+            } else {
+                btn.textContent = '▶ Продолжить';
+                status.textContent = 'На паузе';
+            }
+
+            // TODO: здесь подключить реальный аудиоплеер/аудиофайлы под каждое состояние,
+            // когда будут готовы записи медитаций.
+        }
+    </script>
+</body>
+</html>
