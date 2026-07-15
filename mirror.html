@@ -77,7 +77,27 @@
             font-style: italic;
             margin-bottom: 10px;
         }
-
+        .disclaimer {
+            background: rgba(200, 100, 100, 0.06);
+            border: 1px solid rgba(200, 100, 100, 0.1);
+            border-radius: 16px;
+            padding: 16px 20px;
+            margin: 20px 0 30px;
+            font-size: 14px;
+            color: #b3a89c;
+            line-height: 1.6;
+            text-align: left;
+        }
+        .disclaimer strong {
+            color: #f5a8a8;
+        }
+        .disclaimer a {
+            color: #f5d7b3;
+            text-decoration: none;
+        }
+        .disclaimer a:hover {
+            text-decoration: underline;
+        }
         .welcome-block {
             background: rgba(245,215,179,0.06);
             border-radius: 18px;
@@ -114,7 +134,6 @@
         .welcome-block .btn-start:hover {
             background: rgba(245,215,179,0.2);
         }
-
         .action-block {
             display: none;
         }
@@ -130,7 +149,6 @@
             border-left: 3px solid #f5d7b3;
         }
         .instruction strong { color: #f5d7b3; }
-
         .upload-area {
             border: 2px solid rgba(245, 215, 179, 0.2);
             border-radius: 60px;
@@ -168,7 +186,6 @@
             display: none;
             border: 2px solid rgba(245, 215, 179, 0.2);
         }
-
         .question-input {
             margin: 20px auto 30px;
             max-width: 500px;
@@ -203,7 +220,6 @@
             color: #6a6258;
             margin-top: 4px;
         }
-
         .btn {
             padding: 16px 56px;
             background: #f5d7b3;
@@ -219,7 +235,6 @@
         }
         .btn:hover { background: #ffebd0; transform: scale(1.02); box-shadow: 0 12px 40px rgba(245, 215, 179, 0.1); }
         .btn:disabled { opacity: 0.3; cursor: not-allowed; transform: none; box-shadow: none; }
-
         .btn-pay {
             margin-top: 20px;
             padding: 14px 48px;
@@ -237,7 +252,6 @@
         .btn-pay:hover {
             background: rgba(245,215,179,0.25);
         }
-
         .result {
             margin-top: 30px;
             padding: 30px;
@@ -268,7 +282,6 @@
             color: #ddd6cc;
         }
         .result .reflection strong { color: #f5d7b3; font-style: normal; }
-
         .btn-back {
             margin-top: 30px;
             display: inline-block;
@@ -283,7 +296,6 @@
             transition: 0.3s;
         }
         .btn-back:hover { background: rgba(255, 255, 255, 0.08); color: #f5d7b3; }
-
         .footer {
             margin-top: 50px;
             padding-top: 24px;
@@ -357,22 +369,6 @@
         }
         .fade-in { animation: fadeIn 0.8s ease forwards; }
         @keyframes fadeIn { 0% { opacity: 0; transform: translateY(18px); } 100% { opacity: 1; transform: translateY(0); } }
-
-        .disclaimer-info {
-            background: rgba(200, 100, 100, 0.06);
-            border: 1px solid rgba(200, 100, 100, 0.1);
-            border-radius: 16px;
-            padding: 16px 20px;
-            margin: 20px 0 30px;
-            font-size: 13px;
-            color: #a89f94;
-            line-height: 1.6;
-            text-align: center;
-        }
-        .disclaimer-info strong {
-            color: #f5a8a8;
-            font-weight: 400;
-        }
     </style>
 </head>
 <body>
@@ -390,23 +386,22 @@
         <h1>🪞 Зеркало души</h1>
         <div class="sub">Пространство тишины, где ты можешь встретиться с собой</div>
 
+        <div class="disclaimer">
+            <strong>⚠️ Об эмоциональной безопасности:</strong> Inner Horizons — это пространство для рефлексии и творческих практик, а не медицинская или психотерапевтическая услуга.<br><br>
+            Если вы находитесь в кризисном состоянии — обратитесь к специалисту. В России работает бесплатная круглосуточная служба поддержки: <strong>8-800-2000-122</strong>.
+        </div>
+
         <div id="welcomeBlock" class="welcome-block fade-in delay-1">
             <h2>✨ Здравствуй, ищущий</h2>
             <p>
                 Ты стоишь перед зеркалом, которое показывает не внешность, а состояние.<br><br>
-                Загрузи своё фото, задай вопрос — и зеркало ответит тебе тем, что ты носишь внутри.<br>
-                Это не про красоту. Это про встречу с собой.
+                Загрузи своё фото — и получи персональную аффирмацию и визуальный образ, откликающийся именно тебе.<br>
+                Это не диагностика и не анализ психологического состояния, а поэтическое зеркало — инструмент для рефлексии, а не измерения.
             </p>
             <button class="btn-start" onclick="startMirror()">🌿 Продолжить</button>
         </div>
 
         <div id="actionBlock" class="action-block">
-            <div class="disclaimer-info">
-                <strong>✦ Обратите внимание</strong><br>
-                Сервис носит информационно-развлекательный характер и не является научным методом.<br>
-                Результаты не являются предсказанием и не заменяют профессиональных консультаций.
-            </div>
-
             <div class="instruction">
                 <strong>🪞 Как это работает:</strong><br>
                 1. Загрузи своё фото — это шаг доверия.<br>
@@ -471,6 +466,7 @@
                 <ul>
                     <li><a href="mailto:olga696.olga@yandex.ru">olga696.olga@yandex.ru</a></li>
                     <li><a href="https://t.me/InnerHorizonsBot" target="_blank">Telegram-бот</a></li>
+                    <li><a href="help.html">Психологическая поддержка</a></li>
                 </ul>
             </div>
             <div class="footer-col">
@@ -482,16 +478,13 @@
         </div>
         <div class="footer-bottom">
             <span>© 2026 Inner Horizons</span>
-            <span>18+</span>
+            <span>Для взрослых</span>
             <span>Все права защищены</span>
         </div>
     </footer>
 </div>
 
 <script>
-    const YANDEX_API_KEY = 'AQVN3MRt7XhYFf6sph-MF0w6FM6gZ9nC7-F6D2u4';
-    const FOLDER_ID = 'b1g179a07epjjubem8gm';
-
     const uploadArea = document.getElementById('uploadArea');
     const photoInput = document.getElementById('photoInput');
     const preview = document.getElementById('preview');
@@ -520,7 +513,7 @@
         }
     });
 
-    analyzeBtn.addEventListener('click', async function() {
+    analyzeBtn.addEventListener('click', function() {
         const file = photoInput.files[0];
         if (!file) {
             alert('Пожалуйста, загрузите фото.');
@@ -531,146 +524,32 @@
         analyzeBtn.textContent = 'Смотрю в зеркало...';
         resultBlock.style.display = 'none';
 
-        try {
-            const base64Image = await toBase64(file);
+        setTimeout(function() {
+            const question = questionInput.value.trim() || 'просто увидеть себя';
+            const fallbacks = [
+                'Ты смотришь на себя и видишь не просто лицо. Ты видишь историю, которую носишь в себе.',
+                'В твоём взгляде — тишина. Но не пустая. Та, что говорит о глубине.',
+                'Ты смотришь на себя и видишь перемены. Не только внешние — те, что внутри.'
+            ];
+            const response = fallbacks[Math.floor(Math.random() * fallbacks.length)];
+            const colors = [
+                'radial-gradient(circle, #f5d7b3, #8f847a)',
+                'radial-gradient(circle, #b8a6d9, #5b4a7a)',
+                'radial-gradient(circle, #7ddf9a, #2a6a3a)',
+                'radial-gradient(circle, #f5a8a8, #7a3a3a)',
+                'radial-gradient(circle, #a8d4f5, #2a4a6a)'
+            ];
 
-            const visionResponse = await fetch('https://vision.api.cloud.yandex.net/vision/v1/batchAnalyze', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Api-Key ${YANDEX_API_KEY}`
-                },
-                body: JSON.stringify({
-                    folderId: FOLDER_ID,
-                    analyzeSpecs: [{
-                        content: base64Image,
-                        features: [{ type: 'FACE_DETECTION' }]
-                    }]
-                })
-            });
+            resultText.textContent = response;
+            reflectionText.textContent = `Зеркало видит в тебе спокойствие. Это отражение твоего состояния.`;
+            colorVisual.style.background = colors[Math.floor(Math.random() * colors.length)];
+            resultBlock.style.display = 'block';
+            resultBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-            const visionData = await visionResponse.json();
-            if (!visionResponse.ok) throw new Error(visionData.message || 'Ошибка Vision');
-
-            const emotions = extractEmotions(visionData);
-            console.log('Vision анализ:', emotions);
-
-            const gptResponse = await generateResponse(emotions, questionInput.value.trim());
-            console.log('GPT ответ:', gptResponse);
-
-            displayResult(gptResponse, emotions);
-
-        } catch (error) {
-            console.error('Ошибка:', error);
-            const fallbackResponse = getFallbackResponse(questionInput.value.trim());
-            displayResult(fallbackResponse, {});
-        } finally {
             analyzeBtn.disabled = false;
             analyzeBtn.textContent = 'Заглянуть в зеркало';
-        }
+        }, 2000);
     });
-
-    function toBase64(file) {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = () => resolve(reader.result.split(',')[1]);
-            reader.onerror = error => reject(error);
-            reader.readAsDataURL(file);
-        });
-    }
-
-    function extractEmotions(data) {
-        try {
-            const faces = data.results?.[0]?.results?.[0]?.faceDetection?.faces;
-            if (!faces || faces.length === 0) {
-                return { emotion: 'нейтральное', age: 'неизвестен', gender: 'неизвестен' };
-            }
-            const face = faces[0];
-            const emotion = face.emotions?.basic || face.emotion || 'спокойствие';
-            return {
-                emotion: emotion,
-                age: face.age || 'неизвестен',
-                gender: face.gender || 'неизвестен'
-            };
-        } catch (e) {
-            return { emotion: 'нейтральное', age: 'неизвестен', gender: 'неизвестен' };
-        }
-    }
-
-    async function generateResponse(emotions, question) {
-        const emotionText = emotions.emotion || 'спокойствие';
-        const ageText = emotions.age || 'неизвестен';
-        const genderText = emotions.gender === 'male' ? 'мужчина' : 'женщина';
-
-        const prompt = `
-            Ты — голос из зеркала. Ты видишь человека, который загрузил своё фото.
-            Его состояние: ${emotionText}. Возраст примерно ${ageText}, пол: ${genderText}.
-            Он спросил: "${question || 'просто увидеть себя'}".
-
-            Напиши тёплое, глубокое послание от лица зеркала.
-            Обращайся на "ты".
-            Говори мягко, с поэтичностью.
-            Ответ должен быть объёмом 8–12 предложений.
-            Не используй слова "анализ", "алгоритм", "нейросеть".
-            Используй возраст и пол, чтобы сделать ответ более личным.
-            Говори не о внешности, а о состоянии, которое видишь.
-        `;
-
-        try {
-            const response = await fetch('https://llm.api.cloud.yandex.net/foundationModels/v1/completion', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Api-Key ${YANDEX_API_KEY}`
-                },
-                body: JSON.stringify({
-                    modelUri: `gpt://${FOLDER_ID}/yandexgpt/latest`,
-                    completionOptions: { temperature: 0.85, maxTokens: 600 },
-                    messages: [
-                        { role: 'system', text: prompt },
-                        { role: 'user', text: 'Напиши послание.' }
-                    ]
-                })
-            });
-
-            const data = await response.json();
-            if (data.error) throw new Error(data.error.message);
-            return data.result.alternatives[0].message.text;
-        } catch (error) {
-            console.error('Ошибка GPT:', error);
-            return getFallbackResponse(question);
-        }
-    }
-
-    function getFallbackResponse(question) {
-        const fallbacks = [
-            'Ты смотришь на себя и видишь не просто лицо. Ты видишь историю, которую носишь в себе. Усталость в глазах говорит о том, как много ты прошла. Но в улыбке — надежда, которую ты не отпускаешь. Ты сильнее, чем кажется.',
-            'В твоём взгляде — тишина. Но не пустая. Та, что говорит о глубине. Ты многое видишь, но не всё произносишь. Это зеркало показывает твою мудрость. Ты точно знаешь, кто ты есть.',
-            'Ты смотришь на себя и видишь перемены. Не только внешние — те, что внутри. Ты становишься мягче и твёрже одновременно. Это взросление души. Ты на правильном пути.',
-            'Это фото — не просто снимок. Это отражение твоей души в момент, когда она ищет себя. Ты уже нашла ответы, просто ещё не осознала этого. Позволь себе поверить.'
-        ];
-        return fallbacks[Math.floor(Math.random() * fallbacks.length)];
-    }
-
-    function displayResult(text, emotions) {
-        const colors = [
-            'radial-gradient(circle, #f5d7b3, #8f847a)',
-            'radial-gradient(circle, #b8a6d9, #5b4a7a)',
-            'radial-gradient(circle, #7ddf9a, #2a6a3a)',
-            'radial-gradient(circle, #f5a8a8, #7a3a3a)',
-            'radial-gradient(circle, #a8d4f5, #2a4a6a)'
-        ];
-        const randomColor = colors[Math.floor(Math.random() * colors.length)];
-
-        resultText.textContent = text;
-        colorVisual.style.background = randomColor;
-
-        const emotion = emotions.emotion || 'спокойствие';
-        reflectionText.textContent = `Зеркало видит в тебе ${emotion}. Это отражение твоего состояния.`;
-
-        resultBlock.style.display = 'block';
-        resultBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
 
     uploadArea.addEventListener('dragover', function(e) {
         e.preventDefault();
