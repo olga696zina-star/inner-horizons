@@ -248,20 +248,20 @@
         <div class="logo"><span class="icon">✧</span> Inner<span>Horizons</span></div>
         <div style="display:flex; align-items:center; gap:20px; flex-wrap:wrap;">
             <nav class="nav">
-                <a href="index.html">Главная</a>
+                <a href="main.html">Главная</a>
                 <a href="about.html">О нас</a>
                 <a href="cabinet.html" class="active">Кабинет</a>
             </nav>
-            <div class="user-info">Добро пожаловать, <strong id="userNameDisplay">Ольга</strong></div>
+            <div class="user-info" id="userInfoBlock">Добро пожаловать</div>
             <button class="logout" onclick="if(confirm('Выйти?')){window.location.href='index.html'}">🚪 Выйти</button>
         </div>
     </header>
-
+ 
     <section class="welcome">
         <h2>✧ Твой кабинет</h2>
         <p>Выбери проект, чтобы продолжить свой внутренний путь</p>
     </section>
-
+ 
     <section class="projects">
         <a href="letter.html" class="project-card">
             <span class="icon">✧</span>
@@ -269,21 +269,21 @@
             <p>Ты отвечаешь на вопросы — и нейросеть пишет письмо от тебя через 5 лет.</p>
             <span class="btn-action">Начать диалог</span>
         </a>
-
+ 
         <a href="mirror.html" class="project-card">
             <span class="icon">✦</span>
             <h3>Зеркало души</h3>
             <p>Пространство тишины. Встреча с собой через фото и отражение.</p>
             <span class="btn-action">Встретиться с собой</span>
         </a>
-
+ 
         <a href="bridge.html" class="project-card">
             <span class="icon">✧</span>
             <h3>Мост между поколениями</h3>
             <p>Разговор с прошлым. Исцеление через память.</p>
             <span class="btn-action">Пройти по мосту</span>
         </a>
-
+ 
         <a href="meditation.html" class="project-card">
             <span class="icon">🧘</span>
             <h3>Медитации</h3>
@@ -291,14 +291,14 @@
             <span class="btn-action">Начать практику</span>
         </a>
     </section>
-
+ 
     <section class="history-section">
         <h3>📂 История писем и ответов</h3>
         <div id="historyList">
             <div class="history-empty">У вас пока нет сохранённых писем.</div>
         </div>
     </section>
-
+ 
     <footer class="footer">
         <div class="footer-grid">
             <div class="footer-col">
@@ -337,25 +337,26 @@
         </div>
     </footer>
 </div>
-
+ 
 <script>
     window.onload = function() {
         const savedName = localStorage.getItem('userName');
         if (savedName) {
-            document.getElementById('userNameDisplay').textContent = savedName;
+            document.getElementById('userInfoBlock').innerHTML =
+                'Добро пожаловать, <strong>' + savedName + '</strong>';
         }
         loadHistory();
     };
-
+ 
     function loadHistory() {
         const history = JSON.parse(localStorage.getItem('letterHistory')) || [];
         const container = document.getElementById('historyList');
-
+ 
         if (history.length === 0) {
             container.innerHTML = '<div class="history-empty">У вас пока нет сохранённых писем.</div>';
             return;
         }
-
+ 
         let html = '';
         history.reverse().forEach(item => {
             const preview = item.text.length > 100 ? item.text.substring(0, 100) + '...' : item.text;
@@ -369,23 +370,6 @@
         container.innerHTML = html;
     }
 </script>
-
-<!-- ===== ЗАЩИТА ОТ КОПИРОВАНИЯ ===== -->
-<script>
-    document.addEventListener('selectstart', function(e) {
-        e.preventDefault();
-    });
-    document.addEventListener('contextmenu', function(e) {
-        e.preventDefault();
-        alert('🔒 Копирование и сохранение контента запрещено.');
-    });
-    document.addEventListener('keydown', function(e) {
-        if (e.ctrlKey && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
-            e.preventDefault();
-            alert('🔒 Данное действие запрещено.');
-        }
-    });
-</script>
-
+ 
 </body>
 </html>
