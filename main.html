@@ -238,6 +238,27 @@
             font-size: 15px;
             line-height: 1.6;
         }
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        .testimonial-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Georgia', serif;
+            font-style: normal;
+            font-weight: 700;
+            font-size: 16px;
+            color: #0b0f1a;
+            background: linear-gradient(135deg, #f5d7b3, #c9a678);
+            flex-shrink: 0;
+        }
         .testimonial .author {
             margin-top: 12px;
             color: #f5d7b3;
@@ -356,13 +377,13 @@
             <button class="theme-toggle" onclick="toggleTheme()">🌓 Тема</button>
         </nav>
     </header>
-
+ 
     <section class="hero fade-in delay-1">
         <h1>Твой внутренний <span>горизонт</span></h1>
         <p>Здесь ты встретишься с собой — через письма, зеркала и голоса, которые напомнят, кто ты есть.</p>
         <a href="register.html" class="btn">✧ Начать путь</a>
     </section>
-
+ 
     <h2 class="projects-title fade-in delay-2">Наши проекты</h2>
     <section class="projects" id="projects">
         <a href="letter.html" class="project-card fade-in delay-2">
@@ -371,44 +392,53 @@
             <p>Ты отвечаешь на вопросы — и нейросеть пишет письмо от тебя через 5 лет.</p>
             <span class="price free">● Бесплатно</span>
         </a>
-
+ 
         <a href="mirror.html" class="project-card fade-in delay-3">
             <span class="icon">✦</span>
             <h3>Зеркало души</h3>
             <p>Пространство тишины. Встреча с собой через фото и отражение.</p>
-            <span class="price paid">● 999 ₽</span>
+            <span class="price paid">● от 499 ₽</span>
         </a>
-
+ 
         <a href="bridge.html" class="project-card fade-in delay-3">
             <span class="icon">✧</span>
             <h3>Мост между поколениями</h3>
             <p>Разговор с прошлым. Исцеление через память.</p>
-            <span class="price paid">● 14 999 ₽</span>
+            <span class="price paid">● от 4 999 ₽</span>
         </a>
-
+ 
         <a href="meditation.html" class="project-card fade-in delay-3">
             <span class="icon">🧘</span>
             <h3>Медитации</h3>
             <p>Пространство для встречи с собой через тело и дыхание.</p>
-            <span class="price paid">● 500 ₽</span>
+            <span class="price paid">● от 299 ₽</span>
         </a>
     </section>
-
+ 
     <section class="testimonials fade-in delay-3">
         <div class="testimonial">
+            <div class="testimonial-header">
+                <div class="testimonial-avatar">А</div>
+            </div>
             «Это письмо я перечитываю в трудные дни. Оно напоминает, кто я есть.»
             <div class="author">— Анна, 34 года</div>
         </div>
         <div class="testimonial">
+            <div class="testimonial-header">
+                <div class="testimonial-avatar">Е</div>
+            </div>
             «Никогда не думала, что нейросеть сможет так точно передать мои чувства. Спасибо.»
             <div class="author">— Елена, 28 лет</div>
         </div>
         <div class="testimonial">
+            <div class="testimonial-header">
+                <div class="testimonial-avatar">М</div>
+            </div>
             «Я плакала, когда читала. Это было похоже на разговор с самой собой из будущего.»
             <div class="author">— Мария, 41 год</div>
         </div>
     </section>
-
+ 
     <section class="about" id="about">
         <h2>✨ О чём этот проект</h2>
         <p>
@@ -417,7 +447,7 @@
             <span class="muted">Это не гадание. Это встреча с собой.</span>
         </p>
     </section>
-
+ 
     <footer class="footer">
         <div class="footer-grid">
             <div class="footer-col">
@@ -456,28 +486,12 @@
         </div>
     </footer>
 </div>
-
+ 
 <script>
     function toggleTheme() {
         document.body.classList.toggle('light');
     }
 </script>
-
-<script>
-    document.addEventListener('selectstart', function(e) {
-        e.preventDefault();
-    });
-    document.addEventListener('contextmenu', function(e) {
-        e.preventDefault();
-        alert('🔒 Копирование и сохранение контента запрещено.');
-    });
-    document.addEventListener('keydown', function(e) {
-        if (e.ctrlKey && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
-            e.preventDefault();
-            alert('🔒 Данное действие запрещено.');
-        }
-    });
-</script>
-
+ 
 </body>
 </html>
