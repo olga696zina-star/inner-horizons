@@ -255,16 +255,16 @@
     <header class="header">
         <div class="logo"><span class="icon">✧</span> Inner<span>Horizons</span></div>
         <nav class="nav">
-            <a href="index.html">Главная</a>
+            <a href="main.html">Главная</a>
             <a href="about.html">О нас</a>
             <a href="cabinet.html">Кабинет</a>
         </nav>
     </header>
-
+ 
     <section class="content">
         <h1>✧ Письмо из будущего</h1>
         <div class="sub">Диалог с собой через 5 лет</div>
-
+ 
         <!-- ===== ПРИВЕТСТВИЕ ===== -->
         <div id="welcomeBlock" class="welcome-block fade-in delay-1">
             <h2>✨ Здравствуй, дорогой друг</h2>
@@ -274,7 +274,7 @@
             </p>
             <button class="btn-start" onclick="startLetter()">🌿 Начать диалог</button>
         </div>
-
+ 
         <!-- ===== ВОПРОСЫ ===== -->
         <div id="formBlock" style="display:none;">
             <div class="question" style="display:block;">
@@ -303,7 +303,7 @@
             </div>
             <button class="btn" onclick="generateLetter()">✧ Получить письмо</button>
         </div>
-
+ 
         <!-- ===== РЕЗУЛЬТАТ ===== -->
         <div class="result" id="resultBlock">
             <h2>📜 Твоё письмо</h2>
@@ -312,27 +312,30 @@
             <a href="cabinet.html" class="btn-back">← Вернуться в кабинет</a>
         </div>
     </section>
-
+ 
     <footer class="footer">
         <span>© 2026 Inner Horizons</span>
         <span><a href="mailto:olga696.olga@yandex.ru">olga696.olga@yandex.ru</a></span>
     </footer>
 </div>
-
+ 
 <script>
-    const YANDEX_API_KEY = 'AQVN3MRt7XhYFf6sph-MF0w6FM6gZ9nC7-F6D2u4';
-    const FOLDER_ID = 'b1gv0qqf8mfo708rcmf5';
-
+    // ВАЖНО: ключ API здесь больше не хранится.
+    // Вместо этого запрос идёт на твой Cloudflare Worker, который сам
+    // содержит ключ (в секретах воркера) и обращается к Яндексу.
+    // Впиши сюда адрес своего воркера после его создания:
+    const PROXY_URL = 'https://inner-horizons-proxy.olga696-zina.workers.dev';
+ 
     let generatedLetter = '';
     let userName = '';
-
+ 
     function startLetter() {
         document.getElementById('welcomeBlock').style.display = 'none';
         document.getElementById('formBlock').style.display = 'block';
         document.querySelectorAll('.question').forEach(el => el.style.display = 'block');
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-
+ 
     async function generateLetter() {
         const name = document.getElementById('name').value.trim() || 'Ты';
         const dream = document.getElementById('dream').value.trim() || 'то, что действительно важно';
@@ -342,21 +345,18 @@
         const truth = document.getElementById('truth').value.trim() || 'то, что ты узнала о себе';
         
         userName = name;
-
+ 
         const btn = document.querySelector('.btn');
         btn.disabled = true;
         btn.innerHTML = '<span class="spinner"></span>Письмо пишется...';
-
+ 
         try {
-            const response = await fetch('https://llm.api.cloud.yandex.net/foundationModels/v1/completion', {
+            const response = await fetch(PROXY_URL, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Api-Key ${YANDEX_API_KEY}`
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    modelUri: `gpt://${FOLDER_ID}/yandexgpt/latest`,
-                    completionOptions: { temperature: 0.85, maxTokens: 700 },
                     messages: [
                         { role: 'system', text: 'Ты — мудрый голос из будущего. Ты пишешь письмо человеку, который ищет поддержку. Говори тепло, искренне, с лёгкой поэтичностью. Обращайся на "ты". Письмо должно быть объёмом 12-18 предложений. Используй ответы человека, чтобы сделать письмо личным.' },
                         { role: 'user', text: `Напиши письмо от имени самого человека через 5 лет. Его зовут ${name}. Сейчас для него важно: ${dream}. Его пугает: ${fear}. Он хочет чувствовать: ${feeling}. Он готов отпустить: ${letgo}. Важная истина, которую он понял: ${truth}.` }
@@ -381,15 +381,15 @@
             btn.disabled = false;
             btn.innerHTML = '✧ Получить письмо';
         }
-
+ 
         // Сохраняем в историю
         saveToHistory('Письмо из будущего', generatedLetter);
     }
-
+ 
     function getFallbackLetter(name, dream, fear, feeling, letgo, truth) {
         return `Привет, ${name}.\n\nЯ — это ты через несколько лет. Я помню этот вечер, когда ты сидела и размышляла о жизни.\n\nТогда ты писала о том, что для тебя важнее всего — ${dream}. И знаешь что? Ты не ошиблась. Именно это привело тебя туда, где ты сейчас. Это стало твоим компасом.\n\nЯ знаю, тебя пугало ${fear}. Но этот страх был твоим учителем. Он не остановил тебя — он сделал тебя сильнее.\n\nТы хотела почувствовать ${feeling} — и это случилось. Не сразу, не волшебно, но случилось. Потому что ты выбрала идти.\n\nТы отпустила ${letgo} — и это открыло двери, о которых ты даже не подозревала.\n\nИ ты поняла главное: ${truth}. Эта истина стала твоей опорой.\n\nСейчас я смотрю на тебя с благодарностью. За то, что ты не сдалась. За то, что ты осталась собой.\n\nЯ рядом. Всегда.\n\nС любовью,\nТы — из будущего.`;
     }
-
+ 
     function saveToHistory(project, text) {
         const history = JSON.parse(localStorage.getItem('letterHistory')) || [];
         history.push({
