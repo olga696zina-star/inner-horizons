@@ -532,6 +532,79 @@
         document.body.classList.toggle('light');
     }
 </script>
+
+<script>
+    const BOT_URL = 'https://inner-horizons-bot.olga696-zina.workers.dev';
+
+    function initials(name) {
+        return (name || 'Г').trim().charAt(0).toUpperCase();
+    }
+
+    function renderComments(list) {
+        const container = document.getElementById('dynamicTestimonials');
+        if (!list || list.length === 0) {
+            container.innerHTML = '';
+            return;
+        }
+        container.innerHTML = list.map((c) => `
+            <div class="testimonial">
+                <div class="testimonial-header">
+                    <div class="testimonial-avatar">${initials(c.name)}</div>
+                </div>
+                «${c.text}»
+                <div class="author">— ${c.name || 'Гость'}</div>
+            </div>
+        `).join('');
+    }
+
+    async function loadComments() {
+        try {
+            const res = await fetch(`${BOT_URL}/comments/list`);
+            const data = await res.json();
+            renderComments(data);
+        } catch (e) {
+            // молча оставляем блок пустым, если не удалось загрузить
+        }
+    }
+
+    document.getElementById('commentSubmitBtn').addEventListener('click', async () => {
+        const nameInput = document.getElementById('commentName');
+        const textInput = document.getElementById('commentText');
+        const statusEl = document.getElementById('commentStatus');
+        const btn = document.getElementById('commentSubmitBtn');
+
+        const text = textInput.value.trim();
+        if (!text) {
+            statusEl.textContent = 'Напиши немного текста перед отправкой.';
+            return;
+        }
+
+        btn.disabled = true;
+        statusEl.textContent = 'Отправляю...';
+
+        try {
+            const res = await fetch(`${BOT_URL}/comments/submit`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: nameInput.value.trim(), text }),
+            });
+            const data = await res.json();
+            if (data.ok) {
+                statusEl.textContent = 'Спасибо! Отклик отправлен на модерацию.';
+                nameInput.value = '';
+                textInput.value = '';
+            } else {
+                statusEl.textContent = 'Не получилось отправить, попробуй ещё раз.';
+            }
+        } catch (e) {
+            statusEl.textContent = 'Не получилось отправить, попробуй ещё раз.';
+        } finally {
+            btn.disabled = false;
+        }
+    });
+
+    loadComments();
+</script>
  
 </body>
 </html>
