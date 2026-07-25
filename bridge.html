@@ -482,6 +482,128 @@
         }
         .fade-in { animation: fadeIn 0.8s ease forwards; }
         @keyframes fadeIn { 0% { opacity: 0; transform: translateY(18px); } 100% { opacity: 1; transform: translateY(0); } }
+
+        /* ===== ЧЕК-ИН НАСТРОЕНИЯ + ЗАКРЫТИЕ ПОСЛЕ ПРАКТИКИ ===== */
+        .mood-check-block {
+            background: rgba(245,215,179,0.06);
+            border-radius: 18px;
+            padding: 30px 24px;
+            margin: 10px 0 30px;
+            border-left: 3px solid #f5d7b3;
+            text-align: center;
+            display: none;
+        }
+        .mood-check-block h2 {
+            font-size: 22px;
+            font-weight: 400;
+            color: #f5d7b3;
+            margin-bottom: 10px;
+        }
+        .mood-check-block p {
+            color: #ddd6cc;
+            font-size: 16px;
+            line-height: 1.6;
+            max-width: 500px;
+            margin: 0 auto 20px;
+        }
+        .mood-options {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+        .mood-btn {
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.04);
+            color: #ddd6cc;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 40px;
+            font-size: 15px;
+            font-family: 'Georgia', serif;
+            cursor: pointer;
+            transition: 0.25s;
+        }
+        .mood-btn:hover {
+            border-color: rgba(245, 215, 179, 0.4);
+            color: #f5d7b3;
+        }
+        .mood-suggestion {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 16px;
+            text-align: left;
+        }
+        .mood-suggestion p {
+            color: #cdc3b7;
+            font-size: 15px;
+            margin-bottom: 14px;
+            text-align: left;
+            max-width: none;
+        }
+        .mood-suggestion .mood-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+        }
+        .btn-meditation {
+            padding: 10px 26px;
+            background: rgba(245,215,179,0.15);
+            color: #f5d7b3;
+            border: 1px solid rgba(245,215,179,0.3);
+            border-radius: 40px;
+            font-size: 15px;
+            font-family: 'Georgia', serif;
+            text-decoration: none;
+            display: inline-block;
+            transition: 0.3s;
+        }
+        .btn-meditation:hover { background: rgba(245,215,179,0.25); }
+        .btn-skip {
+            padding: 10px 26px;
+            background: transparent;
+            color: #a89f94;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 40px;
+            font-size: 15px;
+            font-family: 'Georgia', serif;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-skip:hover { color: #f5d7b3; border-color: rgba(245,215,179,0.3); }
+
+        .closure-block {
+            margin-top: 26px;
+            padding: 22px 20px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 18px;
+            text-align: left;
+            border-left: 3px solid rgba(245,215,179,0.3);
+        }
+        .closure-block h3 {
+            color: #f5d7b3;
+            font-size: 17px;
+            font-weight: 400;
+            margin-bottom: 10px;
+        }
+        .closure-block p {
+            color: #cdc3b7;
+            font-size: 15px;
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+        .closure-block .closure-note {
+            color: #8f847a;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .closure-block .closure-note strong { color: #b3a89c; }
     </style>
 </head>
 <body>
@@ -542,6 +664,24 @@
             </p>
             <button class="btn-start" onclick="startBridge()">🌿 Продолжить</button>
         </div>
+
+        <div id="moodCheckBlock" class="mood-check-block">
+            <h2>🌿 Прежде чем идти по мосту</h2>
+            <p>Как ты сейчас себя чувствуешь? Это поможет пройти путь бережнее.</p>
+            <div class="mood-options">
+                <button type="button" class="mood-btn" data-mood="anger">Злюсь</button>
+                <button type="button" class="mood-btn" data-mood="sadness">Грущу</button>
+                <button type="button" class="mood-btn" data-mood="guilt">Чувствую вину</button>
+                <button type="button" class="mood-btn" data-mood="ready">Готов(а) идти дальше</button>
+            </div>
+            <div class="mood-suggestion" id="moodSuggestion">
+                <p id="moodSuggestionText"></p>
+                <div class="mood-actions">
+                    <a href="#" target="_blank" class="btn-meditation" id="moodMeditationLink">🧘 Послушать медитацию</a>
+                    <button type="button" class="btn-skip" id="moodSkipBtn">Пропустить, я готов(а)</button>
+                </div>
+            </div>
+        </div>
  
         <div id="actionBlock" class="action-block">
             <div class="instruction">
@@ -589,6 +729,15 @@
                 <p id="resultText"></p>
                 <div class="reflection" id="reflectionBlock">
                     <strong>🕊️ Отражение:</strong> <span id="reflectionText">Здесь будет ответ от памяти.</span>
+                </div>
+                <div class="closure-block" id="closureBlock">
+                    <h3>🕊️ Как ты сейчас?</h3>
+                    <p>Побудь немного с тем, что откликнулось. Не обязательно сразу понимать, что с этим делать — дай себе время.</p>
+                    <div class="closure-note">
+                        Если этот разговор поднял что-то тяжёлое и тебе трудно с этим одной — рядом есть поддержка.
+                        Бесплатная круглосуточная служба: <strong>8-800-2000-122</strong>.
+                        Наш бот и почта <a href="mailto:olga696.olga@yandex.ru" style="color:#f5d7b3;">olga696.olga@yandex.ru</a> тоже на связи.
+                    </div>
                 </div>
             </div>
         </div>
@@ -651,6 +800,12 @@
  
     function startBridge() {
         document.getElementById('welcomeBlock').style.display = 'none';
+        document.getElementById('moodCheckBlock').style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function proceedToAction() {
+        document.getElementById('moodCheckBlock').style.display = 'none';
         document.getElementById('actionBlock').style.display = 'block';
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -769,6 +924,43 @@
     });
 
     updatePayButton();
+</script>
+
+<script>
+    // ===== ЧЕК-ИН НАСТРОЕНИЯ ПЕРЕД ПРАКТИКОЙ =====
+    // Пока в библиотеке только 2 медитации (страх и вина) — гнев и грусть
+    // временно ведут на meditation.html целиком, чтобы человек сам выбрал.
+    // Когда появятся отдельные записи под гнев/грусть — заменить ссылки на прямые.
+    const moodSuggestions = {
+        anger: {
+            text: 'Злость перед этим разговором — это нормально, часто именно она и есть то, что осталось невысказанным. Можно сначала прожить её немного, а потом идти дальше.',
+            link: 'meditation.html'
+        },
+        sadness: {
+            text: 'Грусть — это тоже часть пути к мосту. Не нужно её торопить.',
+            link: 'meditation.html'
+        },
+        guilt: {
+            text: 'Если внутри чувство вины — есть медитация, которая написана именно про это состояние.',
+            link: 'meditation.html'
+        }
+    };
+
+    document.querySelectorAll('.mood-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+            const mood = btn.dataset.mood;
+            if (mood === 'ready') {
+                proceedToAction();
+                return;
+            }
+            const suggestion = moodSuggestions[mood];
+            document.getElementById('moodSuggestionText').textContent = suggestion.text;
+            document.getElementById('moodMeditationLink').href = suggestion.link;
+            document.getElementById('moodSuggestion').style.display = 'block';
+        });
+    });
+
+    document.getElementById('moodSkipBtn').addEventListener('click', proceedToAction);
 </script>
 
 </body>
