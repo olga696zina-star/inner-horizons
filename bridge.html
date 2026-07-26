@@ -789,6 +789,9 @@
 </div>
  
 <script>
+    // Тот же воркер, что и у letter.html — ключ Yandex GPT хранится там.
+    const PROXY_URL = 'https://inner-horizons-proxy.olga696-zina.workers.dev';
+
     const uploadArea = document.getElementById('uploadArea');
     const fileInput = document.getElementById('fileInput');
     const preview = document.getElementById('preview');
@@ -818,7 +821,14 @@
         }
     });
  
-    analyzeBtn.addEventListener('click', function() {
+    // Только аварийный fallback на случай сбоя сети/воркера — не основной сценарий.
+    const networkErrorFallbacks = [
+        'Твой голос услышан. Память отвечает тишиной, которая говорит больше слов. Ты уже начала исцеление.',
+        'Прошлое смотрит на тебя с теплом. Ты носишь его в себе не как груз, а как опыт. Этот опыт — твоя сила.',
+        'Ты стоишь на мосту между тем, что было, и тем, что есть. Ты имеешь право отпустить боль и оставить только любовь.'
+    ];
+
+    analyzeBtn.addEventListener('click', async function() {
         const file = fileInput.files[0];
         if (!file) {
             alert('Пожалуйста, загрузите файл.');
@@ -828,23 +838,53 @@
         analyzeBtn.disabled = true;
         analyzeBtn.textContent = 'Иду по мосту...';
         resultBlock.style.display = 'none';
- 
-        setTimeout(function() {
-            const question = questionInput.value.trim() || 'передать тепло';
-            const fallbacks = [
-                'Твой голос услышан. Память отвечает тишиной, которая говорит больше слов. Ты уже начала исцеление.',
-                'Прошлое смотрит на тебя с теплом. Ты носишь его в себе не как груз, а как опыт. Этот опыт — твоя сила.',
-                'Ты стоишь на мосту между тем, что было, и тем, что есть. Ты имеешь право отпустить боль и оставить только любовь.'
-            ];
-            const response = fallbacks[Math.floor(Math.random() * fallbacks.length)];
-            resultText.textContent = response;
-            reflectionText.textContent = 'Мост откликается на твой голос. Ты услышан.';
-            resultBlock.style.display = 'block';
-            resultBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
- 
-            analyzeBtn.disabled = false;
-            analyzeBtn.textContent = 'Пройти по мосту';
-        }, 2000);
+
+        const question = questionInput.value.trim() || 'передать тепло';
+
+        // Если файл текстовый — читаем содержимое и передаём в промпт.
+        // Фото/PDF пока не читаются (нужна отдельная OCR/vision-обработка) —
+        // модель работает только по имени файла и вопросу.
+        let fileContent = '';
+        if (file.type === 'text/plain') {
+            try { fileContent = await file.text(); } catch (e) { fileContent = ''; }
+        }
+
+        try {
+            const response = await fetch(PROXY_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    messages: [
+                        {
+                            role: 'system',
+                            text: 'Ты помогаешь создать бережный текст для практики "Мост между поколениями" — это творческая реконструкция, воображаемый отклик от лица близкого человека, каким его помнит автор, а не имитация реального человека и не утверждение, что человек "здесь". Пиши тепло, с уважением к утрате, без клише и без драматизации. Ответ дай строго в 2 частях, раздели их ровно строкой "---" (без кавычек): сначала основной текст-отклик (4-8 предложений), затем короткая фраза-отражение (одно предложение).'
+                        },
+                        {
+                            role: 'user',
+                            text: fileContent
+                                ? `Вот письмо или воспоминание, которым поделился человек: "${fileContent}". Он хочет сказать или спросить: "${question}". Напиши тёплый отклик от лица памяти об этом человеке.`
+                                : `Человек поделился файлом (фото или документом) и хочет сказать или спросить: "${question}". Напиши тёплый отклик от лица памяти, опираясь на этот вопрос.`
+                        }
+                    ]
+                })
+            });
+            const data = await response.json();
+            if (data.error) throw new Error(data.error.message || 'Ошибка генерации');
+            const fullText = data.result.alternatives[0].message.text;
+            const parts = fullText.split('---').map(s => s.trim()).filter(Boolean);
+            resultText.textContent = parts[0] || fullText;
+            reflectionText.textContent = parts[1] || 'Мост откликается на твой голос.';
+        } catch (error) {
+            console.log('Ошибка AI, использую аварийный fallback:', error);
+            resultText.textContent = networkErrorFallbacks[Math.floor(Math.random() * networkErrorFallbacks.length)];
+            reflectionText.textContent = 'Мост сейчас отдыхает — но твой голос услышан. Попробуй ещё раз чуть позже.';
+        }
+
+        resultBlock.style.display = 'block';
+        resultBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        analyzeBtn.disabled = false;
+        analyzeBtn.textContent = 'Пройти по мосту';
     });
  
     uploadArea.addEventListener('dragover', function(e) {
