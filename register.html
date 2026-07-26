@@ -97,6 +97,13 @@
         .info a {
             color: #f5d7b3;
             text-decoration: none;
+            cursor: pointer;
+        }
+        .error-text {
+            display: none;
+            margin-top: 14px;
+            font-size: 14px;
+            color: #f5a8a8;
         }
         .notification {
             display: none;
@@ -135,31 +142,55 @@
 <div class="container">
     <div class="logo-link"><a href="index.html">✧ Inner<span>Horizons</span></a></div>
 
-    <h1>✧ Начать путь</h1>
-    <div class="sub">Создай аккаунт, чтобы войти в пространство</div>
+    <!-- ===== ФОРМА РЕГИСТРАЦИИ ===== -->
+    <div id="registerView">
+        <h1>✧ Начать путь</h1>
+        <div class="sub">Создай аккаунт, чтобы войти в пространство</div>
 
-    <form id="registerForm" onsubmit="handleRegister(event)">
-        <div class="field">
-            <label>🌿 Как тебя зовут?</label>
-            <input type="text" id="userName" placeholder="Твоё имя" required />
-        </div>
-        <div class="field">
-            <label>📧 Email</label>
-            <input type="email" id="userEmail" placeholder="Твоя почта" required />
-        </div>
-        <div class="field">
-            <label>🔒 Пароль</label>
-            <input type="password" id="userPassword" placeholder="Придумай пароль" required />
-        </div>
-        <button class="btn" type="submit">✧ Создать аккаунт</button>
-    </form>
+        <form id="registerForm" onsubmit="handleRegister(event)">
+            <div class="field">
+                <label>🌿 Как тебя зовут?</label>
+                <input type="text" id="userName" placeholder="Твоё имя" required />
+            </div>
+            <div class="field">
+                <label>📧 Email</label>
+                <input type="email" id="userEmail" placeholder="Твоя почта" required />
+            </div>
+            <div class="field">
+                <label>🔒 Пароль</label>
+                <input type="password" id="userPassword" placeholder="Придумай пароль" required />
+            </div>
+            <button class="btn" type="submit">✧ Создать аккаунт</button>
+        </form>
 
-    <div class="info">Уже есть аккаунт? <a href="#">Войти</a></div>
+        <div class="info">Уже есть аккаунт? <a onclick="showLogin()">Войти</a></div>
+    </div>
+
+    <!-- ===== ФОРМА ВХОДА ===== -->
+    <div id="loginView" style="display:none;">
+        <h1>✧ С возвращением</h1>
+        <div class="sub">Войди в своё пространство</div>
+
+        <form id="loginForm" onsubmit="handleLogin(event)">
+            <div class="field">
+                <label>📧 Email</label>
+                <input type="email" id="loginEmail" placeholder="Твоя почта" required />
+            </div>
+            <div class="field">
+                <label>🔒 Пароль</label>
+                <input type="password" id="loginPassword" placeholder="Твой пароль" required />
+            </div>
+            <button class="btn" type="submit">✧ Войти</button>
+        </form>
+
+        <div class="error-text" id="loginError">Email или пароль не совпадают. Попробуй ещё раз или создай новый аккаунт.</div>
+
+        <div class="info">Ещё нет аккаунта? <a onclick="showRegister()">Создать</a></div>
+    </div>
 
     <div id="thankYouBlock" class="notification">
         <span class="emoji">✧</span>
-        <strong>Добро пожаловать в Inner Horizons!</strong><br />
-        На вашу почту <span id="userEmailDisplay"></span> отправлено письмо с подтверждением.<br />
+        <strong id="welcomeMessage">Добро пожаловать в Inner Horizons!</strong><br />
         <span style="color: #a89f94; font-size: 14px;">Вы перенаправлены в личный кабинет через 3 секунды...</span>
     </div>
 
@@ -167,6 +198,22 @@
 </div>
 
 <script>
+    // ВАЖНО: это по-прежнему упрощённое хранение (localStorage в браузере),
+    // без настоящего сервера — тот же принцип, что и в остальном "кабинете".
+    // Пароль хранится в открытом виде локально — не настоящая защита,
+    // а рабочая заглушка, пока нет полноценного бэкенда.
+
+    function showLogin() {
+        document.getElementById('registerView').style.display = 'none';
+        document.getElementById('loginView').style.display = 'block';
+        document.getElementById('loginError').style.display = 'none';
+    }
+
+    function showRegister() {
+        document.getElementById('loginView').style.display = 'none';
+        document.getElementById('registerView').style.display = 'block';
+    }
+
     function handleRegister(event) {
         event.preventDefault();
 
@@ -183,12 +230,41 @@
         localStorage.setItem('userRegistered', 'true');
         localStorage.setItem('userName', name);
         localStorage.setItem('userEmail', email);
+        localStorage.setItem('userPassword', password);
 
-        const thankYouBlock = document.getElementById('thankYouBlock');
-        const emailDisplay = document.getElementById('userEmailDisplay');
-        emailDisplay.textContent = email;
-        thankYouBlock.style.display = 'block';
-        document.getElementById('registerForm').style.display = 'none';
+        showWelcome(name);
+    }
+
+    function handleLogin(event) {
+        event.preventDefault();
+
+        const email = document.getElementById('loginEmail').value.trim();
+        const password = document.getElementById('loginPassword').value.trim();
+
+        const savedEmail = localStorage.getItem('userEmail');
+        const savedPassword = localStorage.getItem('userPassword');
+        const savedName = localStorage.getItem('userName') || 'друг';
+
+        if (!savedEmail || !savedPassword) {
+            document.getElementById('loginError').textContent = 'Аккаунт не найден в этом браузере. Регистрация хранится только локально — попробуй войти с того же устройства и браузера, где регистрировалась, либо создай новый аккаунт.';
+            document.getElementById('loginError').style.display = 'block';
+            return;
+        }
+
+        if (email !== savedEmail || password !== savedPassword) {
+            document.getElementById('loginError').textContent = 'Email или пароль не совпадают. Попробуй ещё раз или создай новый аккаунт.';
+            document.getElementById('loginError').style.display = 'block';
+            return;
+        }
+
+        showWelcome(savedName);
+    }
+
+    function showWelcome(name) {
+        document.getElementById('registerView').style.display = 'none';
+        document.getElementById('loginView').style.display = 'none';
+        document.getElementById('welcomeMessage').textContent = `Добро пожаловать, ${name}!`;
+        document.getElementById('thankYouBlock').style.display = 'block';
 
         setTimeout(function() {
             window.location.href = 'cabinet.html';
