@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Политика конфиденциальности — Inner Horizons</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: radial-gradient(ellipse at 50% 0%, #151e2d, #0a0e14);
+            min-height: 100vh;
+            font-family: 'Georgia', serif;
+            color: #ece3d7;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(2px);
+            border-radius: 40px;
+            padding: 40px 45px 30px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            margin: 20px 0;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .logo { font-size: 24px; font-weight: 400; color: #f5d7b3; letter-spacing: 2px; }
+        .logo span { color: #8f847a; font-weight: 300; }
+        .nav { display: flex; gap: 24px; flex-wrap: wrap; }
+        .nav a { color: #b3a89c; text-decoration: none; font-size: 14px; }
+        .nav a:hover { color: #f5d7b3; }
+        h1 { font-size: 30px; font-weight: 400; color: #f5d7b3; margin-bottom: 6px; }
+        .updated { color: #8f847a; font-size: 13px; margin-bottom: 30px; font-style: italic; }
+        h2 { font-size: 19px; font-weight: 400; color: #f5d7b3; margin: 28px 0 10px; }
+        p, li { color: #cdc3b7; font-size: 15px; line-height: 1.75; margin-bottom: 10px; }
+        ul { padding-left: 22px; margin-bottom: 10px; }
+        a { color: #f5d7b3; }
+        .note {
+            margin-top: 36px;
+            padding: 18px 20px;
+            background: rgba(200, 100, 100, 0.06);
+            border: 1px solid rgba(200, 100, 100, 0.1);
+            border-radius: 16px;
+            font-size: 13px;
+            color: #b3a89c;
+            line-height: 1.6;
+        }
+        .btn-back {
+            margin-top: 30px;
+            display: inline-block;
+            padding: 10px 30px;
+            background: rgba(255, 255, 255, 0.04);
+            color: #b3a89c;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 60px;
+            font-size: 15px;
+            text-decoration: none;
+        }
+        .btn-back:hover { background: rgba(255, 255, 255, 0.08); color: #f5d7b3; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header class="header">
+        <div class="logo">✧ Inner<span>Horizons</span></div>
+        <nav class="nav">
+            <a href="main.html">Главная</a>
+            <a href="about.html">О нас</a>
+            <a href="cabinet.html">Кабинет</a>
+        </nav>
+    </header>
+
+    <h1>Политика конфиденциальности</h1>
+    <div class="updated">Последнее обновление: июль 2026</div>
+
+    <h2>1. Общие положения</h2>
+    <p>Inner Horizons («мы», «сервис») — пространство для творческих практик рефлексии. Эта страница объясняет, какие данные мы собираем, как их используем и какие права есть у вас как у пользователя.</p>
+
+    <h2>2. Какие данные мы собираем</h2>
+    <ul>
+        <li>Имя и email — при регистрации в личном кабинете.</li>
+        <li>Фото, письма, тексты воспоминаний — то, что вы сами загружаете для практик «Зеркало души» и «Мост между поколениями».</li>
+        <li>Тексты ваших вопросов и ответов, которые вы вводите в формы практик.</li>
+        <li>История сгенерированных для вас текстов — хранится локально в вашем браузере (localStorage), не на нашем сервере.</li>
+        <li>Данные об оплате — при переходе на оплату вы попадаете на сторону платёжного сервиса ЮMoney; реквизиты карты мы не получаем и не храним.</li>
+    </ul>
+
+    <h2>3. Как мы используем данные</h2>
+    <p>Загруженные фото, письма и вопросы передаются в сервис генерации текста (Yandex GPT через наш защищённый прокси-сервер) для создания персонального отклика в рамках практики. Мы не используем ваши данные для рекламы или продажи третьим лицам.</p>
+
+    <h2>4. Передача третьим лицам</h2>
+    <ul>
+        <li><strong>Yandex Cloud (Yandex GPT)</strong> — получает текст вашего запроса для генерации ответа. Фотографии в данный момент физически не анализируются моделью.</li>
+        <li><strong>ЮMoney</strong> — обрабатывает платёж напрямую; мы получаем только факт и сумму оплаты.</li>
+        <li>Мы не передаём ваши данные никаким другим третьим лицам без вашего явного согласия, кроме случаев, предусмотренных законом.</li>
+    </ul>
+
+    <h2>5. Где и как долго хранятся данные</h2>
+    <p>На текущем этапе у сервиса нет центральной базы данных: имя, email и история практик хранятся локально в вашем браузере, а не на наших серверах. Это означает, что данные не переносятся автоматически между устройствами и могут быть удалены очисткой данных браузера.</p>
+
+    <h2>6. Ваши права</h2>
+    <ul>
+        <li>Запросить информацию о том, какие данные о вас у нас есть.</li>
+        <li>Попросить удалить данные, отправленные нам для генерации (переписку с воркером мы не архивируем на постоянной основе).</li>
+        <li>Отозвать согласие на обработку данных в любой момент.</li>
+    </ul>
+    <p>Для этого напишите на <a href="mailto:olga696.olga@yandex.ru">olga696.olga@yandex.ru</a>.</p>
+
+    <h2>7. Возраст</h2>
+    <p>Сервис предназначен для лиц старше 18 лет.</p>
+
+    <h2>8. Контакты</h2>
+    <p>По всем вопросам, связанным с этой политикой: <a href="mailto:olga696.olga@yandex.ru">olga696.olga@yandex.ru</a> или <a href="https://t.me/InnerHorizonsBot" target="_blank">Telegram-бот</a>.</p>
+
+    <div class="note">
+        ⚠️ Эта страница описывает реальную практику обработки данных сервисом на данном этапе. Она не заменяет консультацию юриста — перед полноценным запуском с приёмом платежей рекомендуется показать этот текст юристу для проверки соответствия 152-ФЗ «О персональных данных» и требованиям к обработке чувствительной информации (фото, личные истории).
+    </div>
+
+    <a href="main.html" class="btn-back">← На главную</a>
+</div>
+</body>
+</html>
