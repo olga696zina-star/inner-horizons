@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Психологическая поддержка — Inner Horizons</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: radial-gradient(ellipse at 50% 0%, #151e2d, #0a0e14);
+            min-height: 100vh;
+            font-family: 'Georgia', serif;
+            color: #ece3d7;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            max-width: 650px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(2px);
+            border-radius: 48px;
+            padding: 40px 40px 30px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .logo { font-size: 24px; font-weight: 400; color: #f5d7b3; letter-spacing: 2px; }
+        .logo span { color: #8f847a; font-weight: 300; }
+        .nav { display: flex; gap: 24px; flex-wrap: wrap; }
+        .nav a { color: #b3a89c; text-decoration: none; font-size: 14px; }
+        .nav a:hover { color: #f5d7b3; }
+        h1 { font-size: 30px; font-weight: 400; color: #f5d7b3; text-align: center; margin-bottom: 10px; }
+        .sub { text-align: center; color: #a89f94; font-size: 16px; font-style: italic; margin-bottom: 30px; }
+        p { color: #cdc3b7; font-size: 16px; line-height: 1.8; margin-bottom: 16px; }
+        .hotline-block {
+            margin: 24px 0;
+            padding: 24px;
+            background: rgba(245,215,179,0.06);
+            border-left: 3px solid #f5d7b3;
+            border-radius: 18px;
+            text-align: center;
+        }
+        .hotline-block .number {
+            font-size: 28px;
+            color: #f5d7b3;
+            margin: 8px 0;
+            letter-spacing: 1px;
+        }
+        .hotline-block .label { color: #ddd6cc; font-size: 15px; }
+        .contact-row {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 24px;
+        }
+        .contact-btn {
+            padding: 12px 28px;
+            background: rgba(245,215,179,0.1);
+            color: #f5d7b3;
+            border: 1px solid rgba(245,215,179,0.2);
+            border-radius: 40px;
+            font-size: 15px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .contact-btn:hover { background: rgba(245,215,179,0.2); }
+        .btn-back {
+            margin-top: 30px;
+            display: block;
+            text-align: center;
+            padding: 10px 30px;
+            background: rgba(255, 255, 255, 0.04);
+            color: #b3a89c;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 60px;
+            font-size: 15px;
+            text-decoration: none;
+        }
+        .btn-back:hover { background: rgba(255, 255, 255, 0.08); color: #f5d7b3; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header class="header">
+        <div class="logo">✧ Inner<span>Horizons</span></div>
+        <nav class="nav">
+            <a href="main.html">Главная</a>
+            <a href="about.html">О нас</a>
+            <a href="cabinet.html">Кабинет</a>
+        </nav>
+    </header>
+
+    <h1>🕊️ Психологическая поддержка</h1>
+    <div class="sub">Если сейчас тяжело — ты не одна с этим</div>
+
+    <p>Inner Horizons — пространство для рефлексии и творческих практик, а не медицинская или психотерапевтическая услуга. Наши продукты не заменяют работу с психологом или психиатром.</p>
+    <p>Если то, что поднялось во время практики (или в жизни сейчас), ощущается как слишком много — это не повод справляться в одиночку. Есть люди, которые могут помочь по-настоящему, прямо сейчас.</p>
+
+    <div class="hotline-block">
+        <div class="label">Бесплатная круглосуточная служба психологической помощи в России:</div>
+        <div class="number">8-800-2000-122</div>
+        <div class="label">Анонимно, бесплатно, в любое время суток</div>
+    </div>
+
+    <p>Мы тоже на связи — если хочешь написать нам о том, что почувствовала во время практики, или просто спросить, подходит ли тебе тот или иной продукт прямо сейчас:</p>
+
+    <div class="contact-row">
+        <a href="mailto:olga696.olga@yandex.ru" class="contact-btn">✉️ Написать на почту</a>
+        <a href="https://t.me/InnerHorizonsBot" target="_blank" class="contact-btn">💬 Telegram-бот</a>
+    </div>
+
+    <a href="main.html" class="btn-back">← На главную</a>
+</div>
+</body>
+</html>
