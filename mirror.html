@@ -543,7 +543,6 @@
                     <li><a href="mailto:olga696.olga@yandex.ru">olga696.olga@yandex.ru</a></li>
                     <li><a href="https://t.me/InnerHorizonsBot" target="_blank">Telegram-бот</a></li>
                     <li><a href="https://t.me/inner_Horizons" target="_blank">Telegram-канал</a></li>
-                    <li><a href="help.html">Психологическая поддержка</a></li>
                 </ul>
             </div>
             <div class="footer-col">
@@ -565,6 +564,10 @@
 </div>
  
 <script>
+    // Тот же воркер, что и у letter.html — ключ Yandex GPT хранится там,
+    // здесь мы только меняем промпт под задачу "Зеркала".
+    const PROXY_URL = 'https://inner-horizons-proxy.olga696-zina.workers.dev';
+
     const uploadArea = document.getElementById('uploadArea');
     const photoInput = document.getElementById('photoInput');
     const preview = document.getElementById('preview');
@@ -593,7 +596,23 @@
         }
     });
 
-    analyzeBtn.addEventListener('click', function() {
+    const colors = [
+        'radial-gradient(circle, #f5d7b3, #8f847a)',
+        'radial-gradient(circle, #b8a6d9, #5b4a7a)',
+        'radial-gradient(circle, #7ddf9a, #2a6a3a)',
+        'radial-gradient(circle, #f5a8a8, #7a3a3a)',
+        'radial-gradient(circle, #a8d4f5, #2a4a6a)'
+    ];
+
+    // Три фразы ниже — ТОЛЬКО аварийный fallback на случай сбоя сети/воркера,
+    // а не основной сценарий, как было раньше.
+    const networkErrorFallbacks = [
+        'Ты смотришь на себя и видишь не просто лицо. Ты видишь историю, которую носишь в себе.',
+        'В твоём взгляде — тишина. Но не пустая. Та, что говорит о глубине.',
+        'Ты смотришь на себя и видишь перемены. Не только внешние — те, что внутри.'
+    ];
+
+    analyzeBtn.addEventListener('click', async function() {
         const file = photoInput.files[0];
         if (!file) {
             alert('Пожалуйста, загрузите фото.');
@@ -604,31 +623,43 @@
         analyzeBtn.textContent = 'Смотрю в зеркало...';
         resultBlock.style.display = 'none';
 
-        setTimeout(function() {
-            const question = questionInput.value.trim() || 'просто увидеть себя';
-            const fallbacks = [
-                'Ты смотришь на себя и видишь не просто лицо. Ты видишь историю, которую носишь в себе.',
-                'В твоём взгляде — тишина. Но не пустая. Та, что говорит о глубине.',
-                'Ты смотришь на себя и видишь перемены. Не только внешние — те, что внутри.'
-            ];
-            const response = fallbacks[Math.floor(Math.random() * fallbacks.length)];
-            const colors = [
-                'radial-gradient(circle, #f5d7b3, #8f847a)',
-                'radial-gradient(circle, #b8a6d9, #5b4a7a)',
-                'radial-gradient(circle, #7ddf9a, #2a6a3a)',
-                'radial-gradient(circle, #f5a8a8, #7a3a3a)',
-                'radial-gradient(circle, #a8d4f5, #2a4a6a)'
-            ];
+        const question = questionInput.value.trim() || 'просто увидеть себя';
 
-            resultText.textContent = response;
-            reflectionText.textContent = `Зеркало видит в тебе спокойствие. Это отражение твоего состояния.`;
-            colorVisual.style.background = colors[Math.floor(Math.random() * colors.length)];
-            resultBlock.style.display = 'block';
-            resultBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        try {
+            const response = await fetch(PROXY_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    messages: [
+                        {
+                            role: 'system',
+                            text: 'Ты — поэтическое зеркало для практики "Зеркало души". Человек хочет увидеть отражение своего внутреннего состояния через короткий поэтичный текст на основе того, что он написал о себе. Ты не видишь фото человека — работай только с текстом вопроса, не упоминай фото и не делай вид, что видишь его. Не диагностируй, не давай психологических советов, не используй клише. Ответ дай строго в 2 частях, раздели их ровно строкой "---" (без кавычек): сначала основной текст (3-6 предложений), затем короткая фраза-отражение (одно предложение).'
+                        },
+                        {
+                            role: 'user',
+                            text: `Вот что человек хочет увидеть в себе сегодня: "${question}". Напиши поэтическое отражение.`
+                        }
+                    ]
+                })
+            });
+            const data = await response.json();
+            if (data.error) throw new Error(data.error.message || 'Ошибка генерации');
+            const fullText = data.result.alternatives[0].message.text;
+            const parts = fullText.split('---').map(s => s.trim()).filter(Boolean);
+            resultText.textContent = parts[0] || fullText;
+            reflectionText.textContent = parts[1] || 'Зеркало откликается на твой вопрос.';
+        } catch (error) {
+            console.log('Ошибка AI, использую аварийный fallback:', error);
+            resultText.textContent = networkErrorFallbacks[Math.floor(Math.random() * networkErrorFallbacks.length)];
+            reflectionText.textContent = 'Зеркало сейчас отдыхает — но твой вопрос услышан. Попробуй ещё раз чуть позже.';
+        }
 
-            analyzeBtn.disabled = false;
-            analyzeBtn.textContent = 'Заглянуть в зеркало';
-        }, 2000);
+        colorVisual.style.background = colors[Math.floor(Math.random() * colors.length)];
+        resultBlock.style.display = 'block';
+        resultBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        analyzeBtn.disabled = false;
+        analyzeBtn.textContent = 'Заглянуть в зеркало';
     });
 
     uploadArea.addEventListener('dragover', function(e) {
@@ -655,8 +686,6 @@
 
 <script>
     // ===== ВЫБОР СУММЫ ОПЛАТЫ =====
-    // ВАЖНО: впиши сюда номер своего кошелька/приёмника YooMoney вместо YOUR_YOOMONEY_RECEIVER —
-    // без этого ссылка оплаты не будет вести на реальный приём денег.
     const YOOMONEY_RECEIVER = '4100119529447832';
     const PRODUCT_LABEL = 'mirror';
     const PRODUCT_NAME = 'Зеркало души — Inner Horizons';
