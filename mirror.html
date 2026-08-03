@@ -187,7 +187,7 @@
             border: 2px solid rgba(245, 215, 179, 0.2);
         }
         .question-input {
-            margin: 20px auto 30px;
+            margin: 20px auto 20px;
             max-width: 500px;
             text-align: left;
         }
@@ -197,7 +197,7 @@
             margin-bottom: 6px;
             color: #ddd6cc;
         }
-        .question-input textarea {
+        .question-input textarea, .question-input input[type="text"] {
             width: 100%;
             padding: 14px 18px;
             border-radius: 16px;
@@ -211,7 +211,8 @@
             min-height: 60px;
             transition: 0.3s;
         }
-        .question-input textarea:focus {
+        .question-input input[type="text"] { min-height: auto; }
+        .question-input textarea:focus, .question-input input[type="text"]:focus {
             border-color: #f5d7b3;
             background: rgba(255,255,255,0.07);
         }
@@ -347,6 +348,60 @@
             color: #ddd6cc;
         }
         .result .reflection strong { color: #f5d7b3; font-style: normal; }
+        .dialog-thread {
+            margin-top: 24px;
+            text-align: left;
+        }
+        .dialog-turn {
+            margin-bottom: 18px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .dialog-turn:last-child { border-bottom: none; }
+        .dialog-turn .q {
+            color: #a89f94;
+            font-size: 15px;
+            font-style: italic;
+            margin-bottom: 8px;
+        }
+        .dialog-turn .a {
+            color: #cdc3b7;
+            font-size: 17px;
+            line-height: 1.8;
+            white-space: pre-wrap;
+        }
+        .continue-block {
+            margin-top: 24px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .continue-block input {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px 18px;
+            border-radius: 40px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.04);
+            color: #f0e9e0;
+            font-size: 15px;
+            font-family: 'Georgia', serif;
+            outline: none;
+        }
+        .continue-block input:focus { border-color: #f5d7b3; }
+        .continue-block button {
+            padding: 12px 28px;
+            background: rgba(245,215,179,0.15);
+            color: #f5d7b3;
+            border: 1px solid rgba(245,215,179,0.3);
+            border-radius: 40px;
+            font-size: 15px;
+            font-family: 'Georgia', serif;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .continue-block button:hover { background: rgba(245,215,179,0.25); }
+        .continue-block button:disabled { opacity: 0.4; cursor: not-allowed; }
         .btn-back {
             margin-top: 30px;
             display: inline-block;
@@ -460,7 +515,7 @@
             <h2>✨ Здравствуй, ищущий</h2>
             <p>
                 Ты стоишь перед зеркалом, которое показывает не внешность, а состояние.<br><br>
-                Загрузи своё фото — и получи персональную аффирмацию и визуальный образ, откликающийся именно тебе.<br>
+                Ответь на несколько вопросов о себе — и получи персональное отражение, к которому можно возвращаться и задавать новые вопросы.<br>
                 Это не диагностика и не анализ психологического состояния, а поэтическое зеркало — инструмент для рефлексии, а не измерения.
             </p>
             <button class="btn-start" onclick="startMirror()">🌿 Продолжить</button>
@@ -469,9 +524,9 @@
         <div id="actionBlock" class="action-block">
             <div class="instruction">
                 <strong>🪞 Как это работает:</strong><br>
-                1. Загрузи своё фото — это шаг доверия.<br>
-                2. Напиши вопрос или состояние, которое хочешь увидеть в себе сегодня (можно оставить пустым).<br>
-                3. Нажми «Заглянуть в зеркало» — и получи отражение своего состояния.
+                1. Загрузи своё фото — это шаг доверия (зеркало пока не видит изображение, но чувствует твоё намерение).<br>
+                2. Ответь на несколько вопросов — чем подробнее, тем точнее будет отражение.<br>
+                3. Нажми «Заглянуть в зеркало» — а дальше сможешь продолжать разговор.
             </div>
  
             <div id="lockedArea">
@@ -482,13 +537,23 @@
                     <input type="file" id="photoInput" accept="image/*" />
                     <img class="preview" id="preview" alt="Предпросмотр" />
                 </div>
- 
-                <div class="question-input" id="questionInputBlock">
-                    <label for="questionInput">🌿 Что ты хочешь увидеть в себе сегодня?</label>
-                    <textarea id="questionInput" placeholder="Например: «Я чувствую усталость, но не знаю, что делать» или «Что скрывается за моей улыбкой?»"></textarea>
-                    <div class="hint">Этот вопрос поможет зеркалу показать тебе то, что важно именно сейчас</div>
+
+                <div class="question-input">
+                    <label for="q1">🌿 Какое чувство сейчас в тебе сильнее всего?</label>
+                    <input type="text" id="q1" placeholder="Например: усталость, тревога, лёгкость, растерянность..." />
                 </div>
- 
+
+                <div class="question-input">
+                    <label for="q2">✨ Что происходит в твоей жизни сейчас, что для тебя важно?</label>
+                    <textarea id="q2" placeholder="Коротко — что занимает мысли последнее время"></textarea>
+                </div>
+
+                <div class="question-input">
+                    <label for="questionInput">🌀 Что ты хочешь увидеть или понять в себе сегодня?</label>
+                    <textarea id="questionInput" placeholder="Например: «Что скрывается за моей усталостью?» или просто опиши, что беспокоит"></textarea>
+                    <div class="hint">Чем подробнее ответишь на все три вопроса — тем более личным будет отражение</div>
+                </div>
+
                 <button class="btn" id="analyzeBtn">Заглянуть в зеркало</button>
 
                 <div class="pay-block">
@@ -513,6 +578,13 @@
                 <p id="resultText"></p>
                 <div class="reflection" id="reflectionBlock">
                     <strong>🌿 Отражение:</strong> <span id="reflectionText">Здесь будет отклик на твой вопрос.</span>
+                </div>
+
+                <div class="dialog-thread" id="dialogThread"></div>
+
+                <div class="continue-block">
+                    <input type="text" id="followUpInput" placeholder="Спроси зеркало ещё о чём-то..." />
+                    <button type="button" id="followUpBtn">Спросить</button>
                 </div>
             </div>
         </div>
@@ -564,8 +636,7 @@
 </div>
  
 <script>
-    // Тот же воркер, что и у letter.html — ключ Yandex GPT хранится там,
-    // здесь мы только меняем промпт под задачу "Зеркала".
+    // Тот же воркер, что и у letter.html — ключ Yandex GPT хранится там.
     const PROXY_URL = 'https://inner-horizons-proxy.olga696-zina.workers.dev';
 
     const uploadArea = document.getElementById('uploadArea');
@@ -577,6 +648,9 @@
     const colorVisual = document.getElementById('colorVisual');
     const questionInput = document.getElementById('questionInput');
     const reflectionText = document.getElementById('reflectionText');
+    const dialogThread = document.getElementById('dialogThread');
+    const followUpInput = document.getElementById('followUpInput');
+    const followUpBtn = document.getElementById('followUpBtn');
 
     function startMirror() {
         document.getElementById('welcomeBlock').style.display = 'none';
@@ -604,18 +678,47 @@
         'radial-gradient(circle, #a8d4f5, #2a4a6a)'
     ];
 
-    // Три фразы ниже — ТОЛЬКО аварийный fallback на случай сбоя сети/воркера,
-    // а не основной сценарий, как было раньше.
     const networkErrorFallbacks = [
         'Ты смотришь на себя и видишь не просто лицо. Ты видишь историю, которую носишь в себе.',
         'В твоём взгляде — тишина. Но не пустая. Та, что говорит о глубине.',
         'Ты смотришь на себя и видишь перемены. Не только внешние — те, что внутри.'
     ];
 
+    const SYSTEM_PROMPT = 'Ты — поэтическое зеркало для практики "Зеркало души". Человек делится тем, что чувствует и что происходит в его жизни, а ты создаёшь личное, тёплое, глубокое отражение — не общую мотивационную открытку, а текст, который явно опирается на конкретные слова и детали, которые человек написал о себе. Ты не видишь фото человека — работай только с текстом. Избегай клише вроде "держишь курс на прекрасные дали" или "неугасимый свет в душе" — пиши живым, конкретным языком, как будто действительно вслушиваешься в то, что человек рассказал. Не диагностируй и не давай советов. Ответ — 6-10 предложений основного текста, затем строка "---", затем одна короткая фраза-отражение.';
+
+    // История диалога для этой сессии — растёт с каждым вопросом,
+    // чтобы зеркало "помнило" контекст, а не отвечало каждый раз с нуля.
+    let conversationHistory = [];
+
+    async function askMirror(userMessage) {
+        const response = await fetch(PROXY_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                messages: [
+                    { role: 'system', text: SYSTEM_PROMPT },
+                    ...conversationHistory,
+                    { role: 'user', text: userMessage }
+                ]
+            })
+        });
+        const data = await response.json();
+        if (data.error) throw new Error(data.error.message || 'Ошибка генерации');
+        const fullText = data.result.alternatives[0].message.text;
+
+        conversationHistory.push({ role: 'user', text: userMessage });
+        conversationHistory.push({ role: 'assistant', text: fullText });
+
+        return fullText;
+    }
+
     analyzeBtn.addEventListener('click', async function() {
-        const file = photoInput.files[0];
-        if (!file) {
-            alert('Пожалуйста, загрузите фото.');
+        const q1 = document.getElementById('q1').value.trim();
+        const q2 = document.getElementById('q2').value.trim();
+        const q3 = questionInput.value.trim();
+
+        if (!q1 && !q2 && !q3) {
+            alert('Пожалуйста, ответь хотя бы на один вопрос — иначе зеркалу не с чем работать.');
             return;
         }
 
@@ -623,35 +726,17 @@
         analyzeBtn.textContent = 'Смотрю в зеркало...';
         resultBlock.style.display = 'none';
 
-        const question = questionInput.value.trim() || 'просто увидеть себя';
+        const userMessage = `Сейчас во мне сильнее всего: ${q1 || 'не уточнено'}. В жизни сейчас важно: ${q2 || 'не уточнено'}. Хочу увидеть или понять: ${q3 || 'не уточнено'}.`;
 
         try {
-            const response = await fetch(PROXY_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    messages: [
-                        {
-                            role: 'system',
-                            text: 'Ты — поэтическое зеркало для практики "Зеркало души". Человек хочет увидеть отражение своего внутреннего состояния через короткий поэтичный текст на основе того, что он написал о себе. Ты не видишь фото человека — работай только с текстом вопроса, не упоминай фото и не делай вид, что видишь его. Не диагностируй, не давай психологических советов, не используй клише. Ответ дай строго в 2 частях, раздели их ровно строкой "---" (без кавычек): сначала основной текст (3-6 предложений), затем короткая фраза-отражение (одно предложение).'
-                        },
-                        {
-                            role: 'user',
-                            text: `Вот что человек хочет увидеть в себе сегодня: "${question}". Напиши поэтическое отражение.`
-                        }
-                    ]
-                })
-            });
-            const data = await response.json();
-            if (data.error) throw new Error(data.error.message || 'Ошибка генерации');
-            const fullText = data.result.alternatives[0].message.text;
+            const fullText = await askMirror(userMessage);
             const parts = fullText.split('---').map(s => s.trim()).filter(Boolean);
             resultText.textContent = parts[0] || fullText;
-            reflectionText.textContent = parts[1] || 'Зеркало откликается на твой вопрос.';
+            reflectionText.textContent = parts[1] || 'Зеркало откликается на твои слова.';
         } catch (error) {
             console.log('Ошибка AI, использую аварийный fallback:', error);
             resultText.textContent = networkErrorFallbacks[Math.floor(Math.random() * networkErrorFallbacks.length)];
-            reflectionText.textContent = 'Зеркало сейчас отдыхает — но твой вопрос услышан. Попробуй ещё раз чуть позже.';
+            reflectionText.textContent = 'Зеркало сейчас отдыхает — но твои слова услышаны. Попробуй ещё раз чуть позже.';
         }
 
         colorVisual.style.background = colors[Math.floor(Math.random() * colors.length)];
@@ -660,6 +745,35 @@
 
         analyzeBtn.disabled = false;
         analyzeBtn.textContent = 'Заглянуть в зеркало';
+    });
+
+    followUpBtn.addEventListener('click', async function() {
+        const question = followUpInput.value.trim();
+        if (!question) return;
+
+        followUpBtn.disabled = true;
+        followUpBtn.textContent = '...';
+
+        try {
+            const answer = await askMirror(question);
+            const parts = answer.split('---').map(s => s.trim()).filter(Boolean);
+            const turn = document.createElement('div');
+            turn.className = 'dialog-turn';
+            turn.innerHTML = '<div class="q">Ты спросила: ' + question.replace(/</g, '&lt;') + '</div><div class="a"></div>';
+            turn.querySelector('.a').textContent = parts[0] || answer;
+            dialogThread.appendChild(turn);
+            followUpInput.value = '';
+            turn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } catch (error) {
+            alert('Не получилось получить ответ — попробуй ещё раз чуть позже.');
+        } finally {
+            followUpBtn.disabled = false;
+            followUpBtn.textContent = 'Спросить';
+        }
+    });
+
+    followUpInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') followUpBtn.click();
     });
 
     uploadArea.addEventListener('dragover', function(e) {
