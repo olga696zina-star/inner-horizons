@@ -238,7 +238,7 @@
         }
  
         .question-input {
-            margin: 20px auto 30px;
+            margin: 20px auto 20px;
             max-width: 500px;
             text-align: left;
         }
@@ -248,7 +248,7 @@
             margin-bottom: 6px;
             color: #ddd6cc;
         }
-        .question-input textarea {
+        .question-input textarea, .question-input input[type="text"] {
             width: 100%;
             padding: 14px 18px;
             border-radius: 16px;
@@ -262,7 +262,8 @@
             min-height: 60px;
             transition: 0.3s;
         }
-        .question-input textarea:focus {
+        .question-input input[type="text"] { min-height: auto; }
+        .question-input textarea:focus, .question-input input[type="text"]:focus {
             border-color: #f5d7b3;
             background: rgba(255,255,255,0.07);
         }
@@ -393,6 +394,60 @@
             color: #ddd6cc;
         }
         .result .reflection strong { color: #f5d7b3; font-style: normal; }
+        .dialog-thread {
+            margin-top: 24px;
+            text-align: left;
+        }
+        .dialog-turn {
+            margin-bottom: 18px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .dialog-turn:last-child { border-bottom: none; }
+        .dialog-turn .q {
+            color: #a89f94;
+            font-size: 15px;
+            font-style: italic;
+            margin-bottom: 8px;
+        }
+        .dialog-turn .a {
+            color: #cdc3b7;
+            font-size: 17px;
+            line-height: 1.8;
+            white-space: pre-wrap;
+        }
+        .continue-block {
+            margin-top: 24px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .continue-block input {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px 18px;
+            border-radius: 40px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.04);
+            color: #f0e9e0;
+            font-size: 15px;
+            font-family: 'Georgia', serif;
+            outline: none;
+        }
+        .continue-block input:focus { border-color: #f5d7b3; }
+        .continue-block button {
+            padding: 12px 28px;
+            background: rgba(245,215,179,0.15);
+            color: #f5d7b3;
+            border: 1px solid rgba(245,215,179,0.3);
+            border-radius: 40px;
+            font-size: 15px;
+            font-family: 'Georgia', serif;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .continue-block button:hover { background: rgba(245,215,179,0.25); }
+        .continue-block button:disabled { opacity: 0.4; cursor: not-allowed; }
  
         .btn-back {
             margin-top: 30px;
@@ -647,7 +702,7 @@
             <h3 style="margin-top:20px;">Как это работает</h3>
             <ul>
                 <li>Вы делитесь письмами, сообщениями, фотографиями, историями — тем, что хотите включить.</li>
-                <li>Мы бережно оформляем это в текст — письмо или диалог, — сохраняя интонацию и характер человека, каким вы его помните.</li>
+                <li>Вы можете вести диалог в реальном времени — задавать новые вопросы и продолжать разговор, не начиная заново.</li>
                 <li>Вы получаете текст, к которому можно возвращаться.</li>
             </ul>
  
@@ -688,7 +743,7 @@
                 <strong>🌉 Как это работает:</strong><br>
                 1. Загрузите фото, письмо или просто напишите имя близкого человека.<br>
                 2. Напишите вопрос или слово, которое хотите передать.<br>
-                3. Нажмите «Пройти по мосту» — и получите отклик от памяти.
+                3. Нажмите «Пройти по мосту» — а дальше сможете продолжать разговор столько, сколько нужно.
             </div>
  
             <div id="lockedArea">
@@ -699,11 +754,16 @@
                     <input type="file" id="fileInput" accept="image/*, .txt, .pdf" />
                     <div class="preview" id="preview" style="display:none; font-size:14px; color:#b3a89c;">Файл загружен</div>
                 </div>
+
+                <div class="question-input">
+                    <label for="personName">🕊️ Кому адресован этот разговор?</label>
+                    <input type="text" id="personName" placeholder="Например: маме, дедушке, себе в 20 лет..." />
+                </div>
  
                 <div class="question-input" id="questionInputBlock">
                     <label for="questionInput">🌿 Что вы хотите сказать или спросить у памяти?</label>
                     <textarea id="questionInput" placeholder="Например: «Мама, я хочу сказать тебе спасибо» или «Что бы ты посоветовала мне сейчас?»"></textarea>
-                    <div class="hint">Или просто напишите имя близкого человека</div>
+                    <div class="hint">Чем подробнее — тем более личным будет отклик</div>
                 </div>
  
                 <button class="btn" id="analyzeBtn">Пройти по мосту</button>
@@ -730,6 +790,14 @@
                 <div class="reflection" id="reflectionBlock">
                     <strong>🕊️ Отражение:</strong> <span id="reflectionText">Здесь будет ответ от памяти.</span>
                 </div>
+
+                <div class="dialog-thread" id="dialogThread"></div>
+
+                <div class="continue-block">
+                    <input type="text" id="followUpInput" placeholder="Продолжи разговор..." />
+                    <button type="button" id="followUpBtn">Спросить</button>
+                </div>
+
                 <div class="closure-block" id="closureBlock">
                     <h3>🕊️ Как ты сейчас?</h3>
                     <p>Побудь немного с тем, что откликнулось. Не обязательно сразу понимать, что с этим делать — дай себе время.</p>
@@ -800,6 +868,9 @@
     const resultText = document.getElementById('resultText');
     const questionInput = document.getElementById('questionInput');
     const reflectionText = document.getElementById('reflectionText');
+    const dialogThread = document.getElementById('dialogThread');
+    const followUpInput = document.getElementById('followUpInput');
+    const followUpBtn = document.getElementById('followUpBtn');
  
     function startBridge() {
         document.getElementById('welcomeBlock').style.display = 'none';
@@ -821,17 +892,50 @@
         }
     });
  
-    // Только аварийный fallback на случай сбоя сети/воркера — не основной сценарий.
     const networkErrorFallbacks = [
         'Твой голос услышан. Память отвечает тишиной, которая говорит больше слов. Ты уже начала исцеление.',
         'Прошлое смотрит на тебя с теплом. Ты носишь его в себе не как груз, а как опыт. Этот опыт — твоя сила.',
         'Ты стоишь на мосту между тем, что было, и тем, что есть. Ты имеешь право отпустить боль и оставить только любовь.'
     ];
 
+    let fileContent = '';
+    let personName = '';
+
+    const SYSTEM_PROMPT = 'Ты помогаешь вести бережный диалог для практики "Мост между поколениями" — это творческая реконструкция, воображаемый отклик от лица близкого человека, каким его помнит автор, а не имитация реального человека и не утверждение, что человек "здесь". Пиши тепло, с уважением к утрате, без клише и без драматизации, опираясь на конкретные детали, которые рассказал человек. Это диалог — ты помнишь предыдущие реплики и отвечаешь на новые вопросы в контексте уже сказанного, не повторяясь. Каждый ответ давай в 2 частях, раздели их ровно строкой "---" (без кавычек): сначала основной текст-отклик (4-8 предложений), затем короткая фраза-отражение (одно предложение).';
+
+    // История диалога — растёт с каждой репликой, чтобы "Мост" помнил контекст
+    // всего разговора, а не отвечал каждый раз заново.
+    let conversationHistory = [];
+
+    async function askBridge(userMessage) {
+        const response = await fetch(PROXY_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                messages: [
+                    { role: 'system', text: SYSTEM_PROMPT },
+                    ...conversationHistory,
+                    { role: 'user', text: userMessage }
+                ]
+            })
+        });
+        const data = await response.json();
+        if (data.error) throw new Error(data.error.message || 'Ошибка генерации');
+        const fullText = data.result.alternatives[0].message.text;
+
+        conversationHistory.push({ role: 'user', text: userMessage });
+        conversationHistory.push({ role: 'assistant', text: fullText });
+
+        return fullText;
+    }
+ 
     analyzeBtn.addEventListener('click', async function() {
         const file = fileInput.files[0];
-        if (!file) {
-            alert('Пожалуйста, загрузите файл.');
+        personName = document.getElementById('personName').value.trim() || 'близкого человека';
+        const question = questionInput.value.trim();
+
+        if (!question) {
+            alert('Пожалуйста, напиши, что хочешь сказать или спросить.');
             return;
         }
  
@@ -839,38 +943,20 @@
         analyzeBtn.textContent = 'Иду по мосту...';
         resultBlock.style.display = 'none';
 
-        const question = questionInput.value.trim() || 'передать тепло';
-
         // Если файл текстовый — читаем содержимое и передаём в промпт.
         // Фото/PDF пока не читаются (нужна отдельная OCR/vision-обработка) —
         // модель работает только по имени файла и вопросу.
-        let fileContent = '';
-        if (file.type === 'text/plain') {
+        fileContent = '';
+        if (file && file.type === 'text/plain') {
             try { fileContent = await file.text(); } catch (e) { fileContent = ''; }
         }
 
+        const userMessage = fileContent
+            ? `Разговор адресован: ${personName}. Вот письмо или воспоминание, которым поделился человек: "${fileContent}". Он хочет сказать или спросить: "${question}". Напиши тёплый отклик от лица памяти об этом человеке.`
+            : `Разговор адресован: ${personName}. Человек хочет сказать или спросить: "${question}". Напиши тёплый отклик от лица памяти, опираясь на этот вопрос.`;
+
         try {
-            const response = await fetch(PROXY_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    messages: [
-                        {
-                            role: 'system',
-                            text: 'Ты помогаешь создать бережный текст для практики "Мост между поколениями" — это творческая реконструкция, воображаемый отклик от лица близкого человека, каким его помнит автор, а не имитация реального человека и не утверждение, что человек "здесь". Пиши тепло, с уважением к утрате, без клише и без драматизации. Ответ дай строго в 2 частях, раздели их ровно строкой "---" (без кавычек): сначала основной текст-отклик (4-8 предложений), затем короткая фраза-отражение (одно предложение).'
-                        },
-                        {
-                            role: 'user',
-                            text: fileContent
-                                ? `Вот письмо или воспоминание, которым поделился человек: "${fileContent}". Он хочет сказать или спросить: "${question}". Напиши тёплый отклик от лица памяти об этом человеке.`
-                                : `Человек поделился файлом (фото или документом) и хочет сказать или спросить: "${question}". Напиши тёплый отклик от лица памяти, опираясь на этот вопрос.`
-                        }
-                    ]
-                })
-            });
-            const data = await response.json();
-            if (data.error) throw new Error(data.error.message || 'Ошибка генерации');
-            const fullText = data.result.alternatives[0].message.text;
+            const fullText = await askBridge(userMessage);
             const parts = fullText.split('---').map(s => s.trim()).filter(Boolean);
             resultText.textContent = parts[0] || fullText;
             reflectionText.textContent = parts[1] || 'Мост откликается на твой голос.';
@@ -885,6 +971,35 @@
 
         analyzeBtn.disabled = false;
         analyzeBtn.textContent = 'Пройти по мосту';
+    });
+
+    followUpBtn.addEventListener('click', async function() {
+        const question = followUpInput.value.trim();
+        if (!question) return;
+
+        followUpBtn.disabled = true;
+        followUpBtn.textContent = '...';
+
+        try {
+            const answer = await askBridge(question);
+            const parts = answer.split('---').map(s => s.trim()).filter(Boolean);
+            const turn = document.createElement('div');
+            turn.className = 'dialog-turn';
+            turn.innerHTML = '<div class="q">Ты продолжила: ' + question.replace(/</g, '&lt;') + '</div><div class="a"></div>';
+            turn.querySelector('.a').textContent = parts[0] || answer;
+            dialogThread.appendChild(turn);
+            followUpInput.value = '';
+            turn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } catch (error) {
+            alert('Не получилось получить ответ — попробуй ещё раз чуть позже.');
+        } finally {
+            followUpBtn.disabled = false;
+            followUpBtn.textContent = 'Спросить';
+        }
+    });
+
+    followUpInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') followUpBtn.click();
     });
  
     uploadArea.addEventListener('dragover', function(e) {
@@ -912,8 +1027,6 @@
 
 <script>
     // ===== ВЫБОР СУММЫ ОПЛАТЫ =====
-    // ВАЖНО: впиши сюда номер своего кошелька/приёмника YooMoney вместо YOUR_YOOMONEY_RECEIVER —
-    // тот же самый, что и в mirror.html / meditation.html.
     const YOOMONEY_RECEIVER = '4100119529447832';
     const PRODUCT_LABEL = 'bridge';
     const PRODUCT_NAME = 'Мост между поколениями — Inner Horizons';
@@ -968,9 +1081,6 @@
 
 <script>
     // ===== ЧЕК-ИН НАСТРОЕНИЯ ПЕРЕД ПРАКТИКОЙ =====
-    // Пока в библиотеке только 2 медитации (страх и вина) — гнев и грусть
-    // временно ведут на meditation.html целиком, чтобы человек сам выбрал.
-    // Когда появятся отдельные записи под гнев/грусть — заменить ссылки на прямые.
     const moodSuggestions = {
         anger: {
             text: 'Злость перед этим разговором — это нормально, часто именно она и есть то, что осталось невысказанным. Можно сначала прожить её немного, а потом идти дальше.',
