@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Мост между поколениями — Inner Horizons</title>
+    <title>Дыхание на минуту — Inner Horizons</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -18,7 +18,7 @@
             justify-content: center;
         }
         .container {
-            max-width: 900px;
+            max-width: 700px;
             width: 100%;
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(2px);
@@ -66,389 +66,85 @@
             text-align: center;
         }
         .content h1 {
-            font-size: 38px;
+            font-size: 34px;
             font-weight: 400;
             color: #f5d7b3;
-            margin-bottom: 4px;
+            margin-bottom: 8px;
         }
         .content .sub {
             color: #a89f94;
-            font-size: 17px;
+            font-size: 16px;
             font-style: italic;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
- 
-        .disclaimer {
-            background: rgba(200, 100, 100, 0.06);
-            border: 1px solid rgba(200, 100, 100, 0.1);
-            border-radius: 16px;
-            padding: 18px 22px;
-            margin: 20px 0 30px;
-            text-align: left;
-            font-size: 14px;
-            color: #b3a89c;
-            line-height: 1.7;
+        .breathing-stage {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0 30px;
         }
-        .disclaimer strong {
-            color: #f5a8a8;
+        .breath-circle-wrap {
+            width: 220px;
+            height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
         }
-        .disclaimer a {
-            color: #f5d7b3;
-            text-decoration: none;
+        .breath-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(245,215,179,0.5), rgba(245,215,179,0.05));
+            box-shadow: 0 0 60px rgba(245, 215, 179, 0.15);
+            transition: transform 4s ease-in-out, opacity 4s ease-in-out;
         }
-        .disclaimer a:hover {
-            text-decoration: underline;
-        }
- 
-        .description-block {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 18px;
-            padding: 24px 22px;
-            margin: 20px 0 30px;
-            text-align: left;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        .description-block h3 {
-            color: #f5d7b3;
-            font-size: 18px;
-            font-weight: 400;
-            margin-bottom: 8px;
-        }
-        .description-block p {
-            color: #cdc3b7;
-            font-size: 15px;
-            line-height: 1.7;
-            margin-bottom: 8px;
-        }
-        .description-block ul {
-            list-style: none;
-            padding: 0;
-        }
-        .description-block ul li {
-            color: #b3a89c;
-            font-size: 15px;
-            line-height: 1.7;
-            padding: 4px 0;
-            padding-left: 20px;
-            position: relative;
-        }
-        .description-block ul li::before {
-            content: "✧ ";
-            color: #f5d7b3;
-            position: absolute;
-            left: 0;
-        }
-        .description-block .highlight {
-            color: #f5d7b3;
-        }
-        .description-block .muted {
-            color: #6a6258;
-            font-size: 14px;
-        }
- 
-        .welcome-block {
-            background: rgba(245,215,179,0.06);
-            border-radius: 18px;
-            padding: 30px 24px;
-            margin: 10px 0 30px;
-            border-left: 3px solid #f5d7b3;
-            text-align: center;
-        }
-        .welcome-block h2 {
+        .breath-circle.inhale { transform: scale(2.1); opacity: 1; }
+        .breath-circle.hold { transform: scale(2.1); opacity: 0.85; }
+        .breath-circle.exhale { transform: scale(1); opacity: 0.6; }
+        .breath-label {
             font-size: 22px;
-            font-weight: 400;
             color: #f5d7b3;
-            margin-bottom: 12px;
+            min-height: 30px;
+            margin-bottom: 10px;
         }
-        .welcome-block p {
-            color: #ddd6cc;
-            font-size: 16px;
-            line-height: 1.7;
-            max-width: 600px;
-            margin: 0 auto;
+        .breath-count {
+            font-size: 14px;
+            color: #8f847a;
+            min-height: 20px;
         }
-        .welcome-block .btn-start {
-            margin-top: 16px;
-            padding: 12px 40px;
-            background: rgba(245,215,179,0.1);
-            color: #f5d7b3;
-            border: 1px solid rgba(245,215,179,0.2);
-            border-radius: 40px;
-            font-size: 17px;
-            cursor: pointer;
-            transition: 0.3s;
-            font-family: 'Georgia', serif;
-        }
-        .welcome-block .btn-start:hover {
-            background: rgba(245,215,179,0.2);
-        }
- 
-        .action-block {
-            display: none;
-        }
-        .instruction {
-            background: rgba(245,215,179,0.06);
-            border-radius: 18px;
-            padding: 18px 22px;
-            margin: 10px 0 30px;
-            text-align: left;
-            font-size: 15px;
-            color: #ddd6cc;
-            line-height: 1.7;
-            border-left: 3px solid #f5d7b3;
-        }
-        .instruction strong { color: #f5d7b3; }
- 
-        .upload-area {
-            border: 2px dashed rgba(245, 215, 179, 0.2);
-            border-radius: 60px;
-            padding: 30px 20px;
-            margin: 10px auto 30px;
-            max-width: 400px;
-            background: rgba(255, 255, 255, 0.02);
-            transition: 0.3s ease;
-            cursor: pointer;
-            position: relative;
-            box-shadow: 0 0 40px rgba(245, 215, 179, 0.03);
-        }
-        .upload-area:hover {
-            border-color: rgba(245, 215, 179, 0.5);
-            background: rgba(255, 255, 255, 0.06);
-            box-shadow: 0 0 60px rgba(245, 215, 179, 0.06);
-        }
-        .upload-area .icon { font-size: 32px; display: block; margin-bottom: 8px; opacity: 0.6; }
-        .upload-area p { color: #b3a89c; font-size: 15px; }
-        .upload-area .hint { color: #6a6258; font-size: 13px; margin-top: 4px; }
-        .upload-area input[type="file"] {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            cursor: pointer;
-        }
-        .upload-area .preview {
-            max-width: 120px;
-            max-height: 120px;
-            border-radius: 12px;
-            margin: 10px auto;
-            display: none;
-            border: 2px solid rgba(245, 215, 179, 0.2);
-        }
- 
-        .question-input {
-            margin: 20px auto 20px;
-            max-width: 500px;
-            text-align: left;
-        }
-        .question-input label {
-            display: block;
-            font-size: 16px;
-            margin-bottom: 6px;
-            color: #ddd6cc;
-        }
-        .question-input textarea, .question-input input[type="text"] {
-            width: 100%;
-            padding: 14px 18px;
-            border-radius: 16px;
-            border: 1px solid rgba(255,255,255,0.08);
-            background: rgba(255,255,255,0.04);
-            color: #f0e9e0;
-            font-size: 16px;
-            font-family: 'Georgia', serif;
-            outline: none;
-            resize: vertical;
-            min-height: 60px;
-            transition: 0.3s;
-        }
-        .question-input input[type="text"] { min-height: auto; }
-        .question-input textarea:focus, .question-input input[type="text"]:focus {
-            border-color: #f5d7b3;
-            background: rgba(255,255,255,0.07);
-        }
-        .question-input .hint {
-            font-size: 13px;
-            color: #6a6258;
-            margin-top: 4px;
-        }
- 
-        .btn {
-            padding: 16px 56px;
+        .btn-start {
+            margin-top: 20px;
+            padding: 14px 48px;
             background: #f5d7b3;
             color: #0b0f1a;
             border: none;
             border-radius: 60px;
-            font-size: 19px;
+            font-size: 18px;
             font-weight: 700;
             cursor: pointer;
             transition: 0.3s;
             font-family: 'Georgia', serif;
-            box-shadow: 0 8px 30px rgba(245, 215, 179, 0.05);
         }
-        .btn:hover { background: #ffebd0; transform: scale(1.02); box-shadow: 0 12px 40px rgba(245, 215, 179, 0.1); }
-        .btn:disabled { opacity: 0.3; cursor: not-allowed; transform: none; box-shadow: none; }
- 
-        .btn-pay {
-            margin-top: 4px;
-            padding: 14px 48px;
-            background: rgba(245,215,179,0.15);
-            color: #f5d7b3;
-            border: 1px solid rgba(245,215,179,0.3);
-            border-radius: 40px;
-            font-size: 18px;
-            cursor: pointer;
-            transition: 0.3s;
-            font-family: 'Georgia', serif;
-            text-decoration: none;
-            display: inline-block;
-        }
-        .btn-pay:hover {
-            background: rgba(245,215,179,0.25);
-        }
-        .btn-pay.disabled {
-            opacity: 0.35;
-            pointer-events: none;
-        }
-
-        .pay-block {
-            margin-top: 26px;
-        }
-        .pay-block .pay-label {
+        .btn-start:hover { background: #ffebd0; transform: scale(1.02); }
+        .btn-start:disabled { opacity: 0.4; cursor: not-allowed; }
+        .instruction-text {
+            color: #cdc3b7;
             font-size: 15px;
-            color: #ddd6cc;
-            margin-bottom: 12px;
+            line-height: 1.7;
+            max-width: 480px;
+            margin: 0 auto 20px;
         }
-        .amount-options {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-bottom: 14px;
-        }
-        .amount-btn {
-            padding: 10px 26px;
-            background: rgba(255, 255, 255, 0.04);
-            color: #ddd6cc;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 40px;
-            font-size: 16px;
-            font-family: 'Georgia', serif;
-            cursor: pointer;
-            transition: 0.25s;
-        }
-        .amount-btn:hover {
-            border-color: rgba(245, 215, 179, 0.4);
-            color: #f5d7b3;
-        }
-        .amount-btn.selected {
-            background: rgba(245, 215, 179, 0.15);
-            border-color: #f5d7b3;
-            color: #f5d7b3;
-        }
-        .custom-amount {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 8px;
-        }
-        .custom-amount input {
-            width: 130px;
-            padding: 10px 14px;
-            border-radius: 40px;
-            border: 1px solid rgba(255,255,255,0.08);
-            background: rgba(255,255,255,0.04);
-            color: #f0e9e0;
-            font-size: 15px;
-            font-family: 'Georgia', serif;
-            text-align: center;
-            outline: none;
-        }
-        .custom-amount input:focus {
-            border-color: #f5d7b3;
-        }
-        .custom-amount span {
-            color: #a89f94;
-            font-size: 14px;
-        }
- 
-        .result {
-            margin-top: 30px;
-            padding: 30px;
-            background: rgba(255, 255, 255, 0.04);
-            border-radius: 28px;
-            border-left: 4px solid #f5d7b3;
+        .finished-note {
             display: none;
-            animation: fadeIn 0.8s ease;
-        }
-        .result h2 { color: #f5d7b3; font-weight: 400; font-size: 24px; margin-bottom: 12px; }
-        .result p { color: #cdc3b7; font-size: 18px; line-height: 1.8; white-space: pre-wrap; max-width: 600px; margin: 0 auto; }
-        .result .reflection {
             margin-top: 20px;
-            padding: 16px 20px;
+            padding: 18px 20px;
             background: rgba(245,215,179,0.06);
             border-radius: 16px;
-            text-align: left;
-            font-style: italic;
             color: #ddd6cc;
-        }
-        .result .reflection strong { color: #f5d7b3; font-style: normal; }
-        .dialog-thread {
-            margin-top: 24px;
-            text-align: left;
-        }
-        .dialog-turn {
-            margin-bottom: 18px;
-            padding-bottom: 18px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        .dialog-turn:last-child { border-bottom: none; }
-        .dialog-turn .q {
-            color: #a89f94;
             font-size: 15px;
-            font-style: italic;
-            margin-bottom: 8px;
+            line-height: 1.6;
         }
-        .dialog-turn .a {
-            color: #cdc3b7;
-            font-size: 17px;
-            line-height: 1.8;
-            white-space: pre-wrap;
-        }
-        .continue-block {
-            margin-top: 24px;
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        .continue-block input {
-            flex: 1;
-            min-width: 200px;
-            padding: 12px 18px;
-            border-radius: 40px;
-            border: 1px solid rgba(255,255,255,0.08);
-            background: rgba(255,255,255,0.04);
-            color: #f0e9e0;
-            font-size: 15px;
-            font-family: 'Georgia', serif;
-            outline: none;
-        }
-        .continue-block input:focus { border-color: #f5d7b3; }
-        .continue-block button {
-            padding: 12px 28px;
-            background: rgba(245,215,179,0.15);
-            color: #f5d7b3;
-            border: 1px solid rgba(245,215,179,0.3);
-            border-radius: 40px;
-            font-size: 15px;
-            font-family: 'Georgia', serif;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .continue-block button:hover { background: rgba(245,215,179,0.25); }
-        .continue-block button:disabled { opacity: 0.4; cursor: not-allowed; }
- 
         .btn-back {
             margin-top: 30px;
             display: inline-block;
@@ -463,206 +159,25 @@
             transition: 0.3s;
         }
         .btn-back:hover { background: rgba(255, 255, 255, 0.08); color: #f5d7b3; }
- 
         .footer {
-            margin-top: 50px;
+            margin-top: 40px;
             padding-top: 24px;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 20px;
-            padding-bottom: 16px;
-        }
-        .footer-col h4 {
-            font-size: 12px;
-            font-weight: 400;
-            color: #8f847a;
-            margin-bottom: 6px;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-        .footer-col ul {
-            list-style: none;
-            padding: 0;
-        }
-        .footer-col ul li {
-            margin-bottom: 4px;
-        }
-        .footer-col ul li a {
-            color: #6a6258;
-            text-decoration: none;
-            font-size: 11px;
-            transition: 0.3s;
-        }
-        .footer-col ul li a:hover {
-            color: #f5d7b3;
-        }
-        .footer-telegram-btn {
-            display: inline-block;
-            padding: 6px 18px;
-            background: rgba(0, 136, 204, 0.15);
-            color: #b3a89c;
-            border: 1px solid rgba(0, 136, 204, 0.2);
-            border-radius: 40px;
-            font-size: 11px;
-            font-family: 'Georgia', serif;
-            text-decoration: none;
-            transition: 0.3s;
-        }
-        .footer-telegram-btn:hover {
-            background: rgba(0, 136, 204, 0.25);
-            color: #f5d7b3;
-        }
-        .footer-bottom {
-            margin-top: 16px;
-            padding-top: 12px;
-            border-top: 1px solid rgba(255, 255, 255, 0.04);
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 8px;
-            font-size: 10px;
-            color: #4a4238;
-        }
-        @media (max-width: 700px) {
-            .container { padding: 24px 18px; }
-            .content h1 { font-size: 28px; }
-            .upload-area { padding: 20px 15px; }
-            .btn { padding: 14px 36px; font-size: 17px; }
-            .welcome-block { padding: 20px 16px; }
-            .footer-grid { grid-template-columns: 1fr 1fr; text-align: center; gap: 16px; }
-            .footer-bottom { flex-direction: column; text-align: center; }
-        }
-        .fade-in { animation: fadeIn 0.8s ease forwards; }
-        @keyframes fadeIn { 0% { opacity: 0; transform: translateY(18px); } 100% { opacity: 1; transform: translateY(0); } }
-
-        /* ===== ЧЕК-ИН НАСТРОЕНИЯ + ЗАКРЫТИЕ ПОСЛЕ ПРАКТИКИ ===== */
-        .mood-check-block {
-            background: rgba(245,215,179,0.06);
-            border-radius: 18px;
-            padding: 30px 24px;
-            margin: 10px 0 30px;
-            border-left: 3px solid #f5d7b3;
             text-align: center;
-            display: none;
-        }
-        .mood-check-block h2 {
-            font-size: 22px;
-            font-weight: 400;
-            color: #f5d7b3;
-            margin-bottom: 10px;
-        }
-        .mood-check-block p {
-            color: #ddd6cc;
-            font-size: 16px;
-            line-height: 1.6;
-            max-width: 500px;
-            margin: 0 auto 20px;
-        }
-        .mood-options {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-bottom: 10px;
-        }
-        .mood-btn {
-            padding: 12px 24px;
-            background: rgba(255, 255, 255, 0.04);
-            color: #ddd6cc;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 40px;
-            font-size: 15px;
-            font-family: 'Georgia', serif;
-            cursor: pointer;
-            transition: 0.25s;
-        }
-        .mood-btn:hover {
-            border-color: rgba(245, 215, 179, 0.4);
-            color: #f5d7b3;
-        }
-        .mood-suggestion {
-            display: none;
-            margin-top: 20px;
-            padding: 20px;
-            background: rgba(255,255,255,0.03);
-            border-radius: 16px;
-            text-align: left;
-        }
-        .mood-suggestion p {
-            color: #cdc3b7;
-            font-size: 15px;
-            margin-bottom: 14px;
-            text-align: left;
-            max-width: none;
-        }
-        .mood-suggestion .mood-actions {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            justify-content: flex-start;
-        }
-        .btn-meditation {
-            padding: 10px 26px;
-            background: rgba(245,215,179,0.15);
-            color: #f5d7b3;
-            border: 1px solid rgba(245,215,179,0.3);
-            border-radius: 40px;
-            font-size: 15px;
-            font-family: 'Georgia', serif;
-            text-decoration: none;
-            display: inline-block;
-            transition: 0.3s;
-        }
-        .btn-meditation:hover { background: rgba(245,215,179,0.25); }
-        .btn-skip {
-            padding: 10px 26px;
-            background: transparent;
-            color: #a89f94;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 40px;
-            font-size: 15px;
-            font-family: 'Georgia', serif;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .btn-skip:hover { color: #f5d7b3; border-color: rgba(245,215,179,0.3); }
-
-        .closure-block {
-            margin-top: 26px;
-            padding: 22px 20px;
-            background: rgba(255,255,255,0.03);
-            border-radius: 18px;
-            text-align: left;
-            border-left: 3px solid rgba(245,215,179,0.3);
-        }
-        .closure-block h3 {
-            color: #f5d7b3;
-            font-size: 17px;
-            font-weight: 400;
-            margin-bottom: 10px;
-        }
-        .closure-block p {
-            color: #cdc3b7;
-            font-size: 15px;
-            line-height: 1.7;
-            margin-bottom: 10px;
-        }
-        .closure-block .closure-note {
-            color: #8f847a;
             font-size: 13px;
-            line-height: 1.6;
-            margin-top: 14px;
-            padding-top: 14px;
-            border-top: 1px solid rgba(255,255,255,0.05);
+            color: #6a6258;
         }
-        .closure-block .closure-note strong { color: #b3a89c; }
+        .footer a { color: #b3a89c; text-decoration: none; }
+        .footer a:hover { color: #f5d7b3; }
+        @media (max-width: 600px) {
+            .container { padding: 28px 20px 24px; border-radius: 32px; }
+            .content h1 { font-size: 26px; }
+            .breath-circle-wrap { width: 180px; height: 180px; }
+        }
     </style>
 </head>
 <body>
-<div class="container fade-in">
+<div class="container">
     <header class="header">
         <div class="logo"><span class="icon">✧</span> Inner<span>Horizons</span></div>
         <nav class="nav">
@@ -671,467 +186,100 @@
             <a href="cabinet.html">Кабинет</a>
         </nav>
     </header>
- 
+
     <section class="content">
-        <h1>✧ Мост между поколениями</h1>
-        <div class="sub">Творческая практика памяти — письмо, диалог, воспоминание</div>
- 
-        <div class="disclaimer">
-            <strong>⚠️ Об эмоциональной безопасности:</strong> Inner Horizons — это пространство для рефлексии и творческих практик, а не медицинская или психотерапевтическая услуга. Наши продукты не заменяют работу с психологом или психиатром.<br><br>
-            Если вы находитесь в кризисном состоянии — обратитесь к специалисту. В России работает бесплатная круглосуточная служба поддержки: <strong>8-800-2000-122</strong>.
-        </div>
- 
-        <div class="description-block">
-            <h3>Что это</h3>
-            <p>Это не разговор с умершим и не попытка его «вернуть». Это <span class="highlight">творческая и психологически бережная практика</span>: на основе писем, фотографий и воспоминаний, которые вы предоставляете, мы помогаем создать <strong>текст</strong> — письмо, диалог, воображаемую беседу, — написанный от лица близкого человека так, как вы его помните.</p>
-            
-            <h3 style="margin-top:20px;">Это способ</h3>
-            <ul>
-                <li>договорить то, что осталось недосказанным;</li>
-                <li>ещё раз услышать привычные слова и интонации близкого человека;</li>
-                <li>дать себе разрешение погоревать, вспомнить, попрощаться иначе.</li>
-            </ul>
- 
-            <h3 style="margin-top:20px;">Что это не</h3>
-            <ul>
-                <li><span class="highlight">Не</span> имитация голоса умершего человека и не видео/аудио с его «оживлённым» образом — мы сознательно работаем только с текстом, чтобы не создавать иллюзию, будто человек «всё ещё здесь».</li>
-                <li><span class="highlight">Не</span> замена работе с психологом, особенно если утрата произошла недавно.</li>
-                <li><span class="highlight">Не</span> эзотерическая практика и не «связь с потусторонним» — это творческая реконструкция на основе ваших воспоминаний.</li>
-            </ul>
- 
-            <h3 style="margin-top:20px;">Как это работает</h3>
-            <ul>
-                <li>Вы делитесь письмами, сообщениями, фотографиями, историями — тем, что хотите включить.</li>
-                <li>Вы можете вести диалог в реальном времени — задавать новые вопросы и продолжать разговор, не начиная заново.</li>
-                <li>Вы получаете текст, к которому можно возвращаться.</li>
-            </ul>
- 
-            <p style="margin-top:16px; color:#6a6258; font-size:14px; border-top:1px solid rgba(255,255,255,0.04); padding-top:16px;">
-                <strong>Важно перед началом:</strong> Если утрата произошла недавно или вы сейчас в остром переживании горя, мы рекомендуем сначала обратиться к специалисту, работающему с темой утраты. 
-                <span class="highlight">Мы не торопим с покупкой.</span> Если сомневаетесь — напишите нам, обсудим, подходит ли вам это сейчас.
+        <h1>🫧 Дыхание на минуту</h1>
+        <div class="sub">Бесплатная мини-практика — просто чтобы остановиться</div>
+
+        <div class="breathing-stage">
+            <p class="instruction-text" id="introText">
+                Одна минута — четыре цикла дыхания по схеме «4-4-4»: вдох, задержка, выдох, каждый по 4 секунды.
+                Сядь удобно и нажми «Начать», когда будешь готов.
             </p>
-        </div>
- 
-        <div id="welcomeBlock" class="welcome-block fade-in delay-1">
-            <h2>✨ Начать практику</h2>
-            <p>
-                Если вы чувствуете, что готовы — загрузите память, с которой хотите встретиться.
-            </p>
-            <button class="btn-start" onclick="startBridge()">🌿 Продолжить</button>
-        </div>
 
-        <div id="moodCheckBlock" class="mood-check-block">
-            <h2>🌿 Прежде чем идти по мосту</h2>
-            <p>Как ты сейчас себя чувствуешь? Это поможет пройти путь бережнее.</p>
-            <div class="mood-options">
-                <button type="button" class="mood-btn" data-mood="anger">Злюсь</button>
-                <button type="button" class="mood-btn" data-mood="sadness">Грущу</button>
-                <button type="button" class="mood-btn" data-mood="guilt">Чувствую вину</button>
-                <button type="button" class="mood-btn" data-mood="ready">Готов(а) идти дальше</button>
+            <div class="breath-circle-wrap">
+                <div class="breath-circle" id="breathCircle"></div>
             </div>
-            <div class="mood-suggestion" id="moodSuggestion">
-                <p id="moodSuggestionText"></p>
-                <div class="mood-actions">
-                    <a href="#" target="_blank" class="btn-meditation" id="moodMeditationLink">🧘 Послушать медитацию</a>
-                    <button type="button" class="btn-skip" id="moodSkipBtn">Пропустить, я готов(а)</button>
-                </div>
+
+            <div class="breath-label" id="breathLabel"></div>
+            <div class="breath-count" id="breathCount"></div>
+
+            <button class="btn-start" id="startBtn">Начать</button>
+
+            <div class="finished-note" id="finishedNote">
+                ✧ Минута закончена. Как ты сейчас — иначе, чем минуту назад?
             </div>
         </div>
- 
-        <div id="actionBlock" class="action-block">
-            <div class="instruction">
-                <strong>🌉 Как это работает:</strong><br>
-                1. Загрузите фото, письмо или просто напишите имя близкого человека.<br>
-                2. Напишите вопрос или слово, которое хотите передать.<br>
-                3. Нажмите «Пройти по мосту» — а дальше сможете продолжать разговор столько, сколько нужно.
-            </div>
- 
-            <div id="lockedArea">
-                <div class="upload-area" id="uploadArea">
-                    <span class="icon">🕊️</span>
-                    <p>Нажмите, чтобы загрузить</p>
-                    <span class="hint">фото, письмо или воспоминание</span>
-                    <input type="file" id="fileInput" accept="image/*, .txt, .pdf" />
-                    <div class="preview" id="preview" style="display:none; font-size:14px; color:#b3a89c;">Файл загружен</div>
-                </div>
 
-                <div class="question-input">
-                    <label for="personName">🕊️ Кому адресован этот разговор?</label>
-                    <input type="text" id="personName" placeholder="Например: маме, дедушке, себе в 20 лет..." />
-                </div>
- 
-                <div class="question-input" id="questionInputBlock">
-                    <label for="questionInput">🌿 Что вы хотите сказать или спросить у памяти?</label>
-                    <textarea id="questionInput" placeholder="Например: «Мама, я хочу сказать тебе спасибо» или «Что бы ты посоветовала мне сейчас?»"></textarea>
-                    <div class="hint">Чем подробнее — тем более личным будет отклик</div>
-                </div>
- 
-                <button class="btn" id="analyzeBtn">Пройти по мосту</button>
-
-                <div class="pay-block">
-                    <div class="pay-label">Сколько хочешь оставить за эту практику — выбери сумму, которая откликается:</div>
-                    <div class="amount-options" id="amountOptions">
-                        <button type="button" class="amount-btn" data-amount="4999">4 999 ₽</button>
-                        <button type="button" class="amount-btn selected" data-amount="9999">9 999 ₽</button>
-                        <button type="button" class="amount-btn" data-amount="14999">14 999 ₽</button>
-                    </div>
-                    <div class="custom-amount">
-                        <span>своя сумма:</span>
-                        <input type="number" id="customAmount" min="1" placeholder="например, 7000" />
-                        <span>₽</span>
-                    </div>
-                    <a href="#" target="_blank" class="btn-pay" id="payBtn">💳 Оплатить 9 999 ₽</a>
-                </div>
-            </div>
- 
-            <div class="result" id="resultBlock">
-                <h2>✧ Отклик памяти</h2>
-                <p id="resultText"></p>
-                <div class="reflection" id="reflectionBlock">
-                    <strong>🕊️ Отражение:</strong> <span id="reflectionText">Здесь будет ответ от памяти.</span>
-                </div>
-
-                <div class="dialog-thread" id="dialogThread"></div>
-
-                <div class="continue-block">
-                    <input type="text" id="followUpInput" placeholder="Продолжи разговор..." />
-                    <button type="button" id="followUpBtn">Спросить</button>
-                </div>
-
-                <div class="closure-block" id="closureBlock">
-                    <h3>🕊️ Как ты сейчас?</h3>
-                    <p>Побудь немного с тем, что откликнулось. Не обязательно сразу понимать, что с этим делать — дай себе время.</p>
-                    <div class="closure-note">
-                        Если этот разговор поднял что-то тяжёлое и тебе трудно с этим одной — рядом есть поддержка.
-                        Бесплатная круглосуточная служба: <strong>8-800-2000-122</strong>.
-                        Наш бот и почта <a href="mailto:olga696.olga@yandex.ru" style="color:#f5d7b3;">olga696.olga@yandex.ru</a> тоже на связи.
-                    </div>
-                </div>
-            </div>
-        </div>
- 
-        <a href="cabinet.html" class="btn-back">← Вернуться в кабинет</a>
+        <a href="main.html" class="btn-back">← Назад к проектам</a>
     </section>
- 
+
     <footer class="footer">
-        <div class="footer-grid">
-            <div class="footer-col">
-                <h4>Информация</h4>
-                <ul>
-                    <li><a href="offer.html">Публичная оферта</a></li>
-                    <li><a href="privacy.html">Политика конфиденциальности</a></li>
-                    <li><a href="consent.html">Согласие на обработку данных</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>О нас</h4>
-                <ul>
-                    <li><a href="about.html">О проекте</a></li>
-                    <li><a href="mailto:olga696.olga@yandex.ru">Связаться</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Поддержка</h4>
-                <ul>
-                    <li><a href="mailto:olga696.olga@yandex.ru">olga696.olga@yandex.ru</a></li>
-                    <li><a href="https://t.me/InnerHorizonsBot" target="_blank">Telegram-бот</a></li>
-                    <li><a href="https://t.me/inner_Horizons" target="_blank">Telegram-канал</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Будьте на связи</h4>
-                <a href="https://t.me/InnerHorizonsBot" target="_blank" class="footer-telegram-btn">
-                    💬 Telegram-бот
-                </a>
-                <a href="https://t.me/inner_Horizons" target="_blank" class="footer-telegram-btn" style="margin-top:8px;">
-                    ✧ Канал
-                </a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <span>© 2026 Inner Horizons</span>
-            <span>Для взрослых</span>
-            <span>Все права защищены</span>
-        </div>
+        © 2026 Inner Horizons · <a href="https://t.me/inner_Horizons" target="_blank">Telegram-канал</a>
     </footer>
 </div>
- 
+
 <script>
-    // Тот же воркер, что и у letter.html — ключ Yandex GPT хранится там.
-    const PROXY_URL = 'https://inner-horizons-proxy.olga696-zina.workers.dev';
+    const circle = document.getElementById('breathCircle');
+    const label = document.getElementById('breathLabel');
+    const countEl = document.getElementById('breathCount');
+    const startBtn = document.getElementById('startBtn');
+    const finishedNote = document.getElementById('finishedNote');
+    const introText = document.getElementById('introText');
 
-    const uploadArea = document.getElementById('uploadArea');
-    const fileInput = document.getElementById('fileInput');
-    const preview = document.getElementById('preview');
-    const analyzeBtn = document.getElementById('analyzeBtn');
-    const resultBlock = document.getElementById('resultBlock');
-    const resultText = document.getElementById('resultText');
-    const questionInput = document.getElementById('questionInput');
-    const reflectionText = document.getElementById('reflectionText');
-    const dialogThread = document.getElementById('dialogThread');
-    const followUpInput = document.getElementById('followUpInput');
-    const followUpBtn = document.getElementById('followUpBtn');
- 
-    function startBridge() {
-        document.getElementById('welcomeBlock').style.display = 'none';
-        document.getElementById('moodCheckBlock').style.display = 'block';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+    const CYCLES = 4;
+    const PHASE_SECONDS = 4;
 
-    function proceedToAction() {
-        document.getElementById('moodCheckBlock').style.display = 'none';
-        document.getElementById('actionBlock').style.display = 'block';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
- 
-    fileInput.addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (file) {
-            preview.textContent = '📎 ' + file.name;
-            preview.style.display = 'block';
-        }
-    });
- 
-    const networkErrorFallbacks = [
-        'Твой голос услышан. Память отвечает тишиной, которая говорит больше слов. Ты уже начала исцеление.',
-        'Прошлое смотрит на тебя с теплом. Ты носишь его в себе не как груз, а как опыт. Этот опыт — твоя сила.',
-        'Ты стоишь на мосту между тем, что было, и тем, что есть. Ты имеешь право отпустить боль и оставить только любовь.'
+    const phases = [
+        { name: 'inhale', text: 'Вдох' },
+        { name: 'hold', text: 'Задержка' },
+        { name: 'exhale', text: 'Выдох' }
     ];
 
-    let fileContent = '';
-    let personName = '';
+    let running = false;
 
-    const SYSTEM_PROMPT = 'Ты помогаешь вести бережный диалог для практики "Мост между поколениями" — это творческая реконструкция, воображаемый отклик от лица близкого человека, каким его помнит автор, а не имитация реального человека и не утверждение, что человек "здесь". Пиши тепло, с уважением к утрате, без клише и без драматизации, опираясь на конкретные детали, которые рассказал человек. Это диалог — ты помнишь предыдущие реплики и отвечаешь на новые вопросы в контексте уже сказанного, не повторяясь. Каждый ответ давай в 2 частях, раздели их ровно строкой "---" (без кавычек): сначала основной текст-отклик (4-8 предложений), затем короткая фраза-отражение (одно предложение).';
-
-    // История диалога — растёт с каждой репликой, чтобы "Мост" помнил контекст
-    // всего разговора, а не отвечал каждый раз заново.
-    let conversationHistory = [];
-
-    async function askBridge(userMessage) {
-        const response = await fetch(PROXY_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                messages: [
-                    { role: 'system', text: SYSTEM_PROMPT },
-                    ...conversationHistory,
-                    { role: 'user', text: userMessage }
-                ]
-            })
-        });
-        const data = await response.json();
-        if (data.error) throw new Error(data.error.message || 'Ошибка генерации');
-        const fullText = data.result.alternatives[0].message.text;
-
-        conversationHistory.push({ role: 'user', text: userMessage });
-        conversationHistory.push({ role: 'assistant', text: fullText });
-
-        return fullText;
-    }
- 
-    analyzeBtn.addEventListener('click', async function() {
-        const file = fileInput.files[0];
-        personName = document.getElementById('personName').value.trim() || 'близкого человека';
-        const question = questionInput.value.trim();
-
-        if (!question) {
-            alert('Пожалуйста, напиши, что хочешь сказать или спросить.');
-            return;
-        }
- 
-        analyzeBtn.disabled = true;
-        analyzeBtn.textContent = 'Иду по мосту...';
-        resultBlock.style.display = 'none';
-
-        // Если файл текстовый — читаем содержимое и передаём в промпт.
-        // Фото/PDF пока не читаются (нужна отдельная OCR/vision-обработка) —
-        // модель работает только по имени файла и вопросу.
-        fileContent = '';
-        if (file && file.type === 'text/plain') {
-            try { fileContent = await file.text(); } catch (e) { fileContent = ''; }
-        }
-
-        const userMessage = fileContent
-            ? `Разговор адресован: ${personName}. Вот письмо или воспоминание, которым поделился человек: "${fileContent}". Он хочет сказать или спросить: "${question}". Напиши тёплый отклик от лица памяти об этом человеке.`
-            : `Разговор адресован: ${personName}. Человек хочет сказать или спросить: "${question}". Напиши тёплый отклик от лица памяти, опираясь на этот вопрос.`;
-
-        try {
-            const fullText = await askBridge(userMessage);
-            const parts = fullText.split('---').map(s => s.trim()).filter(Boolean);
-            resultText.textContent = parts[0] || fullText;
-            reflectionText.textContent = parts[1] || 'Мост откликается на твой голос.';
-        } catch (error) {
-            console.log('Ошибка AI, использую аварийный fallback:', error);
-            resultText.textContent = networkErrorFallbacks[Math.floor(Math.random() * networkErrorFallbacks.length)];
-            reflectionText.textContent = 'Мост сейчас отдыхает — но твой голос услышан. Попробуй ещё раз чуть позже.';
-        }
-
-        resultBlock.style.display = 'block';
-        resultBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-        analyzeBtn.disabled = false;
-        analyzeBtn.textContent = 'Пройти по мосту';
-    });
-
-    followUpBtn.addEventListener('click', async function() {
-        const question = followUpInput.value.trim();
-        if (!question) return;
-
-        followUpBtn.disabled = true;
-        followUpBtn.textContent = '...';
-
-        try {
-            const answer = await askBridge(question);
-            const parts = answer.split('---').map(s => s.trim()).filter(Boolean);
-            const turn = document.createElement('div');
-            turn.className = 'dialog-turn';
-            turn.innerHTML = '<div class="q">Ты продолжила: ' + question.replace(/</g, '&lt;') + '</div><div class="a"></div>';
-            turn.querySelector('.a').textContent = parts[0] || answer;
-            dialogThread.appendChild(turn);
-            followUpInput.value = '';
-            turn.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        } catch (error) {
-            alert('Не получилось получить ответ — попробуй ещё раз чуть позже.');
-        } finally {
-            followUpBtn.disabled = false;
-            followUpBtn.textContent = 'Спросить';
-        }
-    });
-
-    followUpInput.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') followUpBtn.click();
-    });
- 
-    uploadArea.addEventListener('dragover', function(e) {
-        e.preventDefault();
-        this.style.borderColor = 'rgba(245, 215, 179, 0.6)';
-        this.style.background = 'rgba(255, 255, 255, 0.06)';
-    });
-    uploadArea.addEventListener('dragleave', function(e) {
-        e.preventDefault();
-        this.style.borderColor = 'rgba(245, 215, 179, 0.2)';
-        this.style.background = 'rgba(255, 255, 255, 0.02)';
-    });
-    uploadArea.addEventListener('drop', function(e) {
-        e.preventDefault();
-        this.style.borderColor = 'rgba(245, 215, 179, 0.2)';
-        this.style.background = 'rgba(255, 255, 255, 0.02)';
-        const files = e.dataTransfer.files;
-        if (files.length > 0) {
-            fileInput.files = files;
-            preview.textContent = '📎 ' + files[0].name;
-            preview.style.display = 'block';
-        }
-    });
-</script>
-
-<script>
-    // ===== ВЫБОР СУММЫ ОПЛАТЫ =====
-    const YOOMONEY_RECEIVER = '4100119529447832';
-    const PRODUCT_LABEL = 'bridge';
-    const PRODUCT_NAME = 'Мост между поколениями — Inner Horizons';
-
-    let selectedAmount = 9999;
-
-    const amountButtons = document.querySelectorAll('#amountOptions .amount-btn');
-    const customAmountInput = document.getElementById('customAmount');
-    const payBtn = document.getElementById('payBtn');
-
-    function buildPayUrl(amount) {
-        return 'https://yoomoney.ru/quickpay/confirm.xml?receiver=' + YOOMONEY_RECEIVER +
-               '&quickpay-form=shop&sum=' + amount +
-               '&label=' + encodeURIComponent(PRODUCT_LABEL) +
-               '&targets=' + encodeURIComponent(PRODUCT_NAME);
+    function sleep(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
     }
 
-    function updatePayButton() {
-        if (!selectedAmount || selectedAmount < 1) {
-            payBtn.classList.add('disabled');
-            payBtn.textContent = '💳 Выбери сумму';
-            return;
-        }
-        payBtn.classList.remove('disabled');
-        payBtn.href = buildPayUrl(selectedAmount);
-        payBtn.textContent = '💳 Оплатить ' + selectedAmount.toLocaleString('ru-RU') + ' ₽';
-    }
+    async function runCycle(cycleNum) {
+        for (const phase of phases) {
+            if (!running) return;
+            circle.className = 'breath-circle ' + phase.name;
+            label.textContent = phase.text;
+            countEl.textContent = 'Цикл ' + cycleNum + ' из ' + CYCLES;
 
-    amountButtons.forEach((btn) => {
-        btn.addEventListener('click', () => {
-            amountButtons.forEach((b) => b.classList.remove('selected'));
-            btn.classList.add('selected');
-            customAmountInput.value = '';
-            selectedAmount = parseInt(btn.dataset.amount, 10);
-            updatePayButton();
-        });
-    });
-
-    customAmountInput.addEventListener('input', () => {
-        const val = parseInt(customAmountInput.value, 10);
-        if (val > 0) {
-            amountButtons.forEach((b) => b.classList.remove('selected'));
-            selectedAmount = val;
-        } else {
-            selectedAmount = null;
-        }
-        updatePayButton();
-    });
-
-    updatePayButton();
-</script>
-
-<script>
-    // ===== ЧЕК-ИН НАСТРОЕНИЯ ПЕРЕД ПРАКТИКОЙ =====
-    const moodSuggestions = {
-        anger: {
-            text: 'Злость перед этим разговором — это нормально, часто именно она и есть то, что осталось невысказанным. Можно сначала прожить её немного, а потом идти дальше.',
-            link: 'meditation.html'
-        },
-        sadness: {
-            text: 'Грусть — это тоже часть пути к мосту. Не нужно её торопить.',
-            link: 'meditation.html'
-        },
-        guilt: {
-            text: 'Если внутри чувство вины — есть медитация, которая написана именно про это состояние.',
-            link: 'meditation.html'
-        }
-    };
-
-    document.querySelectorAll('.mood-btn').forEach((btn) => {
-        btn.addEventListener('click', () => {
-            const mood = btn.dataset.mood;
-            if (mood === 'ready') {
-                proceedToAction();
-                return;
+            for (let s = PHASE_SECONDS; s > 0; s--) {
+                if (!running) return;
+                countEl.textContent = 'Цикл ' + cycleNum + ' из ' + CYCLES + ' · ' + s + '…';
+                await sleep(1000);
             }
-            const suggestion = moodSuggestions[mood];
-            document.getElementById('moodSuggestionText').textContent = suggestion.text;
-            document.getElementById('moodMeditationLink').href = suggestion.link;
-            document.getElementById('moodSuggestion').style.display = 'block';
-        });
-    });
-
-    document.getElementById('moodSkipBtn').addEventListener('click', proceedToAction);
-</script>
-
-<div id="cookieBanner" style="display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999; background: rgba(10, 14, 20, 0.97); backdrop-filter: blur(6px); border-top: 1px solid rgba(245, 215, 179, 0.15); padding: 18px 20px; font-family: 'Georgia', serif;">
-    <div style="max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;">
-        <p style="color: #cdc3b7; font-size: 13px; line-height: 1.6; margin: 0; flex: 1; min-width: 240px;">
-            🍪 Мы используем файлы cookie и аналогичные технологии для работы сайта (например, чтобы запомнить вход в личный кабинет) и оценки посещаемости. Продолжая пользоваться сайтом, вы соглашаетесь с этим и с
-            <a href="privacy.html" style="color: #f5d7b3; text-decoration: none;">Политикой конфиденциальности</a>.
-        </p>
-        <button onclick="acceptCookieBanner()" style="padding: 10px 28px; background: #f5d7b3; color: #0b0f1a; border: none; border-radius: 40px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: 'Georgia', serif; white-space: nowrap; flex-shrink: 0;">Понятно</button>
-    </div>
-</div>
-<script>
-    (function() {
-        if (!localStorage.getItem('cookieConsent')) {
-            document.getElementById('cookieBanner').style.display = 'block';
         }
-    })();
-    function acceptCookieBanner() {
-        localStorage.setItem('cookieConsent', 'true');
-        document.getElementById('cookieBanner').style.display = 'none';
     }
+
+    startBtn.addEventListener('click', async () => {
+        if (running) return;
+        running = true;
+        startBtn.disabled = true;
+        introText.style.display = 'none';
+        finishedNote.style.display = 'none';
+
+        for (let i = 1; i <= CYCLES; i++) {
+            await runCycle(i);
+            if (!running) break;
+        }
+
+        if (running) {
+            circle.className = 'breath-circle';
+            label.textContent = '';
+            countEl.textContent = '';
+            finishedNote.style.display = 'block';
+        }
+
+        running = false;
+        startBtn.disabled = false;
+        startBtn.textContent = 'Начать заново';
+    });
 </script>
 </body>
 </html>
