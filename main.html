@@ -180,6 +180,31 @@
             transform: scale(1.02);
             box-shadow: 0 12px 40px rgba(245, 215, 179, 0.15);
         }
+        .free-practices {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin: 10px 0 30px;
+        }
+        .free-card {
+            background: rgba(245, 215, 179, 0.04);
+            border: 1px solid rgba(245, 215, 179, 0.1);
+            border-radius: 24px;
+            padding: 22px 22px;
+            text-align: left;
+            text-decoration: none;
+            color: #ece3d7;
+            display: block;
+            transition: 0.3s ease;
+        }
+        .free-card-link:hover {
+            background: rgba(245, 215, 179, 0.07);
+            border-color: rgba(245, 215, 179, 0.2);
+            transform: translateY(-2px);
+        }
+        .free-icon { font-size: 24px; display: block; margin-bottom: 8px; }
+        .free-card h3 { font-size: 17px; font-weight: 400; color: #f5d7b3; margin-bottom: 6px; }
+        .free-card p { font-size: 14px; color: #b3a89c; line-height: 1.5; margin: 0; }
         .projects-title {
             font-weight: 400;
             color: #f5d7b3;
@@ -435,6 +460,19 @@
         <p>Здесь ты встретишься с собой — через письма, зеркала и голоса, которые напомнят, кто ты есть.</p>
         <a href="register.html" class="btn">✧ Начать путь</a>
     </section>
+
+    <section class="free-practices fade-in delay-2" id="freePractices">
+        <div class="free-card" id="questionOfDayCard">
+            <span class="free-icon">🌿</span>
+            <h3>Вопрос дня</h3>
+            <p id="questionOfDayText">Загружаю вопрос...</p>
+        </div>
+        <a href="breathing.html" class="free-card free-card-link">
+            <span class="free-icon">🫧</span>
+            <h3>Дыхание на минуту</h3>
+            <p>Бесплатная мини-практика — четыре цикла дыхания, чтобы остановиться прямо сейчас</p>
+        </a>
+    </section>
  
     <h2 class="projects-title fade-in delay-2">Наши проекты</h2>
     <section class="projects" id="projects">
@@ -535,6 +573,23 @@
     function toggleTheme() {
         document.body.classList.toggle('light');
     }
+</script>
+
+<script>
+    const dailyQuestions = [
+        "Когда ты в последний раз давал себе побыть без задач?",
+        "Что бы ты сказал себе через 5 лет, если бы мог?",
+        "Какое чувство ты сегодня прячешь глубже всего?",
+        "Что ты носишь в себе, что давно пора отпустить?",
+        "Если бы твоё тело могло говорить, что бы оно сказало сейчас?",
+        "Кого ты давно хотел услышать снова?",
+        "Что было бы, если бы ты позволил себе ошибаться сегодня?",
+        "Какая тишина тебе сейчас нужна?",
+        "Что ты бы сказал себе в самый трудный день этого года?",
+        "Чего ты по-настоящему боишься назвать вслух?"
+    ];
+    const dayIndex = Math.floor(Date.now() / 86400000) % dailyQuestions.length;
+    document.getElementById('questionOfDayText').textContent = dailyQuestions[dayIndex];
 </script>
 
 <script>
